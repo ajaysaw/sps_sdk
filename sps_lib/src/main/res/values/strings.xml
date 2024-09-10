@@ -1,0 +1,27 @@
+<resources>
+    <string name="customer_mobile">Customer Mobile Number</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="aadhaar_num">Aadhaar Number / VID</string>
+    <string name="pan_num">Pan Number</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="consent_language">Consent Language</string>
+    <string name="devices">Devices</string>
+    <string name="select_device">Select Device</string>
+    <string name="loreum_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s</string>
+
+    <string-array name="language_array">
+        <item>Select Language</item>
+        <item>English</item>
+        <item>Hindi</item>
+    </string-array>
+
+    <string-array name="devices_array">
+        <item>Select Device</item>
+        <item>Morpho</item>
+        <item>Mantra</item>
+        <item>Startek</item>
+        <item>Aratek</item>
+    </string-array>
+
+</resources>
