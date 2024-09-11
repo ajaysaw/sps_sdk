@@ -23,7 +23,6 @@ class BiometricUtils {
     private lateinit var context: Context
 
     fun callCapture(
-        //scannerTypeCode: String,
         deviceDetails: EkycDeviceList,
         biometricFormat: String,
         wadh: String,

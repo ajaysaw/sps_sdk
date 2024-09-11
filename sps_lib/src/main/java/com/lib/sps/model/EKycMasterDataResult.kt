@@ -1,6 +1,7 @@
 package com.example.example
 
 import com.google.gson.annotations.SerializedName
+import com.google.gson.internal.LinkedTreeMap
 
 
 data class EKycMasterDataResult(
@@ -27,7 +28,7 @@ data class EkycDeviceList(
     @SerializedName("errorMessage") var errorMessage: String? = null,
     @SerializedName("pidBlockType") var pidBlockType: Int? = 0,
     @SerializedName("isBiometric") var isBiometric: Boolean? = true,
-    @SerializedName("pidBlockNodes") var pidBlockNodes: PidBlockNodes? = PidBlockNodes()
+    @SerializedName("pidBlockNodes") var pidBlockNodes: LinkedTreeMap<String, Any>
 
 )
 

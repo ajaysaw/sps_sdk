@@ -21,11 +21,13 @@ class Validation {
         etOtp: EditText,
         spnConsent: Spinner,
         cbConsent: CheckBox,
-        spnDevice: Spinner, tvConsentContent: TextView
+        spnDevice: Spinner,
+        tvConsentContent: TextView,
+        strAadhaarNumber:String,
 
     ): Boolean {
         val isValidate = if (validateMobileNo(etMobile)) {
-            if (validateAadhaar(etAadhaar)) {
+            if (validateAadhaar(etAadhaar,strAadhaarNumber)) {
                 if (validatePan(etPan)) {
                     if (validateOTP(etOtp)) {
                         if (validateConsentLanguage(spnConsent)) {
@@ -79,7 +81,7 @@ class Validation {
     }
 
 
-    private fun validateAadhaar(editText: EditText): Boolean {
+    private fun validateAadhaar(editText: EditText,strAadhaarNumber:String): Boolean {
         var isValid = true
         val aadhaarNo = editText.text.toString().trim()
 
@@ -89,7 +91,7 @@ class Validation {
         } else if (aadhaarNo.length < 12) {
             isValid = false;
             editText.error = "Aadhaar number must be of 12 digits"
-        } else if (aadhaarNo.length == 12 && !VerhoeffAlgorithm.validateVerhoeff(aadhaarNo)) {
+        } else if (aadhaarNo.length == 12 && !VerhoeffAlgorithm.validateVerhoeff(strAadhaarNumber)) {
             isValid = false;
             editText.error = "Invalid Aadhaar number"
         } else {
@@ -140,7 +142,7 @@ class Validation {
     private fun validateConsentLanguage(spnConsent: Spinner): Boolean {
         var isValid = true
 
-        if (spnConsent.selectedItemPosition == 0) {
+        if (spnConsent.selectedItemPosition == -1) {
             isValid = false
             (spnConsent.selectedView as TextView).error = "Select consent language"
 
@@ -152,7 +154,7 @@ class Validation {
     private fun validateDevice(spnDevice: Spinner): Boolean {
         var isValid = true
 
-        if (spnDevice.selectedItemPosition == 0) {
+        if (spnDevice.selectedItemPosition == -1) {
             isValid = false
             (spnDevice.selectedView as TextView).error = "Select device"
 

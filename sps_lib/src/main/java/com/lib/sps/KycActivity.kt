@@ -1,6 +1,7 @@
 package com.lib.sps
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
@@ -28,6 +29,8 @@ import com.example.example.ConsentLanguage
 import com.example.example.EKycMasterDataResult
 import com.example.example.EkycDeviceList
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
 import com.lib.sps.network.ApiClient
 import com.lib.sps.network.WebInterface
 import kotlinx.coroutines.Dispatchers
@@ -98,7 +101,6 @@ class KycActivity : AppCompatActivity(), OnClickListener {
             }
         }
 
-
         var devicesAdapter = CustomDropDownAdapter(this@KycActivity, kycDeviceList)
         spnDevices.adapter = devicesAdapter
         spnDevices.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -115,10 +117,10 @@ class KycActivity : AppCompatActivity(), OnClickListener {
         spnConsentLanguage.adapter = languageAdapter
         spnConsentLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-                val seleccion = parent.selectedItemPosition
-                spnConsentLanguage.setSelection(seleccion)
-                consent = kycConsent[seleccion].content
-                less_consent = kycConsent[seleccion].less_content
+                val selection = parent.selectedItemPosition
+                spnConsentLanguage.setSelection(selection)
+                consent = kycConsent[selection].content
+                less_consent = kycConsent[selection].less_content
                 if(isConsentExpanded){
                     tvConsentContent.text = SpannableStringBuilder(consent+" Show Less").apply {
                         setSpan(ForegroundColorSpan(Color.parseColor("#2595EE")), consent!!.length, consent!!.length+10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -198,19 +200,25 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     spnConsent = spnConsentLanguage,
                     cbConsent = cbConsent,
                     spnDevice = spnDevices,
-                    tvConsentContent = tvConsentContent
+                    tvConsentContent = tvConsentContent,
+                    strAadhaarNumber = strAadhaarNumber,
                 )
             ) {
                 Toast.makeText(this@KycActivity, "Validated", Toast.LENGTH_LONG).show()
-               /* var biometricActionData = BiometricUtils().callCapture("Biometric",);
+                print(spnDevices.selectedItemPosition)
+                //val gson = Gson()
+                //val jsonString = gson.toJson(kycDeviceList[spnDevices.selectedItemPosition].pidBlockNodes)
+                //val mapType = object : TypeToken<LinkedTreeMap<String, Any>>() {}.type
+                //val linkedTreeMap: LinkedTreeMap<String, Any> = gson.fromJson(jsonString, mapType)
+                var biometricActionData = BiometricUtils().callCapture(deviceDetails = kycDeviceList[spnDevices.selectedItemPosition], biometricFormat = "", wadh = "", pidBlockNodes = kycDeviceList[spnDevices.selectedItemPosition].pidBlockNodes,this);
                 if(!biometricActionData.isError){
                     val intent = Intent(biometricActionData.action)
                     intent.setPackage(biometricActionData.packageName)
                     intent.putExtra("PID_OPTIONS", biometricActionData.pidOptXML)
-                    bioMetricInfoActivityResultLauncher.launch(intent)
+                    //bioMetricInfoActivityResultLauncher.launch(intent)
                 }else{
                     CommonMethods().showMessageDialog(this, biometricActionData.errorMessage, "Message")
-                }*/
+                }
             }
         }else if(v != null && v.id == R.id.tvConsentContent){
             isConsentExpanded = !isConsentExpanded
