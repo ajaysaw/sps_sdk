@@ -31,7 +31,7 @@ class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<Ek
 //        params.height = 500
 //        view.layoutParams = params
 
-        vh.label.text = listItemsTxt.get(position).type
+        vh.label.text = listItemsTxt.get(position).deviceName
         return view
     }
 

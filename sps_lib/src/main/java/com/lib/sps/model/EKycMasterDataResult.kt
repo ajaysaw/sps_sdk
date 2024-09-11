@@ -21,8 +21,12 @@ data class EkycMasterData(
 
 data class EkycDeviceList(
 
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("type") var type: String? = null,
+    @SerializedName("deviceName") var deviceName: String? = null,
+    @SerializedName("deviceCode") var deviceCode: String? = null,
+    @SerializedName("packageName") var packageName: String? = null,
+    @SerializedName("errorMessage") var errorMessage: String? = null,
+    @SerializedName("pidBlockType") var pidBlockType: Int? = 0,
+    @SerializedName("isBiometric") var isBiometric: Boolean? = true,
     @SerializedName("pidBlockNodes") var pidBlockNodes: PidBlockNodes? = PidBlockNodes()
 
 )
@@ -58,4 +62,5 @@ data class UrlList(
 data class ConsentLanguage(
     @SerializedName("Language") var language: String? = null,
     @SerializedName("content") var content: String? = null,
+    @SerializedName("content1") var less_content: String? = null,
 )

@@ -1,4 +1,3 @@
-/*
 package com.lib.sps
 
 import android.app.AlertDialog
@@ -24,7 +23,7 @@ class BiometricUtils {
     private lateinit var context: Context
 
     fun callCapture(
-        scannerTypeCode: String,
+        //scannerTypeCode: String,
         deviceDetails: EkycDeviceList,
         biometricFormat: String,
         wadh: String,
@@ -37,23 +36,23 @@ class BiometricUtils {
         this.pidBlockNodes = pidBlockNodes
         this.context = context
         try {
-            if (scannerTypeCode.equals("Biometric", ignoreCase = true)) {
-                if (deviceDetails.type?.trim { it <= ' ' }.equals("morpho", ignoreCase = true)) {
-                    if (searchPackageName("morpho", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+            if (deviceDetails.isBiometric == true) {
+                if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("morpho", ignoreCase = true)) {
+                    if (searchPackageName("morpho", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.scl.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
-                } else if (deviceDetails.type?.trim { it <= ' ' }.equals("startek", ignoreCase = true)) {
-                    if (searchPackageName("startek", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("startek", ignoreCase = true)) {
+                    if (searchPackageName("startek", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.acpl.registersdk",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("mantra", ignoreCase = true)) {
-                    if (searchPackageName("mantra", scannerTypeCode.equals("Biometric", ignoreCase = true))
+                    if (searchPackageName("mantra", deviceDetails.isBiometric!!)
                     ) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.mantra.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
@@ -61,66 +60,72 @@ class BiometricUtils {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("secugen", ignoreCase = true)) {
-                    if (searchPackageName("secugen", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("secugen", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.secugen.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("precision", ignoreCase = true)) {
-                    if (searchPackageName("precision", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("precision", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPrecisionPidOptXML(biometricFormat, pidBlockNodes)
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.precision.pb510.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("identi5", ignoreCase = true)) {
-                    if (searchPackageName("identi5", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("identi5", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPrecisionPidOptXML(biometricFormat, pidBlockNodes)
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.evolute.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     }else{
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("Mantra L1", ignoreCase = true)) {
-                    if (searchPackageName("Mantra L1", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("Mantra L1",deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.mantra.mfs110.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("Morpho L1", ignoreCase = true)) {
-                    if (searchPackageName("Morpho L1", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("Morpho L1", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.idemia.l1rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("Startek L1", ignoreCase = true)) {
-                    if (searchPackageName("Startek L1", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("Startek L1", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.acpl.registersdk_l1",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("PB1000 L1", ignoreCase = true)) {
-                    if (searchPackageName("PB1000 L1", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("PB1000 L1", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","in.co.precisionit.innaitaadhaar",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("Tatvik", ignoreCase = true)) {
-                    if (searchPackageName("Tatvik", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("Tatvik", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.tatvik.bio.tmf20",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 } else if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("Identi5 L1", ignoreCase = true)) {
-                    if (searchPackageName("Identi5 L1", scannerTypeCode.equals("Biometric", ignoreCase = true))) {
+                    if (searchPackageName("Identi5 L1", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
                         return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE","com.evolute.A600.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     } else {
+                        return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
+                    }
+                }else{
+                    if (searchPackageName(deviceDetails.deviceCode.toString(), deviceDetails.isBiometric!!)) {
+                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),deviceDetails.pidBlockNodes.toString(),false, errorMessage = deviceDetails.errorMessage!!)
+                    }else{
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 }
@@ -133,6 +138,12 @@ class BiometricUtils {
                         }
                         val pidOptXML: String = createIrisPidOptXML(biometricFormat, wadh, fType)
                         return  BiometricActionData("in.gov.uidai.rdservice.iris.CAPTURE","com.mantra.mis100v2.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
+                }else{
+                    if (searchPackageName(deviceDetails.deviceCode.toString(), deviceDetails.isBiometric!!)) {
+                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),deviceDetails.pidBlockNodes.toString(),false, errorMessage = deviceDetails.errorMessage!!)
+                    }else{
+                        return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -194,12 +205,18 @@ class BiometricUtils {
                 deviceName.equals("Identi5 L1", ignoreCase = true) -> {
                     string = "com.evolute.A600.rdservice"
                     message = "Please install `Evolute L1 RD Service` App."
+                }else->{
+                    string = deviceDetails.packageName.toString()
+                    message = deviceDetails.errorMessage.toString()
                 }
             }
         } else {
             if (deviceName.equals("mantra", ignoreCase = true)) {
                 string = "com.mantra.mis100v2.rdservice"
                 message = "Please install `Mantra RDService` App."
+            }else{
+                string = deviceDetails.packageName.toString()
+                message = deviceDetails.errorMessage.toString()
             }
         }
         val packageName = string
@@ -597,4 +614,4 @@ class BiometricActionData{
         this.isError = isError
         this.errorMessage = errorMessage
     }
-}*/
+}

@@ -2,9 +2,12 @@ package com.lib.sps
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.LayoutInflater
 import android.widget.TextView
 
 class CommonMethods {
@@ -31,6 +34,17 @@ class CommonMethods {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun progressDialog(context: Context): Dialog {
+        val dialog = Dialog(context)
+        val inflate = LayoutInflater.from(context).inflate(R.layout.progress_bar_view, null)
+        dialog.setContentView(inflate)
+        dialog.setCancelable(false)
+        dialog.window!!.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
+        return dialog
     }
 
 }
