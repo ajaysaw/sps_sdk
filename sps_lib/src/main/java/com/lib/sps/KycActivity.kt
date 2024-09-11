@@ -89,6 +89,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
             }
         }
 
+        // sudadaadadihasdgjad
+
         var devicesAdapter = CustomDropDownAdapter(this@KycActivity, kycDeviceList)
         spnDevices.adapter = devicesAdapter
 
