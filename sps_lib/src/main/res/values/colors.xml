@@ -8,5 +8,7 @@
     <color name="greyColor">#758398</color>
     <color name="white_color">#ffffff</color>
     <color name="red_color">#FA3333</color>
-
+    <color name="lightGray">#C1C6CF</color>
+    <color name="blueColor">#194086</color>
+    <color name="header_color">#39b549</color>
 </resources>

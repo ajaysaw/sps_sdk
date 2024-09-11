@@ -1,8 +1,7 @@
 package payworld.com.aeps_lib.data.network
 
 object WebConstants {
-    const val
-            masterDataUrl: String = "/get/ekyc/master-data"
+    const val masterDataUrl: String = "/get/ekyc/master-data"
 
     const val REQUEST_CAMERA_PERMISSION = 201
     const val MY_PERMISSIONS_REQUEST_LOCATION = 123

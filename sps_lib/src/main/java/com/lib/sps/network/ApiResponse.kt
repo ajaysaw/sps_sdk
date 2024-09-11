@@ -16,7 +16,7 @@ data class ApiResponse<T>(
     @SerializedName("error_code")
     val errorCode: Int?,
 
-    @SerializedName("data")
+    @SerializedName("ekyc_master_data")
     val data: T?
 
 ) : Serializable

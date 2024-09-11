@@ -13,8 +13,6 @@ interface WebInterface {
     ): Response<HashMap<String, String>>
 
     @GET(WebConstants.masterDataUrl)
-    suspend fun fetchMasterData(
-        @Body mapData: HashMap<String, String>
-    ): Response<HashMap<String, String>>
+    suspend fun fetchMasterData(): Response<HashMap<String, Any>>
 
 }

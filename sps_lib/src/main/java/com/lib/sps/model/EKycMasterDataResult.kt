@@ -13,7 +13,7 @@ data class EKycMasterDataResult(
 data class EkycMasterData(
 
     @SerializedName("ekyc_device_list") var ekycDeviceList: ArrayList<EkycDeviceList> = arrayListOf(),
-    @SerializedName("ekyc_consent") var ekycConsent: String? = null,
+    @SerializedName("ekyc_consent") var ekycConsent: ArrayList<ConsentLanguage> = arrayListOf(),
     @SerializedName("implement_type") var implementType: String? = null,
     @SerializedName("url_list") var urlList: UrlList? = UrlList()
 
@@ -53,4 +53,9 @@ data class UrlList(
     @SerializedName("RESEND_OTP") var RESENDOTP: String? = null,
     @SerializedName("DO_KYC") var DOKYC: String? = null
 
+)
+
+data class ConsentLanguage(
+    @SerializedName("Language") var language: String? = null,
+    @SerializedName("content") var content: String? = null,
 )

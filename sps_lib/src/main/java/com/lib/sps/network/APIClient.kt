@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiClient {
@@ -15,6 +16,7 @@ class ApiClient {
 
     private val builder = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(Gson()))
 //        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 
@@ -25,6 +27,7 @@ class ApiClient {
                 // Request customization: add request headers
                 val requestBuilder = original.newBuilder()
                     .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
                     .method(original.method, original.body)
 
                 val request = requestBuilder.build()

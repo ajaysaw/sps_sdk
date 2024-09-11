@@ -32,5 +32,19 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="AlertTitleTextStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AlertMessageTextStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 
 </resources>

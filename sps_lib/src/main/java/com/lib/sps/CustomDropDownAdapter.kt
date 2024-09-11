@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.example.EkycDeviceList
 
-class CustomDropDownAdapter(val context: Context, var listItemsTxt: Array<String>) : BaseAdapter() {
+class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<EkycDeviceList>) : BaseAdapter() {
 
 
     val mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -30,7 +31,7 @@ class CustomDropDownAdapter(val context: Context, var listItemsTxt: Array<String
 //        params.height = 500
 //        view.layoutParams = params
 
-        vh.label.text = listItemsTxt.get(position)
+        vh.label.text = listItemsTxt.get(position).type
         return view
     }
 
@@ -57,5 +58,10 @@ class CustomDropDownAdapter(val context: Context, var listItemsTxt: Array<String
         init {
             this.label = row?.findViewById(R.id.txtDropDownLabel) as TextView
         }
+    }
+
+    fun updateData(newList: ArrayList<EkycDeviceList>){
+        listItemsTxt = newList;
+        notifyDataSetChanged()
     }
 }
