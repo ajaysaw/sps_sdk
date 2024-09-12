@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -13,38 +12,27 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.ViewTreeObserver
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.NestedScrollView
 import com.example.example.ConsentLanguage
 import com.example.example.EKycMasterDataResult
 import com.example.example.EkycDeviceList
 import com.google.gson.Gson
-import com.google.gson.internal.LinkedTreeMap
-import com.google.gson.reflect.TypeToken
 import com.lib.sps.java_json.XML
 import com.lib.sps.network.ApiClient
 import com.lib.sps.network.WebInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
-import okhttp3.internal.notify
 import org.json.JSONException
 import org.json.JSONObject
-import payworld.com.aeps_lib.data.network.ApiResponse
 
 class KycActivity : AppCompatActivity(), OnClickListener {
 
@@ -152,6 +140,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     try {
                         progressDialog.dismiss()
                         if (response.isSuccessful) {
+                            Log.d("Master response API", response.toString());
+                            Log.d("Master API response", response.body().toString());
                             val gson = Gson()
                             val jsonString: String = gson.toJson(response.body())
                             val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
@@ -189,7 +179,9 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                 }
             }else{
                 progressDialog.dismiss()
-                CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
+                runOnUiThread({
+                    CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
+                })
             }
         }
     }
