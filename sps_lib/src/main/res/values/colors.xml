@@ -11,4 +11,6 @@
     <color name="lightGray">#C1C6CF</color>
     <color name="blueColor">#194086</color>
     <color name="header_color">#39b549</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
