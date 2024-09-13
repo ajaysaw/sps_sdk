@@ -5,9 +5,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
@@ -81,7 +83,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
         tvConsentContent.setOnClickListener(this)
         etMobileNo.setText("9253022366")
         etAadhaarNo.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
+            if (!hasFocus && etAadhaarNo.text.isNotEmpty() && etAadhaarNo.text.length>11) {
                 strAadhaarNumber = etAadhaarNo.text.toString()
                 strMaskedAadhaarNumber = etAadhaarNo.text.toString()
                 strMaskedAadhaarNumber = if (strMaskedAadhaarNumber.length == 12)
