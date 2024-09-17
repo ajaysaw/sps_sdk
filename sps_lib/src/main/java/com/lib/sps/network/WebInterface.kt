@@ -11,7 +11,7 @@ interface WebInterface {
     suspend fun fetchMasterData(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
     @POST(WebConstants.resendOtpUrl)
-    suspend fun resendOtp(@Body mapData: HashMap<String, String>): Response<HashMap<String, String>>
+    suspend fun resendOtp(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
     @POST(WebConstants.doKycUrl)
     suspend fun doKyc(@Body mapData: HashMap<String, String>): Response<HashMap<String, String>>

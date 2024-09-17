@@ -26,6 +26,7 @@ import com.example.example.EKycMasterDataResult
 import com.example.example.EkycDeviceList
 import com.google.gson.Gson
 import com.lib.sps.java_json.XML
+import com.lib.sps.model.ResendOtpData
 import com.lib.sps.network.ApiClient
 import com.lib.sps.network.WebInterface
 import kotlinx.coroutines.Dispatchers
@@ -164,9 +165,9 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     intent.setPackage(biometricActionData.packageName)
                     intent.putExtra("PID_OPTIONS", biometricActionData.pidOptXML)
                     bioMetricInfoActivityResultLauncher.launch(intent)
-                }else{
+                }/*else{
                     CommonMethods().showMessageDialog(this, biometricActionData.errorMessage, "Message")
-                }
+                }*/
             }
         }else if(v != null && v.id == R.id.tvConsentContent){
             isConsentExpanded = !isConsentExpanded
@@ -304,10 +305,11 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                          Log.d("resend OTP API response :", response.body().toString());
                          val gson = Gson()
                          val jsonString: String = gson.toJson(response.body())
-                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         val it = Gson().fromJson(jsonString, ResendOtpData::class.java)
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
-                                 ekycToken = it.ekycMasterData?.ekycToken
+                                 ekycToken = it.eKycOtpData?.eKycToken
+                                 commonMethods.showMessageDialog(this@KycActivity,it.eKycOtpData?.eKycOtpMsg,"Success")
                              }
                          } else {
                              print(it.message);
@@ -380,8 +382,9 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase()=="FAILURE") {
                                      commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
-                                 } else
+                                 } else{
                                      commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                                 }
                              } catch (e: Exception) {
                                  commonMethods.showMessageDialog(this,e.message.toString(),"Error")
                              }

@@ -6,9 +6,9 @@ import com.google.gson.internal.LinkedTreeMap
 
 data class EKycMasterDataResult(
 
-    @SerializedName("message") var message: String? = null,
+    @SerializedName("message") var message: String? = "",
     @SerializedName("ekyc_master_data") var ekycMasterData: EkycMasterData? = EkycMasterData(),
-    @SerializedName("error_message") var errorMessage: String? = null,
+    @SerializedName("error_message") var errorMessage: String? = "",
 )
 
 data class EkycMasterData(
