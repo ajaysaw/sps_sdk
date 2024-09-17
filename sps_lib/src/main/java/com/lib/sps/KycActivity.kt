@@ -158,7 +158,6 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     strMobileNumber = strMobileNumber,
                 )
             ) {
-                Toast.makeText(this@KycActivity, "Validated", Toast.LENGTH_LONG).show()
                 var biometricActionData = BiometricUtils().callCapture(deviceDetails = kycDeviceList[spnDevices.selectedItemPosition], biometricFormat = "", wadh = "", pidBlockNodes = kycDeviceList[spnDevices.selectedItemPosition].pidBlockNodes,this);
                 if(!biometricActionData.isError){
                     val intent = Intent(biometricActionData.action)
@@ -185,42 +184,44 @@ class KycActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    private val bioMetricInfoActivityResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
-        val data: Intent? = result.data
-        if (result.resultCode == Activity.RESULT_OK) {
-            val pidData = data?.getStringExtra("PID_DATA")
-            if (pidData != null) {
-                Log.e("Morpho Data :", pidData)
-                Log.e("pid Data :", pidData)
-                try {
-                    val jsonObjPidData = XML.toJSONObject(pidData)
-                    //val jsonPid: JSONObject? = jsonObjPidData.getJSONObject("PidData")
-                    val jsonPid = JSONObject(jsonObjPidData.getJSONObject("PidData").toString())
-                    val jsonResp = jsonPid.getJSONObject("Resp")
-                    val errCode = jsonResp.getString("errCode")
-                    if (errCode == "0") {
-                        Toast.makeText(this, "Info", Toast.LENGTH_LONG).show()
-                        doKyc(pidData)
-                    } else {
-                        if (jsonResp.has("errInfo")) {
-                            val errInfo = """${jsonResp.getString("errInfo")}Please reconnect your bio-metric device & try again."""
-                            if (!TextUtils.isEmpty(errInfo)) {
-                                Toast.makeText(this, errInfo, Toast.LENGTH_LONG).show()
+    private val bioMetricInfoActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        runOnUiThread {
+            val data: Intent? = result.data
+            if (result.resultCode == Activity.RESULT_OK) {
+                val pidData = data?.getStringExtra("PID_DATA")
+                if (pidData != null) {
+                    Log.e("Morpho Data :", pidData)
+                    Log.e("pid Data :", pidData)
+                    try {
+                        val jsonObjPidData = XML.toJSONObject(pidData)
+                        //val jsonPid: JSONObject? = jsonObjPidData.getJSONObject("PidData")
+                        val jsonPid = JSONObject(jsonObjPidData.getJSONObject("PidData").toString())
+                        val jsonResp = jsonPid.getJSONObject("Resp")
+                        val errCode = jsonResp.getString("errCode")
+                        if (errCode == "0") {
+                            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+                            doKyc(pidData)
+                        } else {
+                            if (jsonResp.has("errInfo")) {
+                                val errInfo =
+                                    """${jsonResp.getString("errInfo")}Please reconnect your bio-metric device & try again."""
+                                if (!TextUtils.isEmpty(errInfo)) {
+                                    Toast.makeText(this, errInfo, Toast.LENGTH_LONG).show()
+                                }
                             }
                         }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                        Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
                     }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "NULL STRING RETURNED", Toast.LENGTH_LONG).show()
                 }
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, "Scan Failed/Aborted!", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "NULL STRING RETURNED", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please Connect Device", Toast.LENGTH_LONG).show()
             }
-        } else if (result.resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "Scan Failed/Aborted!", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this, "Please Connect Device", Toast.LENGTH_LONG).show()
         }
     }
 

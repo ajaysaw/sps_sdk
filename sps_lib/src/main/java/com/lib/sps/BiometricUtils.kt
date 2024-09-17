@@ -248,7 +248,6 @@ class BiometricUtils {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         val pkgAppsList = context.packageManager.queryIntentActivities(mainIntent, 0)
         for (packageInfo in pkgAppsList) {
-            print(packageInfo.activityInfo.processName)
             if (packageInfo.activityInfo.processName == targetPackage) return true
         }
         return false
