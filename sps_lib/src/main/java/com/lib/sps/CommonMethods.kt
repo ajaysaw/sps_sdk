@@ -24,6 +24,7 @@ class CommonMethods {
 
     fun showMessageDialog(ctx: Context?, messageTxt: String?, argTitle: String?) {
         val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
+        dialog.setCancelable(false)
         dialog.setContentView(R.layout.message_dialog_layout)
         val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
         val tvDes: TextView = dialog.findViewById(R.id.tvDes)
@@ -47,4 +48,17 @@ class CommonMethods {
         return dialog
     }
 
+    fun getUserAgent(): String{
+        return System.getProperty("http.agent")?:"";
+    }
+
+    fun getMaskNumber(number:String):String{
+        if(number.isNotEmpty() && number.length>9){
+            val lastFour = number.takeLast(4)
+            val maskedPart = "*".repeat(number.length - 4)
+            return maskedPart + lastFour
+        }else{
+            return ""
+        }
+    }
 }

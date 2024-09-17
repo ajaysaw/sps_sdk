@@ -24,9 +24,10 @@ class Validation {
         spnDevice: Spinner,
         tvConsentContent: TextView,
         strAadhaarNumber:String,
+        strMobileNumber:String,
 
     ): Boolean {
-        val isValidate = if (validateMobileNo(etMobile)) {
+        val isValidate = if (validateMobileNo(etMobile,strMobileNumber)) {
             if (validateAadhaar(etAadhaar,strAadhaarNumber)) {
                 if (validatePan(etPan)) {
                     if (validateOTP(etOtp)) {
@@ -58,7 +59,7 @@ class Validation {
         return isValidate
     }
 
-    private fun validateMobileNo(editText: EditText): Boolean {
+    private fun validateMobileNo(editText: EditText,strMobileNumber:String): Boolean {
         var isValid = true
         val mobileNumber: String = editText.text.toString().trim()
 
@@ -68,7 +69,7 @@ class Validation {
         } else if (mobileNumber.length != 10) {
             isValid = false;
             editText.error = "Mobile number must be of 10 digits"
-        } else if (!mobileNumber.matches(Regex(regexMobileNumber))) {
+        } else if (!strMobileNumber.matches(Regex(regexMobileNumber))) {
             isValid = false;
             editText.error = "Enter valid mobile number"
         } else {

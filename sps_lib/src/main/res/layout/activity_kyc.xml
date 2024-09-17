@@ -93,7 +93,8 @@
                     android:id="@+id/etPanNo"
                     style="@style/edittext_style"
                     android:maxLength="10"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:inputType="textCapCharacters"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,7 +128,7 @@
                     android:gravity="start"
                     android:layout_marginHorizontal="@dimen/dp5"
                     android:tag="binding_6"
-                    android:text="OTP has been send to registered mobile number"
+                    android:text=""
                     android:textColor="@color/red_color" />
 
                 <TextView

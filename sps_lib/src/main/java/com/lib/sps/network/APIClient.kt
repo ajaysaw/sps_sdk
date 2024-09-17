@@ -2,6 +2,7 @@ package com.lib.sps.network
 
 import com.google.gson.Gson
 import com.lib.sps.BuildConfig
+import com.lib.sps.CommonMethods
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit
 class ApiClient {
     private val httpClient = OkHttpClient.Builder()
     private var retrofit: Retrofit? = null
+    val commonMethods = CommonMethods()
 
     private val builder = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
@@ -28,6 +30,7 @@ class ApiClient {
                 val requestBuilder = original.newBuilder()
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
+                    .header("User-Agent", commonMethods.getUserAgent())
                     .method(original.method, original.body)
 
                 val request = requestBuilder.build()

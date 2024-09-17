@@ -8,11 +8,12 @@ import retrofit2.http.POST
 
 interface WebInterface {
     @POST(WebConstants.masterDataUrl)
-    suspend fun fetchValidateRequestData(
-        @Body mapData: HashMap<String, String>
-    ): Response<HashMap<String, String>>
+    suspend fun fetchMasterData(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
-    @GET(WebConstants.masterDataUrl)
-    suspend fun fetchMasterData(): Response<HashMap<String, Any>>
+    @POST(WebConstants.resendOtpUrl)
+    suspend fun resendOtp(@Body mapData: HashMap<String, String>): Response<HashMap<String, String>>
+
+    @POST(WebConstants.doKycUrl)
+    suspend fun doKyc(@Body mapData: HashMap<String, String>): Response<HashMap<String, String>>
 
 }

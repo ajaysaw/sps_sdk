@@ -7,8 +7,8 @@ import com.google.gson.internal.LinkedTreeMap
 data class EKycMasterDataResult(
 
     @SerializedName("message") var message: String? = null,
-    @SerializedName("ekyc_master_data") var ekycMasterData: EkycMasterData? = EkycMasterData()
-
+    @SerializedName("ekyc_master_data") var ekycMasterData: EkycMasterData? = EkycMasterData(),
+    @SerializedName("error_message") var errorMessage: String? = null,
 )
 
 data class EkycMasterData(
@@ -16,7 +16,9 @@ data class EkycMasterData(
     @SerializedName("ekyc_device_list") var ekycDeviceList: ArrayList<EkycDeviceList> = arrayListOf(),
     @SerializedName("ekyc_consent") var ekycConsent: ArrayList<ConsentLanguage> = arrayListOf(),
     @SerializedName("implement_type") var implementType: String? = null,
-    @SerializedName("url_list") var urlList: UrlList? = UrlList()
+    @SerializedName("url_list") var urlList: UrlList? = UrlList(),
+    @SerializedName("ekyc_otp_msg") var ekycOtpMsg: String? = "",
+    @SerializedName("ekyc_token") var ekycToken: String? = ""
 
 )
 

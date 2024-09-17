@@ -15,11 +15,14 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
         val btnDoKyc = findViewById<Button>(R.id.btnDoKyc)
-
-        startActivity(Intent(this@HomeActivity, KycActivity::class.java))
+        val intent = Intent(this@HomeActivity, KycActivity::class.java)
+        intent.putExtra("AgentId", "56")
+        intent.putExtra("SecretKey", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
+        intent.putExtra("MobileNo", "9958957206")
+        startActivity(intent)
 
         btnDoKyc.setOnClickListener {
-            startActivity(Intent(this@HomeActivity, KycActivity::class.java))
+            startActivity(intent)
         }
     }
 }

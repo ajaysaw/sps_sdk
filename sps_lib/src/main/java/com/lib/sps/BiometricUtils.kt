@@ -123,7 +123,8 @@ class BiometricUtils {
                     }
                 }else{
                     if (searchPackageName(deviceDetails.deviceCode.toString(), deviceDetails.isBiometric!!)) {
-                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),deviceDetails.pidBlockNodes.toString(),false, errorMessage = deviceDetails.errorMessage!!)
+                        val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
+                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     }else{
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
@@ -139,7 +140,13 @@ class BiometricUtils {
                         return  BiometricActionData("in.gov.uidai.rdservice.iris.CAPTURE","com.mantra.mis100v2.rdservice",pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                 }else{
                     if (searchPackageName(deviceDetails.deviceCode.toString(), deviceDetails.isBiometric!!)) {
-                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),deviceDetails.pidBlockNodes.toString(),false, errorMessage = deviceDetails.errorMessage!!)
+                        val fType = if (pidBlockNodes.containsKey("fType")) {
+                            pidBlockNodes["fType"].toString()
+                        } else {
+                            "0"
+                        }
+                        val pidOptXML: String = createIrisPidOptXML(biometricFormat, wadh, fType)
+                        return  BiometricActionData("in.gov.uidai.rdservice.fp.CAPTURE",deviceDetails.packageName.toString(),pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
                     }else{
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
@@ -241,6 +248,7 @@ class BiometricUtils {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         val pkgAppsList = context.packageManager.queryIntentActivities(mainIntent, 0)
         for (packageInfo in pkgAppsList) {
+            print(packageInfo.activityInfo.processName)
             if (packageInfo.activityInfo.processName == targetPackage) return true
         }
         return false

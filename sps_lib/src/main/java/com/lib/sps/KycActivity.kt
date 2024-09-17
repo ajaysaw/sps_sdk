@@ -5,11 +5,9 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
@@ -39,7 +37,8 @@ import org.json.JSONObject
 class KycActivity : AppCompatActivity(), OnClickListener {
 
     val commonMethods = CommonMethods()
-
+    lateinit var languageAdapter: LanguageDropDownAdapter;
+    lateinit var devicesAdapter: CustomDropDownAdapter;
     private lateinit var etMobileNo: EditText
     private lateinit var etAadhaarNo: EditText
     private lateinit var etPanNo: EditText
@@ -48,21 +47,23 @@ class KycActivity : AppCompatActivity(), OnClickListener {
     private lateinit var llConsent: LinearLayout
     private lateinit var cbConsent: CheckBox
     private lateinit var tvConsentContent: TextView
+    private lateinit var tvOtpSendMessage: TextView
     private lateinit var spnConsentLanguage: Spinner
     private lateinit var spnDevices: Spinner
     private lateinit var tvSubmit: TextView
     private lateinit var progressDialog: Dialog
     private var strMobileNumber = ""
+    private var agentId = ""
+    private var secretKey = ""
     private var strAadhaarNumber = ""
     private var strMaskedAadhaarNumber = ""
-    private var strPanNumber = ""
-    private var strOTP = ""
     var job: Job? = null
     var kycDeviceList = ArrayList<EkycDeviceList>()
     var kycConsent= ArrayList<ConsentLanguage>()
     var isConsentExpanded = false
     var consent:String?=""
     var less_consent:String?=""
+    var ekycToken:String?=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,28 +77,24 @@ class KycActivity : AppCompatActivity(), OnClickListener {
         llConsent = findViewById(R.id.llConsent)
         cbConsent = findViewById(R.id.cbConsent)
         tvConsentContent = findViewById(R.id.tvConsentContent)
+        tvOtpSendMessage = findViewById(R.id.tvOtpSendMessage)
         spnConsentLanguage = findViewById(R.id.spnConsentLanguage)
         spnDevices = findViewById(R.id.spnDevices)
         tvSubmit = findViewById(R.id.tvSubmit)
         tvSubmit.setOnClickListener(this)
         tvConsentContent.setOnClickListener(this)
-        etMobileNo.setText("9253022366")
+        tvResendOtp.setOnClickListener(this)
         etAadhaarNo.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus && etAadhaarNo.text.isNotEmpty() && etAadhaarNo.text.length>11) {
                 strAadhaarNumber = etAadhaarNo.text.toString()
                 strMaskedAadhaarNumber = etAadhaarNo.text.toString()
-                strMaskedAadhaarNumber = if (strMaskedAadhaarNumber.length == 12)
-                    strMaskedAadhaarNumber.replaceRange(0, 8, "********")
-                else {
-                    strMaskedAadhaarNumber.replaceRange(0, 12, "************")
-                }
-                etAadhaarNo.setText(strMaskedAadhaarNumber)
+                etAadhaarNo.setText(commonMethods.getMaskNumber(strMaskedAadhaarNumber))
             } else {
                 // The EditText has gained focus
             }
         }
 
-        var devicesAdapter = CustomDropDownAdapter(this@KycActivity, kycDeviceList)
+        devicesAdapter = CustomDropDownAdapter(this@KycActivity, kycDeviceList)
         spnDevices.adapter = devicesAdapter
         spnDevices.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
@@ -109,7 +106,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
             }
         }
 
-        val languageAdapter = LanguageDropDownAdapter(this@KycActivity, kycConsent)
+        languageAdapter = LanguageDropDownAdapter(this@KycActivity, kycConsent)
         spnConsentLanguage.adapter = languageAdapter
         spnConsentLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
@@ -132,66 +129,21 @@ class KycActivity : AppCompatActivity(), OnClickListener {
             }
         }
 
-        job = Coroutines.io {
-            withContext(Dispatchers.Main) {
-                progressDialog.show()
-            }
-            if(CommonMethods().isNetworkConnected(this)){
-                val service: WebInterface = ApiClient().createService(WebInterface::class.java)
-                service.fetchMasterData().let { response ->
-                    try {
-                        progressDialog.dismiss()
-                        if (response.isSuccessful) {
-                            Log.d("Master response API", response.toString());
-                            Log.d("Master API response", response.body().toString());
-                            val gson = Gson()
-                            val jsonString: String = gson.toJson(response.body())
-                            val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
-                            if (it.message == "SUCCESS") {
-                                kycDeviceList = it.ekycMasterData?.ekycDeviceList!!
-                                kycConsent = it.ekycMasterData?.ekycConsent!!
-                                withContext(Dispatchers.Main) {
-                                    devicesAdapter.updateData(kycDeviceList)
-                                    languageAdapter.updateData(kycConsent)
-                                }
-                            } else
-                                //onError(it.message!!, true)
-                            print(it.message);
-                        } else {
-                            val errorMsg = try {
-                                val jsonObj =
-                                    JSONObject(
-                                        response.errorBody()!!.charStream().readText().trim()
-                                    )
-                                if (jsonObj.has("data")) {
-                                    JSONObject(jsonObj.getString("data").trim()).getString("error_message")
-                                } else
-                                    jsonObj.getString("error_message")
-                            } catch (e: Exception) {
-                                e.message.toString()
-                            }
-                            //onError(errorMsg, true)
-                            print(errorMsg);
-                        }
-                    } catch (e: Exception) {
-                        //onError("$response", true)
-                        print(e);
-                        progressDialog.dismiss()
-                    }
-                }
-            }else{
-                progressDialog.dismiss()
-                runOnUiThread({
-                    CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
-                })
-            }
+        try{
+            strMobileNumber = intent.getStringExtra("MobileNo")!!
+            if(strMobileNumber.length>9)
+            etMobileNo.setText(strMobileNumber)
+            agentId = intent.getStringExtra("AgentId")!!
+            secretKey = intent.getStringExtra("SecretKey")!!
+        }catch (e:Exception){
+            print(e.message)
         }
+        getMasterData() //call master API
     }
 
     override fun onClick(v: View?) {
         if (v != null && v.id == R.id.tvSubmit) {
             val validationUtil = Validation()
-
             if (validationUtil.validateForm(
                     etMobile = etMobileNo,
                     etAadhaar = etAadhaarNo,
@@ -202,6 +154,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     spnDevice = spnDevices,
                     tvConsentContent = tvConsentContent,
                     strAadhaarNumber = strAadhaarNumber,
+                    strMobileNumber = strMobileNumber,
                 )
             ) {
                 Toast.makeText(this@KycActivity, "Validated", Toast.LENGTH_LONG).show()
@@ -226,6 +179,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     setSpan(ForegroundColorSpan(Color.parseColor("#2595EE")), less_consent!!.length, less_consent!!.length+10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
             }
+        }else if(v != null && v.id == R.id.tvResendOtp){
+            resendOTP()
         }
     }
 
@@ -245,6 +200,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     val errCode = jsonResp.getString("errCode")
                     if (errCode == "0") {
                         Toast.makeText(this, "Info", Toast.LENGTH_LONG).show()
+                        doKyc(pidData)
                     } else {
                         if (jsonResp.has("errInfo")) {
                             val errInfo = """${jsonResp.getString("errInfo")}Please reconnect your bio-metric device & try again."""
@@ -267,4 +223,183 @@ class KycActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
+
+ private fun getMasterData() {
+     job = Coroutines.io {
+         withContext(Dispatchers.Main) {
+             progressDialog.show()
+         }
+         if(CommonMethods().isNetworkConnected(this)){
+             val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+             val request = HashMap<String, String>()
+             request["AgentId"] = agentId
+             request["SecretKey"] = secretKey
+             request["MobileNo"] = strMobileNumber
+             service.fetchMasterData(request).let { response ->
+                 try {
+                     progressDialog.dismiss()
+                     if (response.isSuccessful) {
+                         Log.d("Master response API", response.toString());
+                         Log.d("Master API response", response.body().toString());
+                         val gson = Gson()
+                         val jsonString: String = gson.toJson(response.body())
+                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         if (it.message!!.uppercase() == "SUCCESS") {
+                             kycDeviceList = it.ekycMasterData?.ekycDeviceList!!
+                             kycConsent = it.ekycMasterData?.ekycConsent!!
+                             withContext(Dispatchers.Main) {
+                                 devicesAdapter.updateData(kycDeviceList)
+                                 languageAdapter.updateData(kycConsent)
+                                 tvOtpSendMessage.text = it.ekycMasterData?.ekycOtpMsg
+                                 ekycToken = it.ekycMasterData?.ekycToken
+                             }
+                         } else {
+                             print(it.message);
+                             runOnUiThread({commonMethods.showMessageDialog(this,it.errorMessage,"Error")})
+                         }
+                     } else {
+                         runOnUiThread({
+                             try {
+                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 if (jsonObj.has("message") && jsonObj.getString("message").uppercase()=="FAILURE") {
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                                 } else
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                             } catch (e: Exception) {
+                                 commonMethods.showMessageDialog(this,e.message.toString(),"Error")
+                             }
+                         })
+                     }
+                 } catch (e: Exception) {
+                     //onError("$response", true)
+                     print(e);
+                     progressDialog.dismiss()
+                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                 }
+             }
+         }else{
+             progressDialog.dismiss()
+             runOnUiThread({
+                 CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
+             })
+         }
+     }
+ }
+
+ private fun resendOTP(){
+     job = Coroutines.io {
+         withContext(Dispatchers.Main) {
+             progressDialog.show()
+         }
+         if(CommonMethods().isNetworkConnected(this)){
+             val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+             val request = HashMap<String, String>()
+             request["EkycToken"] = ekycToken!!
+             request["MobileNo"] = strMobileNumber
+             service.resendOtp(request).let { response ->
+                 try {
+                     progressDialog.dismiss()
+                     if (response.isSuccessful) {
+                         Log.d("resend OTP response API : ", response.toString());
+                         Log.d("resend OTP API response :", response.body().toString());
+                         val gson = Gson()
+                         val jsonString: String = gson.toJson(response.body())
+                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         if (it.message!!.uppercase() == "SUCCESS") {
+                             withContext(Dispatchers.Main) {
+                                 ekycToken = it.ekycMasterData?.ekycToken
+                             }
+                         } else {
+                             print(it.message);
+                             runOnUiThread({commonMethods.showMessageDialog(this,it.errorMessage,"Error")})
+                         }
+                     } else {
+                         runOnUiThread({
+                             try {
+                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 if (jsonObj.has("message") && jsonObj.getString("message").uppercase()=="FAILURE") {
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                                 } else
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                             } catch (e: Exception) {
+                                 commonMethods.showMessageDialog(this,e.message.toString(),"Error")
+                             }
+                         })
+                     }
+                 } catch (e: Exception) {
+                     //onError("$response", true)
+                     print(e);
+                     progressDialog.dismiss()
+                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                 }
+             }
+         }else{
+             progressDialog.dismiss()
+             runOnUiThread({
+                 CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
+             })
+         }
+     }
+  }
+
+ private fun doKyc(pidData: String) {
+     job = Coroutines.io {
+         withContext(Dispatchers.Main) {
+             progressDialog.show()
+         }
+         if(CommonMethods().isNetworkConnected(this)){
+             val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+             val request = HashMap<String, String>()
+             request["kyc_token"] = ekycToken!!
+             request["sender_mobile_no"] = strMobileNumber
+             request["aadhaar_no"] = strAadhaarNumber
+             request["capturedDeviceData"] = pidData
+             request["consent"] = consent!!
+             request["Device"] = kycDeviceList[spnDevices.selectedItemPosition].deviceName!!
+             request["pan_no"] = etPanNo.text.toString()
+             service.doKyc(request).let { response ->
+                 try {
+                     progressDialog.dismiss()
+                     if (response.isSuccessful) {
+                         Log.d("kyc response API : ", response.toString());
+                         Log.d("kyc API response :", response.body().toString());
+                         val gson = Gson()
+                         val jsonString: String = gson.toJson(response.body())
+                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         if (it.message!!.uppercase() == "SUCCESS") {
+                             withContext(Dispatchers.Main) {
+
+                             }
+                         } else {
+                             print(it.message);
+                             runOnUiThread({commonMethods.showMessageDialog(this,it.errorMessage,"Error")})
+                         }
+                     } else {
+                         runOnUiThread({
+                             try {
+                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 if (jsonObj.has("message") && jsonObj.getString("message").uppercase()=="FAILURE") {
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                                 } else
+                                     commonMethods.showMessageDialog(this,jsonObj.getString("error_message"),"Error")
+                             } catch (e: Exception) {
+                                 commonMethods.showMessageDialog(this,e.message.toString(),"Error")
+                             }
+                         })
+                     }
+                 } catch (e: Exception) {
+                     //onError("$response", true)
+                     print(e);
+                     progressDialog.dismiss()
+                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                 }
+             }
+         }else{
+             progressDialog.dismiss()
+             runOnUiThread({
+                 CommonMethods().showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!")
+             })
+         }
+     }
+ }
 }
