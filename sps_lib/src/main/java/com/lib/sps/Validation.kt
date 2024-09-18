@@ -145,10 +145,9 @@ class Validation {
 
         if (spnConsent.selectedItemPosition == -1) {
             isValid = false
+            if(spnConsent.selectedView!=null)
             (spnConsent.selectedView as TextView).error = "Select consent language"
-
         }
-
         return isValid
     }
 
@@ -157,10 +156,9 @@ class Validation {
 
         if (spnDevice.selectedItemPosition == -1) {
             isValid = false
+            if(spnDevice.selectedView!=null)
             (spnDevice.selectedView as TextView).error = "Select device"
-
         }
-
         return isValid
     }
 

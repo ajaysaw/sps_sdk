@@ -26,6 +26,7 @@ import com.example.example.EKycMasterDataResult
 import com.example.example.EkycDeviceList
 import com.google.gson.Gson
 import com.lib.sps.java_json.XML
+import com.lib.sps.model.DoKycResponse
 import com.lib.sps.model.ResendOtpData
 import com.lib.sps.network.ApiClient
 import com.lib.sps.network.WebInterface
@@ -257,18 +258,22 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                              }
                          } else {
                              print(it.message);
-                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error")}
+                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
                          runOnUiThread {
                              try {
                                  val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE"){
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     if(jsonObj.has("kyc_status") && jsonObj.getString("kyc_status").uppercase() == "SUCCESS"){
+                                         commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error",jsonObj.getString("kyc_status"),true)
+                                     }else{
+                                         commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
+                                     }
                                  } else
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                              } catch (e: Exception) {
-                                 commonMethods.showMessageDialog(this, e.message.toString(), "Error")
+                                 commonMethods.showMessageDialog(this, e.message.toString(), "Error","",false)
                              }
                          }
                      }
@@ -276,12 +281,12 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      //onError("$response", true)
                      print(e);
                      progressDialog.dismiss()
-                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                     commonMethods.showMessageDialog(this,e.toString(),"Error","",false)
                  }
              }
          }else{
              progressDialog.dismiss()
-             runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!") }
+             runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!","",false) }
          }
      }
  }
@@ -308,22 +313,22 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
                                  eKycToken = it.eKycOtpData?.eKycToken
-                                 commonMethods.showMessageDialog(this@KycActivity,it.eKycOtpData?.eKycOtpMsg,"Success")
+                                 commonMethods.showMessageDialog(this@KycActivity,it.eKycOtpData?.eKycOtpMsg,"Success","",false)
                              }
                          } else {
                              print(it.message);
-                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error")}
+                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
                          runOnUiThread {
                              try {
                                  val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE") {
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                                  } else
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                              } catch (e: Exception) {
-                                 commonMethods.showMessageDialog(this, e.message.toString(), "Error")
+                                 commonMethods.showMessageDialog(this, e.message.toString(), "Error","",false)
                              }
                          }
                      }
@@ -331,13 +336,13 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      //onError("$response", true)
                      print(e);
                      progressDialog.dismiss()
-                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                     commonMethods.showMessageDialog(this,e.toString(),"Error","",false)
                  }
              }
          }else{
              progressDialog.dismiss()
              runOnUiThread {
-                 commonMethods.showMessageDialog(this, "No Internet....Please be connected to a working internet", "Alert!")
+                 commonMethods.showMessageDialog(this, "No Internet....Please be connected to a working internet", "Alert!","",false)
              }
          }
      }
@@ -358,6 +363,9 @@ class KycActivity : AppCompatActivity(), OnClickListener {
              request["consent"] = consent!!
              request["Device"] = kycDeviceList[spnDevices.selectedItemPosition].deviceName!!
              request["pan_no"] = etPanNo.text.toString()
+             request["sender_pan_proof"] = "PAN"
+             request["otp"] = etOtp.text.toString()
+             request["app_type"] = ""
              service.doKyc(request).let { response ->
                  try {
                      progressDialog.dismiss()
@@ -366,30 +374,30 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                          Log.d("kyc API response :", response.body().toString());
                          val gson = Gson()
                          val jsonString: String = gson.toJson(response.body())
-                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         val it = Gson().fromJson(jsonString, DoKycResponse::class.java)
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
-
+                                 if(it.eKycResponse?.status?.uppercase()=="SUCCESS"){
+                                     commonMethods.showMessageDialog(this@KycActivity,it.eKycResponse?.eKycMessage,it.eKycResponse?.status,it.eKycResponse?.status!!,true)
+                                 }else{
+                                     commonMethods.showMessageDialog(this@KycActivity,it.eKycResponse?.eKycMessage,it.eKycResponse?.status,it.eKycResponse?.status!!,false)
+                                 }
                              }
                          } else {
                              print(it.message);
-                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error")}
+                             runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
                          runOnUiThread {
                              try {
                                  val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE") {
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                                  } else {
-                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error")
+                                     commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                                  }
                              } catch (e: Exception) {
-                                 commonMethods.showMessageDialog(
-                                     this,
-                                     e.message.toString(),
-                                     "Error"
-                                 )
+                                 commonMethods.showMessageDialog(this, e.message.toString(), "Error","",false)
                              }
                          }
                      }
@@ -397,12 +405,12 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      //onError("$response", true)
                      print(e);
                      progressDialog.dismiss()
-                     commonMethods.showMessageDialog(this,e.toString(),"Error")
+                     runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
              }
          }else{
              progressDialog.dismiss()
-             runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!") }
+             runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!","",false) }
          }
      }
  }

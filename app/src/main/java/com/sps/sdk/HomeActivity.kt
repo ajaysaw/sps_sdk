@@ -18,7 +18,7 @@ class HomeActivity : AppCompatActivity() {
         val intent = Intent(this@HomeActivity, KycActivity::class.java)
         intent.putExtra("AgentId", "56")
         intent.putExtra("SecretKey", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
-        intent.putExtra("MobileNo", "9958957206")
+        intent.putExtra("MobileNo", "9988775544")
         startActivity(intent)
 
         btnDoKyc.setOnClickListener {

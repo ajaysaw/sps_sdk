@@ -9,6 +9,7 @@ data class EKycMasterDataResult(
     @SerializedName("message") var message: String? = "",
     @SerializedName("ekyc_master_data") var ekycMasterData: EkycMasterData? = EkycMasterData(),
     @SerializedName("error_message") var errorMessage: String? = "",
+    @SerializedName("kyc_status") var status: String? = "",
 )
 
 data class EkycMasterData(

@@ -1,17 +1,18 @@
 package com.lib.sps
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.view.LayoutInflater
 import android.widget.TextView
 
-class CommonMethods {
 
+class CommonMethods {
     fun isNetworkConnected(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val n = cm.activeNetwork
@@ -22,7 +23,30 @@ class CommonMethods {
         return false
     }
 
-    fun showMessageDialog(ctx: Context?, messageTxt: String?, argTitle: String?) {
+    fun showMessageDialog(ctx: Context?, messageTxt: String?, argTitle: String?,kycStatus:String,isSuccess:Boolean) {
+        val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.message_dialog_layout)
+        val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
+        val tvDes: TextView = dialog.findViewById(R.id.tvDes)
+        val tvOk: TextView = dialog.findViewById(R.id.tvOk)
+        tvTitle.text = argTitle
+        tvDes.text = messageTxt
+        tvOk.setOnClickListener {
+            dialog.dismiss()
+            if(isSuccess){
+                val activity = ctx as? Activity
+                val resultIntent = Intent()
+                resultIntent.putExtra("message", messageTxt)
+                resultIntent.putExtra("status", kycStatus)
+                activity?.setResult(Activity.RESULT_OK, resultIntent)
+                activity?.finish()
+            }
+        }
+        dialog.show()
+    }
+
+    fun showSuccessMessageDialog(ctx: Activity?, messageTxt: String?, argTitle: String?,status:String) {
         val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.message_dialog_layout)
