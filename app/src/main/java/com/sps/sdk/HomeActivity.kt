@@ -34,7 +34,6 @@ class HomeActivity : AppCompatActivity() {
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
-            print("AJAY")
             val message = data?.getStringExtra("message")
             val status = data?.getStringExtra("status")
             print(message)
