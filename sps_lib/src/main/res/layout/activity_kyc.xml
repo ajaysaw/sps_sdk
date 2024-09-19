@@ -22,7 +22,7 @@
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create wallet"
+                android:text="Complete E-KYC"
                 android:textColor="@color/white_color" />
 
 

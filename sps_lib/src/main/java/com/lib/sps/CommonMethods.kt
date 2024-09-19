@@ -25,6 +25,7 @@ class CommonMethods {
 
     fun showMessageDialog(ctx: Context?, messageTxt: String?, argTitle: String?,kycStatus:String,isSuccess:Boolean) {
         val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.message_dialog_layout)
         val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
@@ -42,21 +43,6 @@ class CommonMethods {
                 activity?.setResult(Activity.RESULT_OK, resultIntent)
                 activity?.finish()
             }
-        }
-        dialog.show()
-    }
-
-    fun showSuccessMessageDialog(ctx: Activity?, messageTxt: String?, argTitle: String?,status:String) {
-        val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.message_dialog_layout)
-        val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
-        val tvDes: TextView = dialog.findViewById(R.id.tvDes)
-        val tvOk: TextView = dialog.findViewById(R.id.tvOk)
-        tvTitle.text = argTitle
-        tvDes.text = messageTxt
-        tvOk.setOnClickListener {
-            dialog.dismiss()
         }
         dialog.show()
     }
