@@ -31,6 +31,7 @@ class ApiClient {
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
                     .header("User-Agent", commonMethods.getUserAgent())
+                    .header("source", "MOBILE_SDK")
                     .method(original.method, original.body)
 
                 val request = requestBuilder.build()

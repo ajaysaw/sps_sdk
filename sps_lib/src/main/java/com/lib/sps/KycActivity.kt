@@ -240,7 +240,6 @@ class KycActivity : AppCompatActivity(), OnClickListener {
              jsonObject.put("SecretKey", secretKey)
              jsonObject.put("MobileNo", strMobileNumber)
              jsonObject.put("app_type", "MOBILE")
-             jsonObject.put("source", "MOBILE_SDK")
              val requestData = HashMap<String, String>()
              requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
              service.fetchMasterData(requestData).let { response ->
@@ -308,7 +307,6 @@ class KycActivity : AppCompatActivity(), OnClickListener {
              jsonObject.put("EkycToken", eKycToken!!)
              jsonObject.put("MobileNo", strMobileNumber)
              jsonObject.put("app_type", "MOBILE")
-             jsonObject.put("source", "MOBILE_SDK")
              val requestData = HashMap<String, String>()
              requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
              service.resendOtp(requestData).let { response ->
@@ -377,7 +375,6 @@ class KycActivity : AppCompatActivity(), OnClickListener {
              jsonObject.put("sender_pan_proof", "PAN")
              jsonObject.put("otp", etOtp.text.toString())
              jsonObject.put("app_type", "MOBILE")
-             jsonObject.put("source", "MOBILE_SDK")
              val requestData = HashMap<String, String>()
              requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
              service.doKyc(requestData).let { response ->
