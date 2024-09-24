@@ -321,6 +321,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
                                  eKycToken = it.eKycOtpData?.eKycToken
+                                 etOtp.text.clear();
                                  commonMethods.showMessageDialog(this@KycActivity,it.eKycOtpData?.eKycOtpMsg,"Success","",false)
                              }
                          } else {
