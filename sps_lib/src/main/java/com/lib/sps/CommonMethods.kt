@@ -10,9 +10,18 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.view.LayoutInflater
 import android.widget.TextView
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
+import android.util.Base64
+import javax.crypto.spec.SecretKeySpec
 
 
 class CommonMethods {
+    private val ALGORITHM = "AES"
+    private val TRANSFORMATION = "AES/CBC/PKCS7Padding"
+
+
     fun isNetworkConnected(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val n = cm.activeNetwork
@@ -70,5 +79,30 @@ class CommonMethods {
         }else{
             return ""
         }
+    }
+
+    fun aesEncrypt(data: String): String {
+        val plainText = data.toByteArray()
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(), generateIV())
+        val encrypt = cipher.doFinal(plainText)
+        return Base64.encodeToString(encrypt, Base64.DEFAULT)
+    }
+
+    fun aesDecrypt(encryptedData: String): String {
+        val textToDecrypt = Base64.decode(encryptedData, Base64.DEFAULT)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(), generateIV())
+        val decrypt = cipher.doFinal(textToDecrypt)
+        return String(decrypt)
+    }
+
+    fun generateSecretKey(): SecretKey {
+        val secretKey = SecretKeySpec("dNPcBTEycM5U6DVR6fZ2civGClOapyAe".toByteArray(), ALGORITHM)
+        return secretKey
+    }
+
+    fun generateIV(): IvParameterSpec {
+        return IvParameterSpec("th4u6fUhdjX?W^8J".toByteArray())
     }
 }

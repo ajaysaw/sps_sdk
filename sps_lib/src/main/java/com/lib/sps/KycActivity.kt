@@ -36,6 +36,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 
+
 class KycActivity : AppCompatActivity(), OnClickListener {
 
     private val commonMethods = CommonMethods()
@@ -234,19 +235,23 @@ class KycActivity : AppCompatActivity(), OnClickListener {
          }
          if(commonMethods.isNetworkConnected(this)){
              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
-             val request = HashMap<String, String>()
-             request["AgentId"] = agentId
-             request["SecretKey"] = secretKey
-             request["MobileNo"] = strMobileNumber
-             service.fetchMasterData(request).let { response ->
+             val jsonObject = JSONObject()
+             jsonObject.put("AgentId", agentId)
+             jsonObject.put("SecretKey", secretKey)
+             jsonObject.put("MobileNo", strMobileNumber)
+             jsonObject.put("app_type", "MOBILE")
+             jsonObject.put("source", "MOBILE_SDK")
+             val requestData = HashMap<String, String>()
+             requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
+             service.fetchMasterData(requestData).let { response ->
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
                          Log.d("Master response API", response.toString());
                          Log.d("Master API response", response.body().toString());
-                         val gson = Gson()
-                         val jsonString: String = gson.toJson(response.body())
-                         val it = Gson().fromJson(jsonString, EKycMasterDataResult::class.java)
+                         val jsonString: String = Gson().toJson(response.body())
+                         val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
+                         val it = Gson().fromJson(decryptData, EKycMasterDataResult::class.java)
                          if (it.message!!.uppercase() == "SUCCESS") {
                              kycDeviceList = it.ekycMasterData?.ekycDeviceList!!
                              kycConsent = it.ekycMasterData?.ekycConsent!!
@@ -263,7 +268,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      } else {
                          runOnUiThread {
                              try {
-                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 val decryptData = commonMethods.aesDecrypt(JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("data").trim())
+                                 val jsonObj = JSONObject(decryptData)
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE"){
                                      if(jsonObj.has("kyc_status") && jsonObj.getString("kyc_status").uppercase() == "SUCCESS"){
                                          commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error",jsonObj.getString("kyc_status"),true)
@@ -298,18 +304,22 @@ class KycActivity : AppCompatActivity(), OnClickListener {
          }
          if(commonMethods.isNetworkConnected(this)){
              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
-             val request = HashMap<String, String>()
-             request["EkycToken"] = eKycToken!!
-             request["MobileNo"] = strMobileNumber
-             service.resendOtp(request).let { response ->
+             val jsonObject = JSONObject()
+             jsonObject.put("EkycToken", eKycToken!!)
+             jsonObject.put("MobileNo", strMobileNumber)
+             jsonObject.put("app_type", "MOBILE")
+             jsonObject.put("source", "MOBILE_SDK")
+             val requestData = HashMap<String, String>()
+             requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
+             service.resendOtp(requestData).let { response ->
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
                          Log.d("resend OTP response API : ", response.toString());
                          Log.d("resend OTP API response :", response.body().toString());
-                         val gson = Gson()
-                         val jsonString: String = gson.toJson(response.body())
-                         val it = Gson().fromJson(jsonString, ResendOtpData::class.java)
+                         val jsonString: String = Gson().toJson(response.body())
+                         val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
+                         val it = Gson().fromJson(decryptData, ResendOtpData::class.java)
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
                                  eKycToken = it.eKycOtpData?.eKycToken
@@ -322,7 +332,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      } else {
                          runOnUiThread {
                              try {
-                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 val decryptData = commonMethods.aesDecrypt(JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("data").trim())
+                                 val jsonObj = JSONObject(decryptData)
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE") {
                                      commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                                  } else
@@ -355,26 +366,29 @@ class KycActivity : AppCompatActivity(), OnClickListener {
          }
          if(commonMethods.isNetworkConnected(this)){
              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
-             val request = HashMap<String, String>()
-             request["kyc_token"] = eKycToken!!
-             request["sender_mobile_no"] = strMobileNumber
-             request["aadhaar_no"] = strAadhaarNumber
-             request["capturedDeviceData"] = pidData
-             request["consent"] = consent!!
-             request["Device"] = kycDeviceList[spnDevices.selectedItemPosition].deviceName!!
-             request["pan_no"] = etPanNo.text.toString()
-             request["sender_pan_proof"] = "PAN"
-             request["otp"] = etOtp.text.toString()
-             request["app_type"] = ""
-             service.doKyc(request).let { response ->
+             val jsonObject = JSONObject()
+             jsonObject.put("kyc_token", eKycToken!!)
+             jsonObject.put("sender_mobile_no", strMobileNumber)
+             jsonObject.put("aadhaar_no", strAadhaarNumber)
+             jsonObject.put("capturedDeviceData", pidData)
+             jsonObject.put("consent", consent!!)
+             jsonObject.put("Device", kycDeviceList[spnDevices.selectedItemPosition].deviceName!!)
+             jsonObject.put("pan_no", etPanNo.text.toString())
+             jsonObject.put("sender_pan_proof", "PAN")
+             jsonObject.put("otp", etOtp.text.toString())
+             jsonObject.put("app_type", "MOBILE")
+             jsonObject.put("source", "MOBILE_SDK")
+             val requestData = HashMap<String, String>()
+             requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
+             service.doKyc(requestData).let { response ->
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
                          Log.d("kyc response API : ", response.toString());
                          Log.d("kyc API response :", response.body().toString());
-                         val gson = Gson()
-                         val jsonString: String = gson.toJson(response.body())
-                         val it = Gson().fromJson(jsonString, DoKycResponse::class.java)
+                         val jsonString: String = Gson().toJson(response.body())
+                         val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
+                         val it = Gson().fromJson(decryptData, DoKycResponse::class.java)
                          if (it.message!!.uppercase() == "SUCCESS") {
                              withContext(Dispatchers.Main) {
                                  if(it.eKycResponse?.status?.uppercase()=="SUCCESS"){
@@ -390,7 +404,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      } else {
                          runOnUiThread {
                              try {
-                                 val jsonObj = JSONObject(response.errorBody()!!.charStream().readText().trim())
+                                 val decryptData = commonMethods.aesDecrypt(JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("data").trim())
+                                 val jsonObj = JSONObject(decryptData)
                                  if (jsonObj.has("message") && jsonObj.getString("message").uppercase() == "FAILURE") {
                                      commonMethods.showMessageDialog(this, jsonObj.getString("error_message"), "Error","",false)
                                  } else {

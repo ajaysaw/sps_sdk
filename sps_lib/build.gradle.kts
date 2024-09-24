@@ -72,5 +72,4 @@ dependencies {
     implementation(libs.lottie)
     implementation (libs.converter.scalars)
 
-
 }

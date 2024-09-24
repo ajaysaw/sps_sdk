@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp15"
+        android:layout_marginRight="@dimen/dp15"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:theme="@style/Theme.SpsSdk">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlMobileNo"
+        style="@style/HintUnFocusTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/customer_mobile"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:textSize="@dimen/sp15">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMobileNo"
+            style="@style/edittext_style"
+            android:inputType="number"
+            android:maxLength="10" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/btnDoKyc"
@@ -13,10 +41,10 @@
         android:layout_height="wrap_content"
         android:text="Do eKYC"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        style="@style/TextViewStyle"
+        android:layout_marginTop="@dimen/dp10"
+        android:textColor="@color/white_color"
+        />
+    </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

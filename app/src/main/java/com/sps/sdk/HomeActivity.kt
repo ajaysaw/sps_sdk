@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,17 +18,18 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+        val etMobileNo = findViewById<EditText>(R.id.etMobileNo)
         val btnDoKyc = findViewById<Button>(R.id.btnDoKyc)
-        val intent = Intent(this@HomeActivity, KycActivity::class.java)
-        intent.putExtra("AgentId", "56")
-        intent.putExtra("SecretKey", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
-        intent.putExtra("MobileNo", "9988775544")
-        //startActivity(intent)
-        resultLauncher.launch(intent)
 
         btnDoKyc.setOnClickListener {
-            //startActivity(intent)
-            resultLauncher.launch(intent)
+            if(etMobileNo.text.length==10){
+                val intent = Intent(this@HomeActivity, KycActivity::class.java)
+                intent.putExtra("AgentId", "56")
+                intent.putExtra("SecretKey", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
+                intent.putExtra("MobileNo", etMobileNo.text.toString())
+                //startActivity(intent)
+                resultLauncher.launch(intent)
+            }
         }
     }
 
