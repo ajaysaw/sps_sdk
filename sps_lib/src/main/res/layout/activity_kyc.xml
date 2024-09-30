@@ -177,7 +177,7 @@
                 android:id="@+id/llConsent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp10"
                 android:layout_marginBottom="@dimen/dp20"
                 android:orientation="horizontal">
 
@@ -202,13 +202,34 @@
                 style="@style/TextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp20"
                 android:background="@drawable/rounded_button"
                 android:drawableRight="@drawable/arrow_forward"
                 android:gravity="center"
                 android:padding="@dimen/dp5"
                 android:text="Complete your KYC"
                 android:textColor="@color/white_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp20">
+            <TextView
+                android:id="@+id/tvPoweredBY"
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dp12"
+                android:text="© Powered by" />
+            <ImageView
+                android:layout_width="@dimen/dp50"
+                android:layout_height="@dimen/dp17"
+                android:src="@drawable/pw_money_logo"
+                android:orientation="vertical"/>
+        </LinearLayout>
 
         </LinearLayout>
 

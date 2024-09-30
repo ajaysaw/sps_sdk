@@ -286,7 +286,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      //onError("$response", true)
                      print(e);
                      progressDialog.dismiss()
-                     commonMethods.showMessageDialog(this,e.toString(),"Error","",false)
+                     runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
              }
          }else{
@@ -346,7 +346,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      //onError("$response", true)
                      print(e);
                      progressDialog.dismiss()
-                     commonMethods.showMessageDialog(this,e.toString(),"Error","",false)
+                     runOnUiThread {commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
              }
          }else{
