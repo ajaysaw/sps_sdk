@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.example.example.EkycDeviceList
+import com.lib.sps.model.EkycDeviceList
 
 class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<EkycDeviceList>) : BaseAdapter() {
 

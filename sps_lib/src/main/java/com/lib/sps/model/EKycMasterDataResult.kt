@@ -1,4 +1,4 @@
-package com.example.example
+package com.lib.sps.model
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.internal.LinkedTreeMap

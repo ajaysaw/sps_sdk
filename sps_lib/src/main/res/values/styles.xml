@@ -17,6 +17,7 @@
         <item name="android:textColor">@color/greyColor</item>
         <item name="strokeWidth">@dimen/dp2</item>
         <item name="boxStrokeColor">@color/colorBlackText</item>
+        <item name="boxBackgroundColor">@color/white</item>
 
     </style>
 

@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import com.example.example.EkycDeviceList
+import com.lib.sps.model.EkycDeviceList
 import com.google.gson.internal.LinkedTreeMap
 import java.io.StringWriter
 import javax.xml.parsers.DocumentBuilder

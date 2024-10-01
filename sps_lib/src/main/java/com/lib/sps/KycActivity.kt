@@ -21,9 +21,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.example.ConsentLanguage
-import com.example.example.EKycMasterDataResult
-import com.example.example.EkycDeviceList
+import com.lib.sps.model.ConsentLanguage
+import com.lib.sps.model.EKycMasterDataResult
+import com.lib.sps.model.EkycDeviceList
 import com.google.gson.Gson
 import com.lib.sps.java_json.XML
 import com.lib.sps.model.DoKycResponse

@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.example.example.ConsentLanguage
-import com.example.example.EkycDeviceList
+import com.lib.sps.model.ConsentLanguage
 
 class LanguageDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<ConsentLanguage>) : BaseAdapter() {
 
