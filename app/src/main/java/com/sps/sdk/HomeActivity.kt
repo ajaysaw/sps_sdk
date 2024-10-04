@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity() {
             if(etMobileNo.text.length==10){
                 val intent = Intent(this@HomeActivity, KycActivity::class.java)
                 intent.putExtra("AgentId", "56")
-                intent.putExtra("SecretKey", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
+                intent.putExtra("EkycToken", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
                 intent.putExtra("MobileNo", etMobileNo.text.toString())
                 //startActivity(intent)
                 resultLauncher.launch(intent)

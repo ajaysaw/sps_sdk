@@ -57,7 +57,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
     private lateinit var progressDialog: Dialog
     private var strMobileNumber = ""
     private var agentId = ""
-    private var secretKey = ""
+    private var EkycToken = ""
     private var strAadhaarNumber = ""
     private var strMaskedAadhaarNumber = ""
     private var job: Job? = null
@@ -137,7 +137,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
             if(strMobileNumber.length>9)
             etMobileNo.setText(strMobileNumber)
             agentId = intent.getStringExtra("AgentId")!!
-            secretKey = intent.getStringExtra("SecretKey")!!
+            EkycToken = intent.getStringExtra("EkycToken")!!
         }catch (e:Exception){
             print(e.message)
         }
@@ -237,7 +237,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
              val jsonObject = JSONObject()
              jsonObject.put("AgentId", agentId)
-             jsonObject.put("SecretKey", secretKey)
+             jsonObject.put("EkycToken", EkycToken)
              jsonObject.put("MobileNo", strMobileNumber)
              jsonObject.put("app_type", "MOBILE")
              val requestData = HashMap<String, String>()
