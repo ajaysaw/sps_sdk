@@ -22,14 +22,14 @@ class HomeActivity : AppCompatActivity() {
         val btnDoKyc = findViewById<Button>(R.id.btnDoKyc)
 
         btnDoKyc.setOnClickListener {
-            if(etMobileNo.text.length==10){
+            //if(etMobileNo.text.length==10){
                 val intent = Intent(this@HomeActivity, KycActivity::class.java)
-                intent.putExtra("AgentId", "56")
-                intent.putExtra("EkycToken", "04c5dafa4b8e83fce86675f8a4ae99d772b5")
-                intent.putExtra("MobileNo", etMobileNo.text.toString())
+                //intent.putExtra("AgentId", "56")
+                intent.putExtra("EkycToken", "VTJGc2RHVmtYMS9Ua0JrOExsREdpUmczK2RoYVkzaExZZXM3dW9Yam9ac3IrL1lCTzhlK3c2d1BUTmszVXJSTEd5Vm9kNC8reVBSUUNzZ2lKRUhqbTJ2aDVoZVhnU1JOWmw3TE5iUWZpYm1DazFLRGRMM0tLTmU0ZktwdThaaEQ=")
+                //intent.putExtra("MobileNo", etMobileNo.text.toString())
                 //startActivity(intent)
                 resultLauncher.launch(intent)
-            }
+            //}
         }
     }
 

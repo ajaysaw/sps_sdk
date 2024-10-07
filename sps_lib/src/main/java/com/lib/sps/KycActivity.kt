@@ -131,12 +131,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                 print("onNothingSelected")
             }
         }
-
         try{
-            strMobileNumber = intent.getStringExtra("MobileNo")!!
-            if(strMobileNumber.length>9)
-            etMobileNo.setText(strMobileNumber)
-            agentId = intent.getStringExtra("AgentId")!!
             EkycToken = intent.getStringExtra("EkycToken")!!
         }catch (e:Exception){
             print(e.message)
@@ -236,9 +231,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
          if(commonMethods.isNetworkConnected(this)){
              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
              val jsonObject = JSONObject()
-             jsonObject.put("AgentId", agentId)
              jsonObject.put("EkycToken", EkycToken)
-             jsonObject.put("MobileNo", strMobileNumber)
              jsonObject.put("app_type", "MOBILE")
              val requestData = HashMap<String, String>()
              requestData["data"] = commonMethods.aesEncrypt(jsonObject.toString())
@@ -259,6 +252,9 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  languageAdapter.updateData(kycConsent)
                                  tvOtpSendMessage.text = it.ekycMasterData?.ekycOtpMsg
                                  eKycToken = it.ekycMasterData?.ekycToken
+                                 strMobileNumber = it.ekycMasterData?.mobileNo.toString();
+                                 if(strMobileNumber.length>9)
+                                    etMobileNo.setText(strMobileNumber)
                              }
                          } else {
                              print(it.message);

@@ -19,7 +19,8 @@ data class EkycMasterData(
     @SerializedName("implement_type") var implementType: String? = null,
     @SerializedName("url_list") var urlList: UrlList? = UrlList(),
     @SerializedName("ekyc_otp_msg") var ekycOtpMsg: String? = "",
-    @SerializedName("ekyc_token") var ekycToken: String? = ""
+    @SerializedName("ekyc_token") var ekycToken: String? = "",
+    @SerializedName("mobile_no") var mobileNo: String? = ""
 
 )
 

@@ -23,9 +23,7 @@
 
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/sp14</item>
-        <item name="android:layout_width">wrap_content</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
 
