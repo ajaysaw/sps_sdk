@@ -25,7 +25,8 @@ class HomeActivity : AppCompatActivity() {
             //if(etMobileNo.text.length==10){
                 val intent = Intent(this@HomeActivity, KycActivity::class.java)
                 //intent.putExtra("AgentId", "56")
-                intent.putExtra("EkycToken", "VTJGc2RHVmtYMS9Ua0JrOExsREdpUmczK2RoYVkzaExZZXM3dW9Yam9ac3IrL1lCTzhlK3c2d1BUTmszVXJSTEd5Vm9kNC8reVBSUUNzZ2lKRUhqbTJ2aDVoZVhnU1JOWmw3TE5iUWZpYm1DazFLRGRMM0tLTmU0ZktwdThaaEQ=")
+                //intent.putExtra("EkycToken", "VTJGc2RHVmtYMTl3bWpPdXpyQlRKWk1BajVXQTZncG9tMnVrT2RpcUhqZTdCSE9sSnU0M0Fxd1N3S1hsbjBEMTNHQlNTdndvVUVJYmo1SXFBU2FYWUFST2R0b0svV0JwL25XT3c0eVMrU1ZTa3NlSTBkanRhaU4vYjR6Zm5KNzl6SWpqaUJaci9VWG5udHBzU3hOeDF1eDg1MDUzNFpBTE5BeTM4OTlUSUdRPQ==") //Test
+                intent.putExtra("EkycToken", "VTJGc2RHVmtYMS9rT3pEMnczaVh3MUt0SW5oT2MvUDJsWDlGeU9wYmtRTm91dENiVlpDeWdHdHgyMm5RN0Rtc2R0NmUzQm0zQmtJUXhaYWwyazRhN0tyS3crdm42K1RuOHlaUGJ4ckI1eDJXeVluQ0VnYi9MQ0xScDc0bEcyUm9lZnRrWjVZWmRSaDU4RzdVWDBDRVRYRG1FcXRTRXQwZFNmeW93cmZZTE5RPQ==") //Live
                 //intent.putExtra("MobileNo", etMobileNo.text.toString())
                 //startActivity(intent)
                 resultLauncher.launch(intent)

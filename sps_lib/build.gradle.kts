@@ -27,7 +27,7 @@ android {
 
             buildConfigField(
                 "String", "BASE_URL",
-                "\"https://test-sps-kyc.payworldmoney.com\""
+                "\"https://sps-kyc.payworldmoney.com\"" /*"\"https://test-sps-kyc.payworldmoney.com\""*/
             )
         }
         debug {
@@ -38,7 +38,7 @@ android {
             )
             buildConfigField(
                 "String", "BASE_URL",
-                "\"https://test-sps-kyc.payworldmoney.com\""
+                "\"https://sps-kyc.payworldmoney.com\"" /*"\"https://test-sps-kyc.payworldmoney.com\""*/
             )
         }
     }
