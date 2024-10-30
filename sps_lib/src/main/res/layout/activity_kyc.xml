@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".KycActivity">
 
     <Toolbar
@@ -49,7 +50,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlMobileNo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayoutOutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/customer_mobile"
@@ -66,7 +67,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlAadhaarNo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayoutOutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp15"
@@ -83,7 +84,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlPanNo"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayoutOutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp15"
@@ -102,7 +103,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlOtp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayoutOutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp15"
@@ -165,6 +166,7 @@
                 android:id="@+id/spnConsentLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp55"
+                style="@style/CustomSpinnerStyle"
                 android:background="@drawable/spinner_background" />
 
             <TextView
@@ -180,6 +182,7 @@
                 android:id="@+id/spnDevices"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp55"
+                style="@style/CustomSpinnerStyle"
                 android:background="@drawable/spinner_background" />
 
             <LinearLayout
@@ -202,6 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp20"
                     android:textSize="@dimen/dp12"
+                    android:textColor="@color/greyColor"
                     android:text="" />
 
             </LinearLayout>
