@@ -10,5 +10,5 @@
     android:paddingVertical="@dimen/dp10"
     android:paddingLeft="@dimen/dp20"
     android:text="English"
-    android:textColor="@android:color/black" />
+    android:textColor="@color/black" />
 
