@@ -26,7 +26,15 @@
                 android:text="Complete E-KYC"
                 android:textSize="@dimen/dp17"
                 android:textColor="@color/white_color" />
-
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/dsk_version"
+                android:textSize="@dimen/dp13"
+                android:textColor="@color/white_color"
+                android:layout_marginRight="@dimen/dp10"/>
 
         </LinearLayout>
 
