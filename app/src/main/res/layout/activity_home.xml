@@ -21,7 +21,7 @@
         style="@style/HintUnFocusTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/customer_mobile"
+        android:hint="Enter Token"
         android:layout_marginLeft="@dimen/dp20"
         android:layout_marginRight="@dimen/dp20"
         android:textSize="@dimen/sp15">
@@ -29,8 +29,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etMobileNo"
             style="@style/edittext_style"
-            android:inputType="number"
-            android:maxLength="10" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

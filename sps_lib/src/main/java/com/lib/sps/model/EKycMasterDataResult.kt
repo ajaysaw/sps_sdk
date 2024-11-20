@@ -14,6 +14,7 @@ data class EKycMasterDataResult(
 
 data class EkycMasterData(
 
+    @SerializedName("authentication_options") var authenticationOption: ArrayList<String> = arrayListOf(),
     @SerializedName("ekyc_device_list") var ekycDeviceList: ArrayList<EkycDeviceList> = arrayListOf(),
     @SerializedName("ekyc_consent") var ekycConsent: ArrayList<ConsentLanguage> = arrayListOf(),
     @SerializedName("implement_type") var implementType: String? = null,

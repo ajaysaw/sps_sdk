@@ -105,7 +105,7 @@ class Validation {
     }
 
 
-    private fun validatePan(editText: EditText): Boolean {
+    fun validatePan(editText: EditText): Boolean {
         var isValid = true
         val panNo = editText.text.toString().trim()
 

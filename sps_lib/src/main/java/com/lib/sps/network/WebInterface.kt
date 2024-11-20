@@ -16,4 +16,10 @@ interface WebInterface {
     @POST(WebConstants.doKycUrl)
     suspend fun doKyc(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
+    @POST(WebConstants.verifyOtp)
+    suspend fun verifyOtp(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
+
+    @POST(WebConstants.verifyPan)
+    suspend fun verifyPan(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
+
 }
