@@ -111,13 +111,15 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                 if(etAadhaarNo.text.isNotEmpty() && etAadhaarNo.text.length>11 && isUpdatingText){
                     isUpdatingText = false
                     etAadhaarNo.clearFocus()
+                    Validation().validateAadhaar(etAadhaarNo,etAadhaarNo.text.toString())
                     strAadhaarNumber = etAadhaarNo.text.toString()
                     strMaskedAadhaarNumber = etAadhaarNo.text.toString()
                     etAadhaarNo.setText(commonMethods.getMaskNumber(strMaskedAadhaarNumber))
+                }else if(etAadhaarNo.text.startsWith("*") && etAadhaarNo.text.length==11){
+                    etAadhaarNo.text.clear()
                 }else{
                     isUpdatingText = true
                 }
-
             }
             override fun afterTextChanged(s: Editable?) {
                 println("Final text: ${s.toString()}")
@@ -520,7 +522,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                     tlOtp.endIconMode = TextInputLayout.END_ICON_CUSTOM
                                     tlOtp.setEndIconTintList(ColorStateList.valueOf(ContextCompat.getColor(this@KycActivity, R.color.greenColor)))
                                     etPanNo.requestFocus()
-                                    tvResendOtp.isEnabled = false
+                                    tvResendOtp.visibility = View.GONE
+                                    tvOtpSendMessage.visibility = View.GONE
                                 }
                             } else {
                                 print(it.message);

@@ -82,7 +82,7 @@ class Validation {
     }
 
 
-    private fun validateAadhaar(editText: EditText,strAadhaarNumber:String): Boolean {
+    fun validateAadhaar(editText: EditText,strAadhaarNumber:String): Boolean {
         var isValid = true
         val aadhaarNo = editText.text.toString().trim()
 
