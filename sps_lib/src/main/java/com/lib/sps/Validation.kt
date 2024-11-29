@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
+import com.google.android.material.snackbar.Snackbar
 
 
 class Validation {
@@ -165,11 +166,11 @@ class Validation {
     private fun validateConsent(cbConsent: CheckBox, tvConsentContent: TextView): Boolean {
         val isValid = if (!cbConsent.isChecked) {
             tvConsentContent.error = "Mark consent"
+            Snackbar.make(tvConsentContent, "Please mark consent", Snackbar.LENGTH_SHORT).show()
             false
         } else {
             true
         }
-
         return isValid
     }
 

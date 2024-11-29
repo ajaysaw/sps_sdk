@@ -115,6 +115,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     strAadhaarNumber = etAadhaarNo.text.toString()
                     strMaskedAadhaarNumber = etAadhaarNo.text.toString()
                     etAadhaarNo.setText(commonMethods.getMaskNumber(strMaskedAadhaarNumber))
+                    etAadhaarNo.setSelection(etAadhaarNo.text.length)
                 }else if(etAadhaarNo.text.startsWith("*") && etAadhaarNo.text.length==11){
                     etAadhaarNo.text.clear()
                 }else{
@@ -221,9 +222,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     intent.setPackage(biometricActionData.packageName)
                     intent.putExtra("PID_OPTIONS", biometricActionData.pidOptXML)
                     bioMetricInfoActivityResultLauncher.launch(intent)
-                }/*else{
-                    CommonMethods().showMessageDialog(this, biometricActionData.errorMessage, "Message")
-                }*/
+                }
             }
         }else if(v != null && v.id == R.id.tvConsentContent){
             isConsentExpanded = !isConsentExpanded
