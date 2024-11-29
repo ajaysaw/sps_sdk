@@ -18,9 +18,12 @@
         android:theme="@style/Theme.SpsSdk"
         tools:replace="android:theme">
         <activity
-            android:name=".KycActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".mr.MrHomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".KycActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

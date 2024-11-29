@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.lib.sps.KycActivity
+import com.lib.sps.mr.MrHomeActivity
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +24,9 @@ class HomeActivity : AppCompatActivity() {
 
         btnDoKyc.setOnClickListener {
             if(etMobileNo.text.isNotEmpty()){
-                val intent = Intent(this@HomeActivity, KycActivity::class.java)
-                //intent.putExtra("AgentId", "56")
-                intent.putExtra("EkycToken", etMobileNo.text.toString()) //Test
-               // intent.putExtra("EkycToken", "VTJGc2RHVmtYMS85RURuZ3ZzeEVFR2NGNjJ2ZzJScEcvNDZrRmxpK1lhRldlMU5rcW5neVNiNmc2TmNKekVWVGpEbGFteVJVRitJVmdkSVFFeUdxQ3pGYis4S3lXTHM2cU9oc1dXb2ZsQU5LVHArMm8vRk8reE1ZbVFNd2IrSVZaQUp5aDJ2TjBKS1dDZ3kxYk1xaEV4WENvaW5jZ3FkWDhUQ1BnNG5ZZ3VVPQ==") //Live
-                //intent.putExtra("MobileNo", etMobileNo.text.toString())
-                //startActivity(intent)
+                //val intent = Intent(this@HomeActivity, KycActivity::class.java)
+                val intent = Intent(this@HomeActivity, MrHomeActivity::class.java)
+                intent.putExtra("EkycToken", etMobileNo.text.toString())
                 resultLauncher.launch(intent)
             }
         }
