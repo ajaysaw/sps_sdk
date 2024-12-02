@@ -52,7 +52,7 @@
             app:tabTextColor="@color/greyColor"
             android:background="@color/blueColor"
             android:minHeight="@dimen/dp40"
-            app:tabTextAppearance="@style/TextTabLayout"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
