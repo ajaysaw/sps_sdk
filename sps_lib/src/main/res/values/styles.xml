@@ -62,8 +62,10 @@
     </style>
 
 
-    <style name="TextTabLayout">
-        <item name="android:textAllCaps">false</item>
+    <style name="CustomTabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/sp15</item>
     </style>
 
 </resources>

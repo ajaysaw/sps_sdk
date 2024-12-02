@@ -14,4 +14,6 @@
     <color name="header_color">#39b549</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorTabLayoutBg">#FFe3eef6</color>
+    <color name="transparent">#00000000</color>
 </resources>

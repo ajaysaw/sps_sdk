@@ -22,7 +22,7 @@
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Complete E-KYC"
+                android:text="MR"
                 android:textSize="@dimen/dp17"
                 android:textColor="@color/white_color" />
             <TextView
@@ -39,21 +39,37 @@
 
     </Toolbar>
 
-    <com.google.android.material.appbar.AppBarLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp35"
+            android:background="@color/blueColor" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/greyColor"
-            android:background="@color/blueColor"
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp15"
+            android:paddingLeft="@dimen/dp2"
+            android:paddingTop="@dimen/dp8"
+            android:paddingRight="@dimen/dp2"
+            android:paddingBottom="@dimen/dp8"
+            android:background="@drawable/tab_layout_bg"
+            app:tabBackground="@color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabSelectedTextColor="@color/blueColor"
+            app:tabTextColor="@color/blueColor"
+            app:tabIndicatorGravity="center"
+            app:tabMode="scrollable"
             android:minHeight="@dimen/dp40"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
-    </com.google.android.material.appbar.AppBarLayout>
+            app:tabTextAppearance="@style/CustomTabTextStyle"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
+    </RelativeLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
