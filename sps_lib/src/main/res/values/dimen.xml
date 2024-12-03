@@ -27,6 +27,7 @@
     <dimen name="dp15">15dp</dimen>
     <dimen name="dp17">17dp</dimen>
     <dimen name="dp20">20dp</dimen>
+    <dimen name="dp24">24dp</dimen>
     <dimen name="dp25">25dp</dimen>
     <dimen name="dp28">28dp</dimen>
     <dimen name="dp30">30dp</dimen>
