@@ -1,4 +1,5 @@
 <resources>
+    <string name="dsk_version">v 1.2</string>
     <string name="customer_mobile">Customer Mobile Number</string>
     <string name="contact_number">Contact Number</string>
     <string name="aadhaar_num">Aadhaar Number</string>
@@ -12,22 +13,20 @@
     <string name="loreum_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s</string>
     <string name="icon">icon</string>
     <string name="ok">OK</string>
-    <string name="dsk_version">v 1.1</string>
+    <string name="enter_beneficiary_name">Enter Beneficiary Name</string>
+    <string name="beneficiary_name">Beneficiary Name</string>
+    <string name="select_bank">Select Bank</string>
+    <string name="search_by_bank_name">Search by Bank Name</string>
+    <string name="enter_ifsc_code">Enter IFSC Code</string>
+    <string name="ifsc_code">IFSC Code</string>
+    <string name="beneficiary_account_number">Enter Beneficiary Account Number</string>
+    <string name="enter_account_number">Enter Account Number</string>
+    <string name="confirm_beneficiary_account_number">Confirm Beneficiary Account Number</string>
+    <string name="enter_confirm_account_number">Enter Account Number</string>
+    <string name="verify_beneficiary">Verify Beneficiary</string>
+    <string name="bt_submit">Submit</string>
+    <string name="charges">Charges</string>
+    <string name="rupee_symbol">₹</string>
 
-    <string-array name="language_array">
-        <item>Select Language</item>
-        <item>English</item>
-        <item>Hindi</item>
-    </string-array>
-
-    <string-array name="devices_array">
-        <item>Select Device</item>
-        <item>Morpho</item>
-        <item>Mantra</item>
-        <item>Startek</item>
-        <item>Aratek</item>
-    </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

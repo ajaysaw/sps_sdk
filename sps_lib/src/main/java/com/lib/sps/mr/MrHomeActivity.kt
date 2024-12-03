@@ -16,7 +16,7 @@ import com.lib.sps.R
 class MrHomeActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
-    val tabTitles = listOf("Add Beneficiary", "Deposit Money", "Transfer To Bank Account")
+    private val tabTitles = listOf("Add Beneficiary", "Deposit Money", "Transfer To Bank Account")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,23 +24,9 @@ class MrHomeActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
 
-        viewPager.adapter = TabPagerAdapter(this)
+        viewPager.adapter = TabAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-    }
-}
-
-
-class TabPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 3 // Number of tabs
-
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> AddBeneficiaryFragment()
-            1 -> DepositMoneyFragment()
-            2 -> TransferToBankAccountFragment()
-            else -> throw IllegalStateException("Unexpected position $position")
-        }
     }
 }

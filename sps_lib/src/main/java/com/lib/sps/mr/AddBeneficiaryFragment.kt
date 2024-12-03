@@ -4,57 +4,53 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.lib.sps.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddBeneficiaryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddBeneficiaryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class AddBeneficiaryFragment : Fragment() , OnClickListener {
+    private lateinit var etBeneficiaryName: EditText
+    private lateinit var etSelectBank: EditText
+    private lateinit var etIfscCode: EditText
+    private lateinit var etBeneficiaryAccountNumber: EditText
+    private lateinit var etConfirmBeneficiaryAccountNumber: EditText
+    private lateinit var tvVerify: TextView
+    private lateinit var tvCharge: TextView
+    private lateinit var tvSubmit: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_add_beneficiary, container, false)
+        etBeneficiaryName = rootView.findViewById(R.id.etBeneficiaryName)
+        etSelectBank = rootView.findViewById(R.id.etSelectBank)
+        etIfscCode = rootView.findViewById(R.id.etIfscCode)
+        etBeneficiaryAccountNumber = rootView.findViewById(R.id.etBeneficiaryAccountNumber)
+        etConfirmBeneficiaryAccountNumber = rootView.findViewById(R.id.etConfirmBeneficiaryAccountNumber)
+        tvVerify = rootView.findViewById(R.id.tvVerify)
+        tvCharge = rootView.findViewById(R.id.tvCharge)
+        tvSubmit = rootView.findViewById(R.id.tvSubmit)
+        tvSubmit.setOnClickListener(this)
+        tvVerify.setOnClickListener(this)
+        tvCharge.text = getString(R.string.charges)+" "+getString(R.string.rupee_symbol)+"4"
+        return rootView
+    }
+
+    override fun onClick(v: View?) {
+        if (v != null && v.id == R.id.tvSubmit) {
+            tvSubmit.background =ContextCompat.getDrawable(requireContext(), R.drawable.button_drawable)
+            tvSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            tvVerify.background =ContextCompat.getDrawable(requireContext(), R.drawable.border_button_drawable)
+            tvVerify.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        }else if(v != null && v.id == R.id.tvVerify){
+            tvVerify.background =ContextCompat.getDrawable(requireContext(), R.drawable.button_drawable)
+            tvVerify.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            tvSubmit.background =ContextCompat.getDrawable(requireContext(), R.drawable.border_button_drawable)
+            tvSubmit.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_beneficiary, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddBeneficiaryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddBeneficiaryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

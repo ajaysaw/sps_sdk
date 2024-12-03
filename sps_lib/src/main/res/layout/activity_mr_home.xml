@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mr.MrHomeActivity"
+    android:background="@color/white"
     android:orientation="vertical">
     <Toolbar
         android:id="@+id/tbMain"
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content">
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp35"
+            android:layout_height="@dimen/dp30"
             android:background="@color/blueColor" />
 
         <com.google.android.material.tabs.TabLayout
@@ -55,14 +56,16 @@
             android:layout_marginLeft="@dimen/dp15"
             android:paddingLeft="@dimen/dp2"
             android:paddingRight="@dimen/dp2"
+            android:paddingTop="@dimen/dp3"
+            android:paddingBottom="@dimen/dp3"
             android:background="@drawable/tab_layout_bg"
             app:tabBackground="@color/transparent"
             app:tabGravity="center"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="12dp"
+            app:tabIndicatorHeight="@dimen/dp2"
             app:tabIndicatorColor="@color/transparent"
-            app:tabSelectedTextColor="@color/blueColor"
+            app:tabSelectedTextColor="@color/black"
             app:tabTextColor="@color/greyColor"
             app:tabIndicatorGravity="bottom"
             app:tabMode="scrollable"
