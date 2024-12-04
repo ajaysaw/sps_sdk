@@ -27,6 +27,9 @@
     <string name="bt_submit">Submit</string>
     <string name="charges">Charges</string>
     <string name="rupee_symbol">₹</string>
+    <string name="cancel">Cancel</string>
+    <string name="proceed">Proceed</string>
+    <string name="verify_title">Verify this beneficiary</string>
 
 
 </resources>

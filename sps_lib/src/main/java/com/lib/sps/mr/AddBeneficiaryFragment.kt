@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.lib.sps.CommonMethods
 import com.lib.sps.R
 class AddBeneficiaryFragment : Fragment() , OnClickListener {
     private lateinit var etBeneficiaryName: EditText
@@ -19,6 +20,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
     private lateinit var tvVerify: TextView
     private lateinit var tvCharge: TextView
     private lateinit var tvSubmit: TextView
+    private val commonMethods = CommonMethods()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
