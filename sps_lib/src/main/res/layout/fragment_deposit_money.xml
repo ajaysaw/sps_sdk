@@ -1,14 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".mr.DepositMoneyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollViewAddBeneficiary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp10">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp15"
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginTop="@dimen/dp10"
+            android:orientation="vertical"
+            android:theme="@style/Theme.SpsSdk">
 
-</FrameLayout>
+            <TextView
+                android:id="@+id/tvCharge"
+                style="@style/RegularTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp5"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_gravity="start"
+                android:text="@string/enter_case_deposit"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/currencySymbol"
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp55"
+                    android:background="@drawable/rupee_symbol_drawable"
+                    android:text="@string/rupee_symbol"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sp20"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="@dimen/dp3"
+                    android:gravity="center" />
+                <EditText
+                    android:id="@+id/amountInput"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp55"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/dp5"
+                    style="@style/edittext_style"
+                    android:hint="@string/enter_case_deposit"
+                    android:inputType="number"
+                    android:background="@null"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_button_drawable"
+                android:layout_marginTop="@dimen/dp20"
+                android:padding="@dimen/dp10"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvConvenienceFee"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:gravity="start"
+                        android:text="@string/convenience_fee"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/tvAmount"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginLeft="@dimen/dp5"
+                        android:gravity="end"
+                        android:text="₹8.47"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvGST"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:gravity="start"
+                        android:text="@string/gst"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/tvGstAmount"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginLeft="@dimen/dp5"
+                        android:gravity="end"
+                        android:text="₹1.53"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp1"
+                    android:background="@color/colorLightBlue" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvTotalText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginStart="@dimen/dp5"
+                        android:gravity="start"
+                        android:text="@string/total_Amount"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/tvTotalAmount"
+                        style="@style/TextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:layout_marginLeft="@dimen/dp5"
+                        android:gravity="end"
+                        android:text="₹1010"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvProceedToPay"
+                style="@style/TextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:background="@drawable/button_drawable"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp15"
+                android:paddingRight="@dimen/dp15"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:text="Proceed to pay Deposit Amount: ₹1010"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
