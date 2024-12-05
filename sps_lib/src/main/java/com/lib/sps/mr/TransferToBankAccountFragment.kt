@@ -12,6 +12,8 @@ class TransferToBankAccountFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_transfer_to_bank_account, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_transfer_to_bank_account, container, false)
+
+        return rootView
     }
 }

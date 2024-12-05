@@ -34,6 +34,10 @@
     <string name="convenience_fee">Convenience Fee</string>
     <string name="gst">GST @18%</string>
     <string name="total_Amount">Total Amount Payable</string>
+    <string name="transfer_beneficiary_name">Beneficiary Name</string>
+    <string name="transfer_account_number">Account Number</string>
+    <string name="transfer_bank">Bank</string>
+    <string name="transfer_ifsc_code">IFSC Code</string>
 
 
 </resources>

@@ -31,8 +31,18 @@
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
+    <style name="TextViewStyleBold13" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sp13</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
+
     <style name="RegularTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="RegularTextViewStyle12" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sp12</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 

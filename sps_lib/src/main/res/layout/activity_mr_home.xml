@@ -65,7 +65,7 @@
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="@dimen/dp2"
             app:tabIndicatorColor="@color/transparent"
-            app:tabSelectedTextColor="@color/black"
+            app:tabSelectedTextColor="@color/blueColor"
             app:tabTextColor="@color/greyColor"
             app:tabIndicatorGravity="bottom"
             app:tabMode="scrollable"

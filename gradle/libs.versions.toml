@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.0"
+cardview = "1.0.0"
 converterScalars = "2.5.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -20,6 +21,7 @@ lottie = "5.2.0"
 
 
 [libraries]
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "converterScalars" }
