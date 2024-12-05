@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".mr.DepositMoneyFragment">
@@ -177,6 +178,42 @@
                 android:paddingBottom="@dimen/dp10"
                 android:text="Proceed to pay Deposit Amount: ₹1010"
                 android:textColor="@color/white" />
+            <TableLayout
+                android:id="@+id/table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp30">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blueColor">
+
+                    <TextView
+                        android:id="@+id/header_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextViewStyleBold"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/dp5"
+                        android:paddingBottom="@dimen/dp5"
+                        android:text="Amount"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/header_charges"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextViewStyleBold"
+                        android:paddingTop="@dimen/dp5"
+                        android:paddingBottom="@dimen/dp5"
+                        android:gravity="center"
+                        android:text="Customer Charges\n(Incl. GST)"
+                        android:textColor="@color/white" />
+                </TableRow>
+
+            </TableLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
