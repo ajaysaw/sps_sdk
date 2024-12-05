@@ -88,13 +88,6 @@
                              android:gravity="end"
                              android:layout_marginEnd="@dimen/dp3"
                              android:orientation="horizontal">
-                             <TextView
-                                 android:id="@+id/tvTransferAccountNumber"
-                                 style="@style/RegularTextViewStyle12"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:text="965874587459"
-                                 android:textColor="@color/blueColor" />
                              <ImageView
                                  android:id="@+id/myImageView"
                                  android:layout_width="@dimen/dp15"
@@ -102,9 +95,16 @@
                                  android:layout_gravity="center"
                                  android:src="@drawable/verify"
                                  android:adjustViewBounds="true"
-                                 android:layout_marginStart="@dimen/dp2"
+                                 android:layout_marginEnd="@dimen/dp2"
                                  android:scaleType="centerCrop"
-                             />
+                                 />
+                             <TextView
+                                 android:id="@+id/tvTransferAccountNumber"
+                                 style="@style/RegularTextViewStyle12"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="965874587459"
+                                 android:textColor="@color/blueColor" />
                          </LinearLayout>
                     </LinearLayout>
 
