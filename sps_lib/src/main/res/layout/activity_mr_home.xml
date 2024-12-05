@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
-                    style="@style/TextViewStyleBold13"
+                    style="@style/TextViewStyleBold12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="AK"
