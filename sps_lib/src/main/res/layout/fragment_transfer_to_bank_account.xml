@@ -173,7 +173,7 @@
 
                         <TextView
                             android:id="@+id/btnVerify"
-                            style="@style/RegularTextViewStyle"
+                            style="@style/RegularTextViewStyle12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -188,7 +188,7 @@
 
                         <TextView
                             android:id="@+id/tvProceedToPay"
-                            style="@style/RegularTextViewStyle"
+                            style="@style/RegularTextViewStyle12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
