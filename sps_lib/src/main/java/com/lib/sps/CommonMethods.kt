@@ -115,13 +115,11 @@ class CommonMethods {
     }
 
     private fun generateSecretKey(): SecretKey {
-        //val secretKey = SecretKeySpec("dNPcBTEycM5U6DVR6fZ2civGClOapyAe".toByteArray(), ALGORITHM) //Test
-        val secretKey = SecretKeySpec("p94kAoC4Q4pZv13FpocCMztwpTNzF6Ai".toByteArray(), ALGORITHM) // Live
+        val secretKey = SecretKeySpec(BuildConfig.secretKey.toByteArray(), ALGORITHM)
         return secretKey
     }
 
     private fun generateIV(): IvParameterSpec {
-        //return IvParameterSpec("th4u6fUhdjX?W^8J".toByteArray()) //Test
-        return IvParameterSpec("*%*D^##key@%#@^&".toByteArray()) //Live
+        return IvParameterSpec(BuildConfig.IvParameterSpec.toByteArray())
     }
 }

@@ -25,10 +25,14 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField(
-                "String", "BASE_URL",
-                "\"https://sps-kyc.payworldmoney.com\"" /*"\"https://test-sps-kyc.payworldmoney.com\""*/
-            )
+            //buildConfigField("String", "BASE_URL", "\"https://sps-kyc.payworldmoney.com\"") //Live
+            //buildConfigField("String", "secretKey", "\"p94kAoC4Q4pZv13FpocCMztwpTNzF6Ai\"")
+            //buildConfigField("String", "IvParameterSpec", "\"*%*D^##key@%#@^&\"")
+
+            buildConfigField("String", "BASE_URL", "\"https://test-sps-kyc.payworldmoney.com\"") //Test
+            buildConfigField("String", "secretKey", "\"dNPcBTEycM5U6DVR6fZ2civGClOapyAe\"")
+            buildConfigField("String", "IvParameterSpec", "\"th4u6fUhdjX?W^8J\"")
+
         }
         debug {
             isMinifyEnabled = false
@@ -36,10 +40,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField(
-                "String", "BASE_URL",
-                "\"https://sps-kyc.payworldmoney.com\"" /*"\"https://test-sps-kyc.payworldmoney.com\""*/
-            )
+            //buildConfigField("String", "BASE_URL", "\"https://sps-kyc.payworldmoney.com\"") //Live
+            //buildConfigField("String", "secretKey", "\"p94kAoC4Q4pZv13FpocCMztwpTNzF6Ai\"")
+            //buildConfigField("String", "IvParameterSpec", "\"*%*D^##key@%#@^&\"")
+
+            buildConfigField("String", "BASE_URL", "\"https://test-sps-kyc.payworldmoney.com\"") //Test
+            buildConfigField("String", "secretKey", "\"dNPcBTEycM5U6DVR6fZ2civGClOapyAe\"")
+            buildConfigField("String", "IvParameterSpec", "\"th4u6fUhdjX?W^8J\"")
         }
     }
     compileOptions {
