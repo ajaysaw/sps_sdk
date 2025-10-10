@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <Toolbar
+        android:id="@+id/tbMain"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorDarkBlue">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/TextViewStyleBold12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AK"
+                    android:background="@drawable/profile_circle"
+                    android:paddingStart="@dimen/dp7"
+                    android:paddingEnd="@dimen/dp7"
+                    android:paddingTop="@dimen/dp5"
+                    android:paddingBottom="@dimen/dp5"
+                    android:textColor="@color/blueColor" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/RegularTextViewStyle12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ajay Kumar"
+                        android:paddingStart="@dimen/dp7"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:paddingEnd="@dimen/dp15"
+                        android:paddingTop="@dimen/dp5"
+                        android:layout_marginEnd="@dimen/dp40"
+                        android:textColor="@color/white" />
+                    <TextView
+                        style="@style/RegularTextViewStyle12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remaining Limit ₹5000"
+                        android:paddingStart="@dimen/dp7"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:paddingEnd="@dimen/dp15"
+                        android:layout_marginEnd="@dimen/dp40"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/sdk_version"
+                android:textSize="@dimen/sp13"
+                android:textColor="@color/white_color"
+                android:layout_marginEnd="@dimen/dp10"/>
+
+        </RelativeLayout>
+
+    </Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp30"
+            android:background="@color/blueColor" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp15"
+            android:paddingLeft="@dimen/dp2"
+            android:paddingRight="@dimen/dp2"
+            android:paddingTop="@dimen/dp3"
+            android:paddingBottom="@dimen/dp3"
+            android:background="@drawable/tab_layout_bg"
+            app:tabBackground="@color/transparent"
+            app:tabGravity="center"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="@dimen/dp2"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabSelectedTextColor="@color/blueColor"
+            app:tabTextColor="@color/greyColor"
+            app:tabIndicatorGravity="bottom"
+            app:tabMode="scrollable"
+            android:minHeight="@dimen/dp40"
+            app:tabTextAppearance="@style/CustomTabTextStyle"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
+    </RelativeLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -9,10 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.lib.sps.KycActivity
-import com.lib.sps.mr.MrHomeActivity
+import com.imps_lib.app.ui.WalletLoginActivity
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
         btnDoKyc.setOnClickListener {
             if(etMobileNo.text.isNotEmpty()){
                 //val intent = Intent(this@HomeActivity, KycActivity::class.java)
-                val intent = Intent(this@HomeActivity, MrHomeActivity::class.java)
+                val intent = Intent(this@HomeActivity, WalletLoginActivity::class.java)
                 intent.putExtra("EkycToken", etMobileNo.text.toString())
                 resultLauncher.launch(intent)
             }

@@ -46,12 +46,12 @@ class AuthenticationDropDownAdapter(val context: Context, var listItemsTxt: Arra
         val label: TextView
 
         init {
-            this.label = row?.findViewById(R.id.txtDropDownLabel) as TextView
+            this.label = row?.findViewById<TextView>(R.id.txtDropDownLabel)!!
         }
     }
 
     fun updateData(newList: ArrayList<String>){
-        listItemsTxt = newList;
+        listItemsTxt = newList
         notifyDataSetChanged()
     }
 }

@@ -56,12 +56,12 @@ class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<Ek
         val label: TextView
 
         init {
-            this.label = row?.findViewById(R.id.txtDropDownLabel) as TextView
+            this.label = row?.findViewById<TextView>(R.id.txtDropDownLabel)!!
         }
     }
 
     fun updateData(newList: ArrayList<EkycDeviceList>){
-        listItemsTxt = newList;
+        listItemsTxt = newList
         notifyDataSetChanged()
     }
 }

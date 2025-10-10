@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".HomeActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_marginLeft="@dimen/dp15"
         android:layout_marginRight="@dimen/dp15"
-        android:orientation="vertical"
-        android:layout_gravity="center"
         android:gravity="center"
-        android:theme="@style/Theme.SpsSdk">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tlMobileNo"
-        style="@style/HintUnFocusTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Token"
-        android:layout_marginLeft="@dimen/dp20"
-        android:layout_marginRight="@dimen/dp20"
-        android:textSize="@dimen/sp15">
+        android:orientation="vertical"
+        android:theme="@style/Theme.Sps_sdk">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etMobileNo"
-            style="@style/edittext_style"
-            android:inputType="text" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlMobileNo"
+            style="@style/HintUnFocusTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:hint="Enter Token"
+            android:textSize="@dimen/sp15">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMobileNo"
+                style="@style/edittext_style"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
-        android:id="@+id/btnDoKyc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do eKYC"
-        android:textAllCaps="false"
-        style="@style/TextViewStyle"
-        android:layout_marginTop="@dimen/dp10"
-        android:textColor="@color/white_color"
-        />
+        <Button
+            android:id="@+id/btnDoKyc"
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:text="Do eKYC"
+            android:textAllCaps="false"
+            android:textColor="@color/white_color" />
     </LinearLayout>
 
 </LinearLayout>

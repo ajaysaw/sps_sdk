@@ -56,12 +56,12 @@ class LanguageDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<
         val label: TextView
 
         init {
-            this.label = row?.findViewById(R.id.txtDropDownLabel) as TextView
+            this.label = row?.findViewById<TextView>(R.id.txtDropDownLabel)!!
         }
     }
 
     fun updateData(newList: ArrayList<ConsentLanguage>){
-        listItemsTxt = newList;
+        listItemsTxt = newList
         notifyDataSetChanged()
     }
 }

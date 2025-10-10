@@ -34,7 +34,7 @@ class CommonMethods {
 
     fun showMessageDialog(ctx: Context?, messageTxt: String?, argTitle: String?,kycStatus:String,isSuccess:Boolean) {
         val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.message_dialog_layout)
         val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
@@ -55,23 +55,6 @@ class CommonMethods {
         }
         dialog.show()
     }
-    fun verifyDialog(ctx: Context?) {
-        val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.verify_dialog)
-        //val tvTitle: TextView = dialog.findViewById(R.id.tvTitle)
-        //val tvDes: TextView = dialog.findViewById(R.id.tvDes)
-        val tvCancel: TextView = dialog.findViewById(R.id.tvCancel)
-        val tvProceed: TextView = dialog.findViewById(R.id.tvProceed)
-        tvCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        tvProceed.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
 
     fun progressDialog(context: Context): Dialog {
         val dialog = Dialog(context)
@@ -85,7 +68,7 @@ class CommonMethods {
     }
 
     fun getUserAgent(): String{
-        return System.getProperty("http.agent")?:"";
+        return System.getProperty("http.agent")?:""
     }
 
     fun getMaskNumber(number:String):String{
