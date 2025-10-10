@@ -102,7 +102,7 @@ public class JSONObject {
          * so the clone method returns itself.
          * @return     NULL.
          */
-        protected final Object clone() {
+        protected Object clone() {
             return this;
         }
 
@@ -129,7 +129,7 @@ public class JSONObject {
     /**
      * The map where the JSONObject's properties are kept.
      */
-    private Map map;
+    private final Map map;
 
 
     /**
@@ -284,7 +284,7 @@ public class JSONObject {
      * @param names An array of strings, the names of the fields to be obtained
      * from the object.
      */
-    public JSONObject(Object object, String names[]) {
+    public JSONObject(Object object, String[] names) {
         this();
         Class c = object.getClass();
         for (int i = 0; i < names.length; i += 1) {
@@ -1048,7 +1048,7 @@ public class JSONObject {
      * @throws JSONException If the key is null.
      */
     public JSONObject put(String key, int value) throws JSONException {
-        put(key, new Integer(value));
+        put(key, Integer.valueOf(value));
         return this;
     }
 
@@ -1062,7 +1062,7 @@ public class JSONObject {
      * @throws JSONException If the key is null.
      */
     public JSONObject put(String key, long value) throws JSONException {
-        put(key, new Long(value));
+        put(key, Long.valueOf(value));
         return this;
     }
 
@@ -1253,7 +1253,7 @@ public class JSONObject {
             if (b == '0' && string.length() > 2 &&
                         (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
                 try {
-                    return new Integer(Integer.parseInt(string.substring(2), 16));
+                    return Integer.valueOf(Integer.parseInt(string.substring(2), 16));
                 } catch (Exception ignore) {
                 }
             }
@@ -1262,9 +1262,9 @@ public class JSONObject {
                         string.indexOf('e') > -1 || string.indexOf('E') > -1) {
                     return Double.valueOf(string);
                 } else {
-                    Long myLong = new Long(string);
+                    Long myLong = Long.valueOf(string);
                     if (myLong.longValue() == myLong.intValue()) {
-                        return new Integer(myLong.intValue());
+                        return Integer.valueOf(myLong.intValue());
                     } else {
                         return myLong;
                     }

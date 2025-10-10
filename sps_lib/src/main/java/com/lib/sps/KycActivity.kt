@@ -47,9 +47,9 @@ import org.json.JSONObject
 class KycActivity : AppCompatActivity(), OnClickListener {
 
     private val commonMethods = CommonMethods()
-    private lateinit var authenticationAdapter: AuthenticationDropDownAdapter;
-    private lateinit var languageAdapter: LanguageDropDownAdapter;
-    private lateinit var devicesAdapter: CustomDropDownAdapter;
+    private lateinit var authenticationAdapter: AuthenticationDropDownAdapter
+    private lateinit var languageAdapter: LanguageDropDownAdapter
+    private lateinit var devicesAdapter: CustomDropDownAdapter
     private lateinit var etMobileNo: EditText
     private lateinit var etAadhaarNo: EditText
     private lateinit var etPanNo: EditText
@@ -216,7 +216,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     strMobileNumber = strMobileNumber,
                 )
             ) {
-                var biometricActionData = BiometricUtils().callCapture(deviceDetails = kycDeviceList[spnDevices.selectedItemPosition], biometricFormat = "", wadh = "", pidBlockNodes = kycDeviceList[spnDevices.selectedItemPosition].pidBlockNodes,this);
+                var biometricActionData = BiometricUtils().callCapture(deviceDetails = kycDeviceList[spnDevices.selectedItemPosition], biometricFormat = "", wadh = "", pidBlockNodes = kycDeviceList[spnDevices.selectedItemPosition].pidBlockNodes,this)
                 if(!biometricActionData.isError){
                     val intent = Intent(biometricActionData.action)
                     intent.setPackage(biometricActionData.packageName)
@@ -298,8 +298,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
-                         Log.d("Master response API", response.toString());
-                         Log.d("Master API response", response.body().toString());
+                         Log.d("Master response API", response.toString())
+                         Log.d("Master API response", response.body().toString())
                          val jsonString: String = Gson().toJson(response.body())
                          val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
                          val it = Gson().fromJson(decryptData, EKycMasterDataResult::class.java)
@@ -313,7 +313,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  languageAdapter.updateData(kycConsent)
                                  tvOtpSendMessage.text = it.ekycMasterData?.ekycOtpMsg
                                  eKycToken = it.ekycMasterData?.ekycToken
-                                 strMobileNumber = it.ekycMasterData?.mobileNo.toString();
+                                 strMobileNumber = it.ekycMasterData?.mobileNo.toString()
                                  if(strMobileNumber.length>9)
                                     etMobileNo.setText(strMobileNumber)
                                  etPanNo.isEnabled = false
@@ -323,7 +323,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  spnAuthentication.isEnabled = false
                              }
                          } else {
-                             print(it.message);
+                             print(it.message)
                              runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
@@ -346,7 +346,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      }
                  } catch (e: Exception) {
                      //onError("$response", true)
-                     print(e);
+                     print(e)
                      progressDialog.dismiss()
                      runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
@@ -375,8 +375,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
-                         Log.d("resend OTP response API : ", response.toString());
-                         Log.d("resend OTP API response :", response.body().toString());
+                         Log.d("resend OTP response API : ", response.toString())
+                         Log.d("resend OTP API response :", response.body().toString())
                          val jsonString: String = Gson().toJson(response.body())
                          val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
                          val it = Gson().fromJson(decryptData, ResendOtpData::class.java)
@@ -387,7 +387,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  commonMethods.showMessageDialog(this@KycActivity,it.eKycOtpData?.eKycOtpMsg,"Success","",false)
                              }
                          } else {
-                             print(it.message);
+                             print(it.message)
                              runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
@@ -406,7 +406,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      }
                  } catch (e: Exception) {
                      //onError("$response", true)
-                     print(e);
+                     print(e)
                      progressDialog.dismiss()
                      runOnUiThread {commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
@@ -445,8 +445,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                  try {
                      progressDialog.dismiss()
                      if (response.isSuccessful) {
-                         Log.d("kyc response API : ", response.toString());
-                         Log.d("kyc API response :", response.body().toString());
+                         Log.d("kyc response API : ", response.toString())
+                         Log.d("kyc API response :", response.body().toString())
                          val jsonString: String = Gson().toJson(response.body())
                          val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
                          val it = Gson().fromJson(decryptData, DoKycResponse::class.java)
@@ -459,7 +459,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                  }
                              }
                          } else {
-                             print(it.message);
+                             print(it.message)
                              runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                          }
                      } else {
@@ -479,7 +479,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                      }
                  } catch (e: Exception) {
                      //onError("$response", true)
-                     print(e);
+                     print(e)
                      progressDialog.dismiss()
                      runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                  }
@@ -508,8 +508,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     try {
                         progressDialog.dismiss()
                         if (response.isSuccessful) {
-                            Log.d("verify OTP response API : ", response.toString());
-                            Log.d("verify OTP API response :", response.body().toString());
+                            Log.d("verify OTP response API : ", response.toString())
+                            Log.d("verify OTP API response :", response.body().toString())
                             val jsonString: String = Gson().toJson(response.body())
                             val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
                             val it = Gson().fromJson(decryptData, VerifyOtpData::class.java)
@@ -525,7 +525,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                     tvOtpSendMessage.visibility = View.GONE
                                 }
                             } else {
-                                print(it.message);
+                                print(it.message)
                                 runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                             }
                         } else {
@@ -544,7 +544,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
-                        print(e);
+                        print(e)
                         progressDialog.dismiss()
                         runOnUiThread {commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                     }
@@ -576,8 +576,8 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                     try {
                         progressDialog.dismiss()
                         if (response.isSuccessful) {
-                            Log.d("verify PAN response API : ", response.toString());
-                            Log.d("verify PAN API response :", response.body().toString());
+                            Log.d("verify PAN response API : ", response.toString())
+                            Log.d("verify PAN API response :", response.body().toString())
                             val jsonString: String = Gson().toJson(response.body())
                             val decryptData = commonMethods.aesDecrypt(JSONObject(jsonString).getString("data"))
                             val it = Gson().fromJson(decryptData, VerifyPanData::class.java)
@@ -595,7 +595,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                                     etAadhaarNo.requestFocus()
                                 }
                             } else {
-                                print(it.message);
+                                print(it.message)
                                 runOnUiThread{commonMethods.showMessageDialog(this,it.errorMessage,"Error","",false)}
                             }
                         } else {
@@ -614,7 +614,7 @@ class KycActivity : AppCompatActivity(), OnClickListener {
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
-                        print(e);
+                        print(e)
                         progressDialog.dismiss()
                         runOnUiThread {commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
                     }

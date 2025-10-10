@@ -1,5 +1,5 @@
 <resources>
-    <string name="dsk_version">v 1.2</string>
+    <string name="sdk_version">v 1.2</string>
     <string name="customer_mobile">Customer Mobile Number</string>
     <string name="contact_number">Contact Number</string>
     <string name="aadhaar_num">Aadhaar Number</string>
@@ -38,6 +38,8 @@
     <string name="transfer_account_number">Account Number</string>
     <string name="transfer_bank">Bank</string>
     <string name="transfer_ifsc_code">IFSC Code</string>
+
+
 
 
 </resources>

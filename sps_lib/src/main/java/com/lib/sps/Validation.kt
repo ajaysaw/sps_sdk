@@ -65,13 +65,13 @@ class Validation {
         val mobileNumber: String = editText.text.toString().trim()
 
         if (mobileNumber.isEmpty()) {
-            isValid = false;
+            isValid = false
             editText.error = "Enter mobile number"
         } else if (mobileNumber.length != 10) {
-            isValid = false;
+            isValid = false
             editText.error = "Mobile number must be of 10 digits"
         } else if (!strMobileNumber.matches(Regex(regexMobileNumber))) {
-            isValid = false;
+            isValid = false
             editText.error = "Enter valid mobile number"
         } else {
             editText.error = null
@@ -88,13 +88,13 @@ class Validation {
         val aadhaarNo = editText.text.toString().trim()
 
         if (aadhaarNo.isEmpty()) {
-            isValid = false;
+            isValid = false
             editText.error = "Enter Aadhaar number"
         } else if (aadhaarNo.length < 12) {
-            isValid = false;
+            isValid = false
             editText.error = "Aadhaar number must be of 12 digits"
         } else if (aadhaarNo.length == 12 && !VerhoeffAlgorithm.validateVerhoeff(strAadhaarNumber)) {
-            isValid = false;
+            isValid = false
             editText.error = "Invalid Aadhaar number"
         } else {
             editText.error = null
@@ -114,7 +114,7 @@ class Validation {
             isValid = false
             editText.error = "Enter PAN number"
         } else if (!panNo.matches(Regex(regexPanNumber))) {
-            isValid = false;
+            isValid = false
             editText.error = "Invalid PAN number"
         } else {
             editText.error = null

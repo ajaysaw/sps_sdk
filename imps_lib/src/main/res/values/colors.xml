@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorDarkBlue">#173E89</color>
+    <color name="colorLightBlue">#2595EE</color>
+    <color name="colorBlack">#87191919</color>
+    <color name="colorBlackText">#000000</color>
+    <color name="greyColor">#758398</color>
+    <color name="greenColor">#008000</color>
+    <color name="white_color">#ffffff</color>
+    <color name="red_color">#FA3333</color>
+    <color name="lightGray">#C1C6CF</color>
+    <color name="blueColor">#194086</color>
+    <color name="header_color">#39b549</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorTabLayoutBg">#FFe3eef6</color>
+    <color name="transparent">#00000000</color>
+    <color name="rupees_bg_color">#E5EFFF</color>
+</resources>

@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="@string/dsk_version"
+                android:text="@string/sdk_version"
                 android:textSize="@dimen/dp13"
                 android:textColor="@color/white_color"
                 android:layout_marginRight="@dimen/dp10"/>
