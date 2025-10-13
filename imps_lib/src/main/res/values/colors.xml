@@ -17,4 +17,6 @@
     <color name="colorTabLayoutBg">#FFe3eef6</color>
     <color name="transparent">#00000000</color>
     <color name="rupees_bg_color">#E5EFFF</color>
+    <color name="colorPrimary">#1DA1F2</color>
+
 </resources>

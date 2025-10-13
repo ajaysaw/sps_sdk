@@ -2,12 +2,19 @@ package com.imps_lib.app.ui
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
@@ -15,6 +22,7 @@ import com.imps_lib.app.R
 import com.imps_lib.app.model.VerifyOtpResult
 import com.imps_lib.app.network.ApiClient
 import com.imps_lib.app.network.WebInterface
+import com.lib.sps.java_json.JSONObject
 import com.mukeshsolanki.OtpView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -26,6 +34,8 @@ class OtpActivity : AppCompatActivity() {
     private val commonMethods = CommonMethods()
     private lateinit var progressDialog: Dialog
     private var job: Job? = null
+    private lateinit var tvResend: TextView
+    private var countDownTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +43,28 @@ class OtpActivity : AppCompatActivity() {
         progressDialog = commonMethods.progressDialog(this)
         val otpView = findViewById<OtpView>(R.id.otp_view)
         val btnSubmit = findViewById<Button>(R.id.btnSubmitOtp)
-        val tvResend = findViewById<TextView>(R.id.tvResendOtp)
+
+        val ivEdit = findViewById<ImageView>(R.id.ivEdit)
+        val tvNumber = findViewById<TextView>(R.id.tvNumber)
+
+        tvResend = findViewById(R.id.tvResendOtp)
 
         val mobile = intent.getStringExtra("mobile") ?: ""
         val requestNo = intent.getStringExtra("requestNo") ?: ""
 
 
-        // When user completes OTP input
+        tvNumber.text = mobile
+
+        ivEdit.setOnClickListener {
+            this@OtpActivity.finish()
+        }
+
+        startResendTimer() // start timer on launch
+
         otpView.setOtpCompletionListener { otp ->
             verifyOtp(otp, mobile, requestNo)
         }
 
-        // On Submit click
         btnSubmit.setOnClickListener {
             val otp = otpView.text.toString()
             if (otp.length == 6) {
@@ -54,11 +74,53 @@ class OtpActivity : AppCompatActivity() {
             }
         }
 
-        // Resend OTP logic
         tvResend.setOnClickListener {
-            ReSendOtp(mobile, requestNo)
+            if (tvResend.isEnabled) {
+                reSendOtp(mobile, requestNo)
+                startResendTimer()
+            }
         }
     }
+
+    private fun startResendTimer() {
+        tvResend.isEnabled = false
+        tvResend.setTextColor(ContextCompat.getColor(this, R.color.greyColor))
+
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(30_000, 1_000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = millisUntilFinished / 1000
+                tvResend.text =
+                    "Didn't get the OTP? Resend OTP in 00:${String.format("%02d", seconds)}"
+            }
+
+            override fun onFinish() {
+                val fullText = "Didn't get the OTP? Resend OTP"
+                val spannable = SpannableString(fullText)
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                spannable.setSpan(
+                    boldSpan,
+                    fullText.indexOf("Resend"),
+                    fullText.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                tvResend.text = spannable
+                tvResend.isEnabled = true
+                tvResend.setTextColor(
+                    ContextCompat.getColor(
+                        this@OtpActivity,
+                        R.color.colorPrimary
+                    )
+                )
+            }
+        }.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
+    }
+
 
     private fun verifyOtp(otp: String, mobile: String, requestNo: String) {
         job = Coroutines.io {
@@ -115,42 +177,41 @@ class OtpActivity : AppCompatActivity() {
                                 }
                             }
                         } else {
-                            /* runOnUiThread {
-                                 try {
-                                     val decryptData = commonMethods.aesDecrypt(
-                                         JSONObject(
-                                             response.errorBody()!!.charStream().readText().trim()
-                                         ).getString("data").trim()
-                                     )
-                                     val jsonObj = JSONObject(decryptData)
-                                     if (jsonObj.has("message") && jsonObj.getString("message")
-                                             .uppercase() == "FAILURE"
-                                     ) {
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                     } else
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                 } catch (e: Exception) {
-                                     commonMethods.showMessageDialog(
-                                         this,
-                                         e.message.toString(),
-                                         "Error",
-                                         "",
-                                         false
-                                     )
-                                 }
-                             }*/
+                            runOnUiThread {
+                                try {
+                                    val decryptData =
+                                        JSONObject(
+                                            response.errorBody()!!.charStream().readText().trim()
+                                        ).getString("data").trim()
+                                    val jsonObj = JSONObject(decryptData)
+                                    if (jsonObj.has("message") && jsonObj.getString("message")
+                                            .uppercase() == "FAILURE"
+                                    ) {
+                                        commonMethods.showMessageDialog(
+                                            this,
+                                            jsonObj.getString("error_message"),
+                                            "Error",
+                                            "",
+                                            false
+                                        )
+                                    } else
+                                        commonMethods.showMessageDialog(
+                                            this,
+                                            jsonObj.getString("error_message"),
+                                            "Error",
+                                            "",
+                                            false
+                                        )
+                                } catch (e: Exception) {
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        e.message.toString(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
+                            }
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
@@ -182,7 +243,7 @@ class OtpActivity : AppCompatActivity() {
         }
     }
 
-    private fun ReSendOtp(mobile: String, requestNo: String) {
+    private fun reSendOtp(mobile: String, requestNo: String) {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
@@ -290,6 +351,8 @@ class OtpActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }
+
+
+
+
