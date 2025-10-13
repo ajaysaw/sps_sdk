@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
+import com.imps_lib.app.PrefManager
 import com.imps_lib.app.R
 import com.imps_lib.app.model.VerifyOtpResult
 import com.imps_lib.app.network.ApiClient
@@ -148,6 +149,8 @@ class OtpActivity : AppCompatActivity() {
                                     if (it.data?.otpStatus.toString().trim()
                                             .uppercase(Locale.ROOT) == "VERIFIED"
                                     ) {
+                                        PrefManager.getInstance(this@OtpActivity).putString("MOBILE",mobile)
+
                                         val intent = Intent(
                                             this@OtpActivity,
                                             MrHomeActivity::class.java
@@ -263,15 +266,7 @@ class OtpActivity : AppCompatActivity() {
                             val jsonString: String = Gson().toJson(response.body())
                             val it = Gson().fromJson(jsonString, VerifyOtpResult::class.java)
                             if (it.status == true) {
-                                runOnUiThread {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        it.message,
-                                        "Success",
-                                        "",
-                                        false
-                                    )
-                                }
+                                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             } else {
                                 print(it.message)
                                 runOnUiThread {
@@ -285,42 +280,42 @@ class OtpActivity : AppCompatActivity() {
                                 }
                             }
                         } else {
-                            /* runOnUiThread {
-                                 try {
-                                     val decryptData = commonMethods.aesDecrypt(
-                                         JSONObject(
-                                             response.errorBody()!!.charStream().readText().trim()
-                                         ).getString("data").trim()
-                                     )
-                                     val jsonObj = JSONObject(decryptData)
-                                     if (jsonObj.has("message") && jsonObj.getString("message")
-                                             .uppercase() == "FAILURE"
-                                     ) {
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                     } else
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                 } catch (e: Exception) {
-                                     commonMethods.showMessageDialog(
-                                         this,
-                                         e.message.toString(),
-                                         "Error",
-                                         "",
-                                         false
-                                     )
-                                 }
-                             }*/
+                            runOnUiThread {
+                                try {
+                                    val decryptData =
+                                        JSONObject(
+                                            response.errorBody()!!.charStream().readText().trim()
+                                        ).getString("data").trim()
+
+                                    val jsonObj = JSONObject(decryptData)
+                                    if (jsonObj.has("message") && jsonObj.getString("message")
+                                            .uppercase() == "FAILURE"
+                                    ) {
+                                        commonMethods.showMessageDialog(
+                                            this,
+                                            jsonObj.getString("error_message"),
+                                            "Error",
+                                            "",
+                                            false
+                                        )
+                                    } else
+                                        commonMethods.showMessageDialog(
+                                            this,
+                                            jsonObj.getString("error_message"),
+                                            "Error",
+                                            "",
+                                            false
+                                        )
+                                } catch (e: Exception) {
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        e.message.toString(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
+                            }
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
