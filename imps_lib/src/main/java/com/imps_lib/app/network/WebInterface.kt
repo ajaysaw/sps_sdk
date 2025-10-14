@@ -15,4 +15,7 @@ interface WebInterface {
     @POST(WebConstants.resendOtp)
     suspend fun resendOtp(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
+    @POST(WebConstants.getAllBeneList)
+    suspend fun getAllBeneList(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
+
 }

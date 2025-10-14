@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
+import com.imps_lib.app.PrefManager
 import com.imps_lib.app.R
 import com.imps_lib.app.network.ApiClient
 import com.imps_lib.app.network.WebInterface
@@ -45,6 +46,14 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
         btnSubmit = findViewById(R.id.btnSubmit)
         tilMobile = findViewById(R.id.tilMobile)
         btnSubmit.setOnClickListener(this)
+
+        if(PrefManager.getInstance(this@WalletLoginActivity).getString("MOBILE").isNotEmpty()){
+            val intent = Intent(
+                this@WalletLoginActivity,
+                MrHomeActivity::class.java
+            )
+            startActivity(intent)
+        }
 //        try{
 //            EkycToken = intent.getStringExtra("EkycToken")!!
 //        }catch (e:Exception){

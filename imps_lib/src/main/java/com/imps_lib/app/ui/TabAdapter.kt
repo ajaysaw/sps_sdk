@@ -15,4 +15,5 @@ class TabAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(frag
             else -> throw IllegalStateException("Unexpected position $position")
         }
     }
+
 }

@@ -167,7 +167,8 @@ class OtpActivity : AppCompatActivity() {
                                         )
                                     }
                                 }
-                            } else {
+                            }
+                            else {
                                 print(it.message)
                                 runOnUiThread {
                                     commonMethods.showMessageDialog(
@@ -182,33 +183,35 @@ class OtpActivity : AppCompatActivity() {
                         } else {
                             runOnUiThread {
                                 try {
-                                    val decryptData =
-                                        JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("data").trim()
-                                    val jsonObj = JSONObject(decryptData)
-                                    if (jsonObj.has("message") && jsonObj.getString("message")
-                                            .uppercase() == "FAILURE"
-                                    ) {
-                                        commonMethods.showMessageDialog(
-                                            this,
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                    } else
-                                        commonMethods.showMessageDialog(
-                                            this,
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                } catch (e: Exception) {
+                                    // Read the raw error body once
+                                    val errorBodyStr = response.errorBody()?.string()
+                                    Log.e("API_ERROR_BODY", errorBodyStr ?: "null")
+
+                                    // Parse JSON and extract "message" (server uses "message")
+                                    var errorMessage = "Unknown error"
+                                    if (!errorBodyStr.isNullOrEmpty()) {
+                                        val jsonObj = JSONObject(errorBodyStr)
+                                        // server returns: {"status":false,"message":"The OTP you entered is incorrect.","errors":null}
+                                        if (jsonObj.has("message") && !jsonObj.isNull("message")) {
+                                            errorMessage = jsonObj.getString("message")
+                                        } else if (jsonObj.has("error_message") && !jsonObj.isNull("error_message")) {
+                                            // fallback if some responses use "error_message"
+                                            errorMessage = jsonObj.getString("error_message")
+                                        }
+                                    }
+
                                     commonMethods.showMessageDialog(
-                                        this,
-                                        e.message.toString(),
+                                        this@OtpActivity,          // use activity context explicitly
+                                        errorMessage,
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                } catch (e: Exception) {
+                                    // In case parsing fails, show exception text
+                                    commonMethods.showMessageDialog(
+                                        this@OtpActivity,
+                                        e.message ?: "Something went wrong",
                                         "Error",
                                         "",
                                         false
