@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/alert_bg"
+    android:layout_marginHorizontal="@dimen/dp10"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvOtpTitleVerifyBeneficiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_otp"
+        android:textColor="#111827"
+        android:textSize="@dimen/dp20"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dp10"/>
+
+    <TextView
+        android:id="@+id/tvOtpSubtitleVerifyBeneficiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/sp15"/>
+
+    <!-- OTP Input View -->
+
+    <com.mukeshsolanki.OtpView
+        android:id="@+id/otp_view_VerifyBeneficiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginBottom="@dimen/dp30"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:inputType="number"
+        android:textAllCaps="true"
+        android:textColor="@color/colorBlack"
+        app:OtpHideLineWhenFilled="false"
+        app:OtpItemCount="6"
+        app:OtpItemSpacing="6dp"
+        app:OtpLineColor="@color/greyColor"
+        app:OtpState_filled="true"
+        app:OtpViewType="rectangle"
+        app:OtpMaskingChar="*"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvCancel"
+            style="@style/AlertMessageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp5"
+            android:background="@drawable/cancel_button_drawable"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp20"
+            android:paddingTop="@dimen/dp4"
+            android:paddingRight="@dimen/dp20"
+            android:paddingBottom="@dimen/dp4"
+            android:text="@string/cancel"
+            android:textColor="@color/red_color"
+            android:textSize="@dimen/sp15" />
+        <TextView
+            android:id="@+id/tvVerifyProceed"
+            style="@style/AlertMessageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp5"
+            android:background="@drawable/button_drawable"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp20"
+            android:paddingTop="@dimen/dp4"
+            android:paddingRight="@dimen/dp20"
+            android:paddingBottom="@dimen/dp4"
+            android:text="@string/verify_and_proceed"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp15" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvResendOtpVerifyBeneficiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resend_otp_message"
+        android:textColor="#6B7280"
+        android:textSize="14sp"
+        android:layout_marginTop="@dimen/dp15"
+        android:gravity="center"/>
+
+</LinearLayout>

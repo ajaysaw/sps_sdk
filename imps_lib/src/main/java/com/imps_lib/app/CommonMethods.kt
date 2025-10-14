@@ -14,12 +14,14 @@ import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import android.util.Base64
+import android.view.View
 import javax.crypto.spec.SecretKeySpec
 
 
 class CommonMethods {
     private val ALGORITHM = "AES"
     private val TRANSFORMATION = "AES/CBC/PKCS7Padding"
+    val ifscPattern = "^[A-Z]{4}0[A-Z0-9]{6}$".toRegex()
 
 
     fun isNetworkConnected(context: Context): Boolean {
@@ -88,23 +90,17 @@ class CommonMethods {
         return System.getProperty("http.agent")?:""
     }
 
-    fun getMaskNumber(number:String):String{
-        if(number.isNotEmpty() && number.length>9){
-            val lastFour = number.takeLast(4)
-            val maskedPart = "*".repeat(number.length - 4)
-            return maskedPart + lastFour
-        }else{
-            return ""
-        }
+    fun isValidIFSC(ifsc: String): Boolean {
+        return ifscPattern.matches(ifsc.uppercase())
     }
 
-  /*  fun aesEncrypt(data: String): String {
-        val plainText = data.toByteArray()
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(), generateIV())
-        val encrypt = cipher.doFinal(plainText)
-        return Base64.encodeToString(encrypt, Base64.DEFAULT)
-    }*/
+    /*  fun aesEncrypt(data: String): String {
+          val plainText = data.toByteArray()
+          val cipher = Cipher.getInstance(TRANSFORMATION)
+          cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(), generateIV())
+          val encrypt = cipher.doFinal(plainText)
+          return Base64.encodeToString(encrypt, Base64.DEFAULT)
+      }*/
 
     /*fun aesDecrypt(encryptedData: String): String {
         val textToDecrypt = Base64.decode(encryptedData, Base64.DEFAULT)

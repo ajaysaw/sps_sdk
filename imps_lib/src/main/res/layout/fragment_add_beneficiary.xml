@@ -23,51 +23,25 @@
             android:layout_marginTop="@dimen/dp10"
             android:orientation="vertical"
             android:theme="@style/Theme.ImpsSdk">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlBeneficiaryName"
-                style="@style/CustomTextInputLayoutOutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_beneficiary_name"
-                app:placeholderText="@string/beneficiary_name"
-                android:textSize="@dimen/sp15">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etBeneficiaryName"
-                    style="@style/edittext_style"
-                    android:inputType="text"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlSelectBank"
-                style="@style/CustomTextInputLayoutOutlinedBox"
+                android:id="@+id/textInputLayoutBank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10"
                 android:hint="@string/select_bank"
-                app:placeholderText="@string/search_by_bank_name"
-                android:textSize="@dimen/sp15">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSelectBank"
-                    style="@style/edittext_style"
-                    android:inputType="text"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlIfscCode"
+                android:textSize="@dimen/sp15"
                 style="@style/CustomTextInputLayoutOutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10"
-                android:hint="@string/ifsc_code"
-                app:placeholderText="@string/enter_ifsc_code"
-                android:textSize="@dimen/sp15">
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/drop_down_arrow">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etIfscCode"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp60"
+                    android:paddingStart="@dimen/dp15"
                     style="@style/edittext_style"
-                    android:inputType="text"/>
+                    android:textSize="@dimen/sp15"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +57,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBeneficiaryAccountNumber"
                     style="@style/edittext_style"
-                    android:inputType="text"/>
+                    android:maxLength="18"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,8 +74,63 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etConfirmBeneficiaryAccountNumber"
                     style="@style/edittext_style"
+                    android:maxLength="18"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlIfscCode"
+                style="@style/CustomTextInputLayoutOutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:hint="@string/ifsc_code"
+                app:placeholderText="@string/enter_ifsc_code"
+                android:textSize="@dimen/sp15">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etIfscCode"
+                    style="@style/edittext_style"
+                    android:maxLength="11"
+                    android:inputType="text|textCapCharacters"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tlBeneficiaryName"
+                style="@style/CustomTextInputLayoutOutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:hint="@string/enter_beneficiary_name"
+                app:placeholderText="@string/beneficiary_name"
+                android:textSize="@dimen/sp15">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBeneficiaryName"
+                    style="@style/edittext_style"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutAccountType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:hint="@string/beneficiary_account_type"
+                android:textSize="@dimen/sp15"
+                style="@style/CustomTextInputLayoutOutlinedBox"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/drop_down_arrow">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteAccountType"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp55"
+                    android:paddingStart="@dimen/dp15"
+                    android:inputType="none"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,6 +138,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/linerLayoutBtnVerify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -153,8 +184,6 @@
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
-
-
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

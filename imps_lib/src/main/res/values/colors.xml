@@ -18,5 +18,6 @@
     <color name="transparent">#00000000</color>
     <color name="rupees_bg_color">#E5EFFF</color>
     <color name="colorPrimary">#1DA1F2</color>
+    <color name="gray">#6B7280</color>
 
 </resources>

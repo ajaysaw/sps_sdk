@@ -13,6 +13,10 @@ data class VerifyOtpResult(
 data class VerifyOtpData(
 
     @SerializedName("otpStatus") var otpStatus: String? = "",
-    @SerializedName("mpinStatus") var mpinStatus: String? = ""
+    @SerializedName("mpinStatus") var mpinStatus: String? = "",
+    @SerializedName("mobileNo") var mobileNo: String? = "",
+    @SerializedName("OtpVerify") var OtpVerify: String? = "",
+    @SerializedName("Response") var Response: String? = "",
+    @SerializedName("Message") var Message: String? = "",
 
 )

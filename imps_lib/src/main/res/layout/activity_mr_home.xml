@@ -23,12 +23,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <TextView
+                <ImageView
+                    android:id="@+id/tvImage"
                     style="@style/TextViewStyleBold12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AK"
                     android:background="@drawable/profile_circle"
+                    android:scaleType="centerCrop"
                     android:paddingStart="@dimen/dp7"
                     android:paddingEnd="@dimen/dp7"
                     android:paddingTop="@dimen/dp5"
@@ -39,10 +40,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tvName"
                         style="@style/RegularTextViewStyle12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ajay Kumar"
+                        android:text=""
                         android:paddingStart="@dimen/dp7"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -51,10 +53,11 @@
                         android:layout_marginEnd="@dimen/dp40"
                         android:textColor="@color/white" />
                     <TextView
+                        android:id="@+id/tvLimit"
                         style="@style/RegularTextViewStyle12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remaining Limit ₹5000"
+                        android:text=""
                         android:paddingStart="@dimen/dp7"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -63,16 +66,31 @@
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp10"
+                android:gravity="end">
             <TextView
+                android:id="@+id/tvManageLimits"
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/sdk_version"
+                android:text="@string/under_line_manage_limits"
                 android:textSize="@dimen/sp13"
                 android:textColor="@color/white_color"
                 android:layout_marginEnd="@dimen/dp10"/>
-
+                <TextView
+                    android:id="@+id/tvBalance"
+                    style="@style/RegularTextViewStyle12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/dp10"/>
+            </LinearLayout>
         </RelativeLayout>
 
     </Toolbar>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="sp5">5sp</dimen>
     <dimen name="sp7">7sp</dimen>
     <dimen name="sp10">10sp</dimen>
     <dimen name="sp11">11sp</dimen>
@@ -36,6 +37,9 @@
     <dimen name="dp45">45dp</dimen>
     <dimen name="dp50">50dp</dimen>
     <dimen name="dp55">55dp</dimen>
+    <dimen name="dp60">60dp</dimen>
+    <dimen name="dp65">65dp</dimen>
+    <dimen name="dp70">70dp</dimen>
     <dimen name="dp90">90dp</dimen>
     <dimen name="dp120">120dp</dimen>
 </resources>

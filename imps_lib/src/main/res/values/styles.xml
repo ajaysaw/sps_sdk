@@ -88,4 +88,13 @@
         <item name="android:textSize">@dimen/sp15</item>
     </style>
 
+    <style name="EditBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edittext_box</item>
+        <item name="android:padding">@dimen/sp10</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp15</item>
+    </style>
+
 </resources>

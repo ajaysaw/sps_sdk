@@ -17,6 +17,7 @@
     <string name="enter_beneficiary_name">Enter Beneficiary Name</string>
     <string name="beneficiary_name">Beneficiary Name</string>
     <string name="select_bank">Select Bank</string>
+    <string name="beneficiary_account_type">Beneficiary account type</string>
     <string name="search_by_bank_name">Search by Bank Name</string>
     <string name="enter_ifsc_code">Enter IFSC Code</string>
     <string name="ifsc_code">IFSC Code</string>
@@ -39,6 +40,13 @@
     <string name="transfer_account_number">Account Number</string>
     <string name="transfer_bank">Bank</string>
     <string name="transfer_ifsc_code">IFSC Code</string>
-
+    <string name="confirm">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="verify_and_proceed">Verify &amp; Proceed</string>
+    <string name="resend_otp_message">Didn\'t get the OTP? Resend OTP in</string>
+    <string name="resend_otp_text">Didn\'t get the OTP? Resend OTP</string>
+    <string name="under_line_manage_limits"><u>Manage Limits</u></string>
+    <string name="manage_limits">Manage Limits</string>
 
 </resources>

@@ -19,6 +19,12 @@
         android:theme="@style/Theme.ImpsSdk"
         tools:replace="android:theme">
         <activity
+            android:name=".ui.ManageLimitsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FundTransferActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.OtpActivity"
             android:exported="false" />
         <activity

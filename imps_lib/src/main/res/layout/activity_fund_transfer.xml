@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.FundTransferActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dp20"
+            android:paddingTop="@dimen/dp10"
+            android:paddingEnd="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10">
+
+            <!-- Back Button -->
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/dp28"
+                android:layout_height="@dimen/dp28"
+                android:src="@drawable/back_arrow" />
+
+            <!-- Title Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Fund Transfer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp18"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingHorizontal="@dimen/dp30"
+        android:paddingVertical="@dimen/dp20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Beneficiary Name -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Beneficiary Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <EditText
+                android:id="@+id/etName"
+                style="@style/EditBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+
+            <!-- Beneficiary Bank -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Beneficiary Bank"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <EditText
+                android:id="@+id/etBank"
+                style="@style/EditBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+
+            <!-- Beneficiary A/C -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Beneficiary A/C"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <EditText
+                android:id="@+id/etAccount"
+                style="@style/EditBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number" />
+
+            <!-- Beneficiary IFSC -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Beneficiary IFSC"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <EditText
+                android:id="@+id/etIfsc"
+                style="@style/EditBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+
+            <!-- Wallet Balance -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Wallet Balance"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_marginEnd="@dimen/dp3"
+                    android:background="@drawable/rupee_symbol_drawable"
+                    android:gravity="center"
+                    android:text="@string/rupee_symbol"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp20"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etWallet"
+                    style="@style/EditBox"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dp5"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+            <!-- Transfer Amount -->
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="Transfer Amount"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_marginEnd="@dimen/dp3"
+                    android:background="@drawable/rupee_symbol_drawable"
+                    android:gravity="center"
+                    android:text="@string/rupee_symbol"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp20"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etAmount"
+                    style="@style/EditBox"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp50"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dp5"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <!-- Submit -->
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_drawable_light_blue"
+                android:text="@string/bt_submit"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp15" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
