@@ -18,5 +18,6 @@ data class VerifyOtpData(
     @SerializedName("OtpVerify") var OtpVerify: String? = "",
     @SerializedName("Response") var Response: String? = "",
     @SerializedName("Message") var Message: String? = "",
+    @SerializedName("verificationReferenceNo") var verificationReferenceNo: String? = "",
 
 )

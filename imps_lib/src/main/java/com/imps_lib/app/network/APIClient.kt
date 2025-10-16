@@ -1,8 +1,10 @@
 package com.imps_lib.app.network
 
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.gson.Gson
 import com.imps_lib.app.BuildConfig
 import com.imps_lib.app.CommonMethods
+import com.imps_lib.app.GlobalData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,9 +32,10 @@ class ApiClient {
                 val requestBuilder = original.newBuilder()
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
-                    .header("agentId", "44")
-                    .header("bcAgentId", "SD12345")
-//                    .header("User-Agent", commonMethods.getUserAgent())
+                    .header("agentId",GlobalData.agentId )
+                    .header("bcAgentId",  GlobalData.bcAgentId)
+                    .header("Authorization",  GlobalData.authorizationToken)
+                   .header("User-Agent", commonMethods.getUserAgent())
                    .header("source", "MOBILE_SDK")
                     .method(original.method, original.body)
 

@@ -22,18 +22,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
-import com.imps_lib.app.PrefManager
+import com.imps_lib.app.GlobalData
 import com.imps_lib.app.R
 import com.imps_lib.app.model.AddBeneficiaryOtp
 import com.imps_lib.app.model.AddBeneficiaryOtpData
 import com.imps_lib.app.model.BeneficiaryData
 import com.imps_lib.app.model.BeneficiaryListResult
+import com.imps_lib.app.model.LastTopUpResult
 import com.imps_lib.app.model.VerifyBeneficiary
 import com.imps_lib.app.model.VerifyOtpResult
 import com.imps_lib.app.model.WalletBalance
 import com.imps_lib.app.network.ApiClient
 import com.imps_lib.app.network.WebInterface
-import com.lib.ppi_imps.model.LastTopUpResult
 import com.lib.sps.java_json.JSONObject
 import com.mukeshsolanki.OtpView
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +47,7 @@ class TransferToBankAccountFragment : Fragment() {
     private val commonMethods = CommonMethods()
     private lateinit var progressDialog: Dialog
     private var job: Job? = null
+    private lateinit var tvResendOtpVerifyBeneficiary: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,7 +123,7 @@ class TransferToBankAccountFragment : Fragment() {
 
             val service: WebInterface = ApiClient().createService(WebInterface::class.java)
             val requestData = HashMap<String, String>().apply {
-                put("mobileNo", PrefManager.getInstance(requireContext()).getString("MOBILE"))
+                put("mobileNo", GlobalData.mobileNumber)
             }
 
             try {
@@ -202,8 +203,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] =
-                    PrefManager.getInstance(requireContext()).getString("MOBILE")
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["accountNo"] = beneficiaryData.accountNumber.toString()
                 requestData["ifsc"] = beneficiaryData.ifsc.toString()
                 requestData["beneficiaryCode"] = beneficiaryData.beneficiaryCode.toString()
@@ -294,8 +294,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] =
-                    PrefManager.getInstance(requireContext()).getString("MOBILE")
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["beneficiaryCode"] = beneficiaryData.beneficiaryCode.toString()
                 requestData["beneficiaryName"] = beneficiaryData.beneficiaryName.toString()
                 requestData["beneficiaryType"] = beneficiaryData.beneficiaryType.toString()
@@ -383,7 +382,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = "8800985790"
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["requestNo"] = requestNo
                 requestData["otp"] = otp
 
@@ -490,7 +489,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = "8800985790"
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["requestNo"] = requestNo
 
                 service.resendOtp(requestData).let { response ->
@@ -505,7 +504,8 @@ class TransferToBankAccountFragment : Fragment() {
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
                                         .show()
-                                    getBeneData()
+                                    startOtpTimer()
+//                                    getBeneData()
                                 }
 
                             } else {
@@ -595,8 +595,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] =
-                    PrefManager.getInstance(requireContext()).getString("MOBILE")
+                requestData["mobileNo"] = GlobalData.mobileNumber
 
                 service.getBalance(requestData).let { response ->
                     try {
@@ -610,11 +609,23 @@ class TransferToBankAccountFragment : Fragment() {
                                 WalletBalance::class.java
                             )
                             if (it.status) {
-                                withContext(Dispatchers.Main) {
-                                    getLastTopUp(it.data?.balance.toString(),beneficiaryData)
-                                    /*walletBalance = it
-                                    tvLimit.text = "Limit: ₹${it.data?.remainingCashDepositLimit?:0.0}"
-                                    tvBalance.text = "Balance: ₹${it.data?.balance?:0.0}"*/
+                                val walletBalance = it.data?.balance?.toDoubleOrNull()
+                                if (walletBalance != null && walletBalance > 0)
+                                    withContext(Dispatchers.Main) {
+                                        getLastTopUp(it.data.balance.toString(), beneficiaryData)
+                                        /*walletBalance = it
+                                        tvLimit.text = "Limit: ₹${it.data?.remainingCashDepositLimit?:0.0}"
+                                        tvBalance.text = "Balance: ₹${it.data?.balance?:0.0}"*/
+                                    } else {
+                                    requireActivity().runOnUiThread {
+                                        commonMethods.showMessageDialog(
+                                            requireContext(),
+                                            "Insufficient balance. Please recharge your wallet to proceed with the money transfer.",
+                                            "Error",
+                                            "",
+                                            false
+                                        )
+                                    }
                                 }
                             } else {
                                 requireActivity().runOnUiThread {
@@ -675,7 +686,7 @@ class TransferToBankAccountFragment : Fragment() {
         }
     }
 
-    private fun getLastTopUp(walletBalance: String,beneficiaryData: BeneficiaryData) {
+    private fun getLastTopUp(walletBalance: String, beneficiaryData: BeneficiaryData) {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
@@ -683,8 +694,7 @@ class TransferToBankAccountFragment : Fragment() {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] =
-                    PrefManager.getInstance(requireContext()).getString("MOBILE")
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 service.lastTopUp(requestData).let { response ->
                     try {
                         progressDialog.dismiss()
@@ -705,8 +715,15 @@ class TransferToBankAccountFragment : Fragment() {
                                         )
 
                                         intent.putExtra("walletBalance", walletBalance)
-                                        intent.putExtra("TopUpAmount", it.data?.TopUpAmount.toString())
-                                        intent.putExtra("WalletTransNo", it.data?.WalletTransNo.toString())
+                                        intent.putExtra(
+                                            "TopUpAmount",
+                                            it.data?.TopUpAmount.toString()
+                                        )
+                                        intent.putExtra(
+                                            "WalletTransNo",
+                                            it.data?.WalletTransNo.toString()
+                                        )
+
                                         intent.putExtra("beneficiaryData", beneficiaryData)
                                         startActivity(intent)
                                     } else {
@@ -742,7 +759,7 @@ class TransferToBankAccountFragment : Fragment() {
                                     commonMethods.showMessageDialog(
                                         requireContext(), org.json.JSONObject(
                                             response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("data").trim(), "Error", "", false
+                                        ).getString("message").trim(), "Error", "", false
                                     )
                                 } catch (e: Exception) {
                                     commonMethods.showMessageDialog(
@@ -784,6 +801,48 @@ class TransferToBankAccountFragment : Fragment() {
         }
     }
 
+    private fun startOtpTimer() {
+        // Start countdown timer 30 seconds
+        object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = millisUntilFinished / 1000
+                tvResendOtpVerifyBeneficiary.text =
+                    "${requireContext().getString(R.string.resend_otp_message)} 00:${
+                        String.format(
+                            "%02d",
+                            seconds
+                        )
+                    }"
+                tvResendOtpVerifyBeneficiary.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.gray
+                    )
+                )
+            }
+
+            override fun onFinish() {
+                tvResendOtpVerifyBeneficiary.text =
+                    "${requireContext().getString(R.string.resend_otp_text)}"
+                tvResendOtpVerifyBeneficiary.isEnabled = true
+                val spannable = SpannableString(tvResendOtpVerifyBeneficiary.text)
+                val boldSpan = StyleSpan(Typeface.BOLD)
+                spannable.setSpan(
+                    boldSpan,
+                    tvResendOtpVerifyBeneficiary.text.indexOf("Resend"),
+                    tvResendOtpVerifyBeneficiary.text.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                tvResendOtpVerifyBeneficiary.text = spannable
+                tvResendOtpVerifyBeneficiary.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorPrimary
+                    )
+                )
+            }
+        }.start()
+    }
 
     //////DIALOGUE////////////
     private fun verifyBeneDialog(beneficiaryData: BeneficiaryData) {
@@ -840,8 +899,7 @@ class TransferToBankAccountFragment : Fragment() {
         val tvDes: TextView = dialog.findViewById(R.id.tvOtpSubtitleVerifyBeneficiary)
         val tvCancel: TextView = dialog.findViewById(R.id.tvCancel)
         val tvProceed: TextView = dialog.findViewById(R.id.tvVerifyProceed)
-        val tvResendOtpVerifyBeneficiary: TextView =
-            dialog.findViewById(R.id.tvResendOtpVerifyBeneficiary)
+        tvResendOtpVerifyBeneficiary = dialog.findViewById(R.id.tvResendOtpVerifyBeneficiary)
         val otpView = dialog.findViewById<OtpView>(R.id.otp_view_VerifyBeneficiary)
         tvDes.text = data?.message
         tvResendOtpVerifyBeneficiary.isEnabled = false
@@ -866,41 +924,7 @@ class TransferToBankAccountFragment : Fragment() {
         tvResendOtpVerifyBeneficiary.setOnClickListener {
             reSendOtp(data?.requestNo!!)
         }
-
-        // Start countdown timer 30 seconds
-        object : CountDownTimer(30000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val seconds = millisUntilFinished / 1000
-                tvResendOtpVerifyBeneficiary.text =
-                    "${ctx.getString(R.string.resend_otp_message)} 00:${
-                        String.format(
-                            "%02d",
-                            seconds
-                        )
-                    }"
-            }
-
-            override fun onFinish() {
-                tvResendOtpVerifyBeneficiary.text = "${ctx.getString(R.string.resend_otp_text)}"
-                tvResendOtpVerifyBeneficiary.isEnabled = true
-                val spannable = SpannableString(tvResendOtpVerifyBeneficiary.text)
-                val boldSpan = StyleSpan(Typeface.BOLD)
-                spannable.setSpan(
-                    boldSpan,
-                    tvResendOtpVerifyBeneficiary.text.indexOf("Resend"),
-                    tvResendOtpVerifyBeneficiary.text.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                tvResendOtpVerifyBeneficiary.text = spannable
-                tvResendOtpVerifyBeneficiary.setTextColor(
-                    ContextCompat.getColor(
-                        ctx,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-        }.start()
-
+        startOtpTimer()
         dialog.show()
     }
 }

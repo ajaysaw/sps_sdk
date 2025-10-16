@@ -3,6 +3,7 @@ package com.imps_lib.app.ui
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -30,7 +31,7 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
-import com.imps_lib.app.PrefManager
+import com.imps_lib.app.GlobalData
 import com.imps_lib.app.R
 import com.imps_lib.app.model.AddBeneficiaryOtp
 import com.imps_lib.app.model.AddBeneficiaryOtpData
@@ -66,6 +67,8 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
     var bankList = ArrayList<BankMaster>()
     private lateinit var adapter: ArrayAdapter<BankMaster>
     private var selectedBank: BankMaster?=null;
+    private lateinit var accountTypeAdapter: ArrayAdapter<String>
+    private var accountTypeList = ArrayList<String>()
     private var accountType: String?=null;
     private var accountNumber: String?=""
     private var metadata : MetaData?=null
@@ -97,10 +100,8 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
             }
             Log.d("SelectedBank", "ID: ${selectedBank!!.id}, Name: ${selectedBank!!.bankName}")
         }
-
-        val accountTypes = listOf("Savings", "Current")
-        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, accountTypes)
-        spnAccountType.setAdapter(adapter)
+        accountTypeAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, accountTypeList)
+        spnAccountType.setAdapter(accountTypeAdapter)
         spnAccountType.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 v.performClick()
@@ -331,12 +332,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 tvResendOtpVerifyBeneficiary.text = spannable
-                tvResendOtpVerifyBeneficiary.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.colorPrimary
-                    )
-                )
+                tvResendOtpVerifyBeneficiary.setTextColor(Color.parseColor("#1DA1F2"))
             }
         }.start()
     }
@@ -365,6 +361,9 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
                                     bankList.clear()
                                     bankList.addAll(it.data.bankMaster)
                                     adapter.notifyDataSetChanged()
+                                    accountTypeList.clear()
+                                    accountTypeList.addAll(metadata!!.accountType)
+                                    accountTypeAdapter.notifyDataSetChanged()
                                     autoCompleteBank.setOnTouchListener { _, event ->
                                         if (event.action == MotionEvent.ACTION_UP) {
                                             autoCompleteBank.performClick() // Accessibility-safe focus
@@ -408,7 +407,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
             if(commonMethods.isNetworkConnected(requireContext())){
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"]="8800985790"
+                requestData["mobileNo"]= GlobalData.mobileNumber
                 requestData["bankId"]=selectedBank?.id.toString()
                 requestData["beneficiaryName"]=etBeneficiaryName.text.toString()
                 requestData["accountNo"]=accountNumber!!
@@ -458,7 +457,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
             if(commonMethods.isNetworkConnected(requireContext())){
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"]="8800985790"
+                requestData["mobileNo"]=GlobalData.mobileNumber
                 requestData["bankId"]=selectedBank?.id.toString()
                 requestData["beneficiaryName"]=etBeneficiaryName.text.toString()
                 requestData["accountNo"]=accountNumber!!
@@ -515,7 +514,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = "8800985790"
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["requestNo"] = requestNo
                 requestData["otp"] = otp
 
@@ -636,7 +635,7 @@ class AddBeneficiaryFragment : Fragment() , OnClickListener {
             if (commonMethods.isNetworkConnected(requireContext())) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = "8800985790"
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 requestData["requestNo"] = requestNo
 
                 service.resendOtp(requestData).let { response ->

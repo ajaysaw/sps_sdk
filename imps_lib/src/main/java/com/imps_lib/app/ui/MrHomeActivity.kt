@@ -1,6 +1,8 @@
 package com.imps_lib.app.ui
 
 import android.app.Dialog
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -15,8 +17,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
-import com.imps_lib.app.PrefManager
+import com.imps_lib.app.GlobalData
 import com.imps_lib.app.R
+import com.imps_lib.app.WalletManager
 import com.imps_lib.app.model.UserDetails
 import com.imps_lib.app.model.WalletBalance
 import com.imps_lib.app.network.ApiClient
@@ -39,34 +42,52 @@ class MrHomeActivity : AppCompatActivity() {
     private lateinit var tvName: TextView
     private lateinit var tvLimit: TextView
     private lateinit var tvBalance: TextView
+    private lateinit var tvManageLimit: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mr_home)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
         tvImage = findViewById(R.id.tvImage)
         tvName = findViewById(R.id.tvName)
         tvLimit = findViewById(R.id.tvLimit)
         tvBalance = findViewById(R.id.tvBalance)
+        tvManageLimit = findViewById(R.id.tvManageLimits)
         progressDialog = commonMethods.progressDialog(this)
         viewPager.adapter = TabAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
+
+        tvManageLimit.setOnClickListener {
+            val intent = Intent(this, ManageLimitsActivity::class.java)
+            intent.putExtra("manageLimitUrl", userDetails.data?.manageLimitsUrl)
+            startActivity(intent)
+        }
+        WalletManager.walletBalance.observe(this) { balance ->
+            if (balance != null) {
+                tvLimit.text = "Limit: ₹${balance.data?.remainingCashDepositLimit ?: 0.0}"
+                tvBalance.text = "Balance: ₹${balance.data?.balance ?: 0.0}"
+            }
+        }
+
         getUserDetails()
-        getBalance()
+
+        // Call global fetch
+        WalletManager.fetchBalance(this, commonMethods, progressDialog)
     }
 
-    private fun getUserDetails(){
+    private fun getUserDetails() {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
             }
-            if(commonMethods.isNetworkConnected(this)){
+            if (commonMethods.isNetworkConnected(this)) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = "8800985790"
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 service.getUserDetails(requestData).let { response ->
                     try {
                         progressDialog.dismiss()
@@ -74,45 +95,87 @@ class MrHomeActivity : AppCompatActivity() {
                             Log.d("get-user-details API", response.toString())
                             Log.d("get-user-details API response", response.body().toString())
                             val jsonString: String = Gson().toJson(response.body())
-                            val it = Gson().fromJson(JSONObject(jsonString).toString(), UserDetails::class.java)
+                            val it = Gson().fromJson(
+                                JSONObject(jsonString).toString(),
+                                UserDetails::class.java
+                            )
                             if (it.status) {
                                 withContext(Dispatchers.Main) {
                                     userDetails = it
                                     tvName.text = it.data?.name
-                                    profileImage(it.data?.userImage.toString(),tvImage);
+                                    profileImage(it.data?.userImage.toString(), tvImage)
                                 }
                             } else {
-                                runOnUiThread{commonMethods.showMessageDialog(this,it.message,"Error","",false)}
+                                runOnUiThread {
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        it.message,
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
                             }
                         } else {
                             runOnUiThread {
                                 try {
-                                    commonMethods.showMessageDialog(this, JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("data").trim(), "Error","",false)
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        JSONObject(
+                                            response.errorBody()!!.charStream().readText().trim()
+                                        ).getString("message").trim(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
                                 } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(this, e.message.toString(), "Error","",false)
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        e.message.toString(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
                                 }
                             }
                         }
                     } catch (e: Exception) {
                         progressDialog.dismiss()
-                        runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
+                        runOnUiThread {
+                            commonMethods.showMessageDialog(
+                                this,
+                                e.toString(),
+                                "Error",
+                                "",
+                                false
+                            )
+                        }
                     }
                 }
-            }else{
+            } else {
                 progressDialog.dismiss()
-                runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!","",false) }
+                runOnUiThread {
+                    commonMethods.showMessageDialog(
+                        this,
+                        "No Internet....Please be connected to a working internet",
+                        "Alert!",
+                        "",
+                        false
+                    )
+                }
             }
         }
     }
-    private fun getBalance(){
+
+    private fun getBalance() {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
             }
-            if(commonMethods.isNetworkConnected(this)){
+            if (commonMethods.isNetworkConnected(this)) {
                 val service: WebInterface = ApiClient().createService(WebInterface::class.java)
                 val requestData = HashMap<String, String>()
-                requestData["mobileNo"] = PrefManager.getInstance(this@MrHomeActivity).getString("MOBILE")
+                requestData["mobileNo"] = GlobalData.mobileNumber
                 service.getBalance(requestData).let { response ->
                     try {
                         progressDialog.dismiss()
@@ -120,34 +183,76 @@ class MrHomeActivity : AppCompatActivity() {
                             Log.d("get-balance API", response.toString())
                             Log.d("get-balance API response", response.body().toString())
                             val jsonString: String = Gson().toJson(response.body())
-                            val it = Gson().fromJson(JSONObject(jsonString).toString(), WalletBalance::class.java)
+                            val it = Gson().fromJson(
+                                JSONObject(jsonString).toString(),
+                                WalletBalance::class.java
+                            )
                             if (it.status) {
                                 withContext(Dispatchers.Main) {
                                     walletBalance = it
-                                    tvLimit.text = "Limit: ₹${it.data?.remainingCashDepositLimit?:0.0}"
-                                    tvBalance.text = "Balance: ₹${it.data?.balance?:0.0}"
+                                    tvLimit.text =
+                                        "Limit: ₹${it.data?.remainingCashDepositLimit ?: 0.0}"
+                                    tvBalance.text = "Balance: ₹${it.data?.balance ?: 0.0}"
                                 }
                             } else {
-                                runOnUiThread{commonMethods.showMessageDialog(this,it.message,"Error","",false)}
+                                runOnUiThread {
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        it.message,
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
                             }
                         } else {
                             runOnUiThread {
                                 try {
-                                    commonMethods.showMessageDialog(this, JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("data").trim(), "Error","",false)
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        JSONObject(
+                                            response.errorBody()!!.charStream().readText().trim()
+                                        ).getString("message").trim(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
                                 } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(this, e.message.toString(), "Error","",false)
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        e.message.toString(),
+                                        "Error",
+                                        "",
+                                        false
+                                    )
                                 }
                             }
                         }
                     } catch (e: Exception) {
                         print(e)
                         progressDialog.dismiss()
-                        runOnUiThread{commonMethods.showMessageDialog(this,e.toString(),"Error","",false)}
+                        runOnUiThread {
+                            commonMethods.showMessageDialog(
+                                this,
+                                e.toString(),
+                                "Error",
+                                "",
+                                false
+                            )
+                        }
                     }
                 }
-            }else{
+            } else {
                 progressDialog.dismiss()
-                runOnUiThread{commonMethods.showMessageDialog(this,"No Internet....Please be connected to a working internet","Alert!","",false) }
+                runOnUiThread {
+                    commonMethods.showMessageDialog(
+                        this,
+                        "No Internet....Please be connected to a working internet",
+                        "Alert!",
+                        "",
+                        false
+                    )
+                }
             }
         }
     }
@@ -169,5 +274,9 @@ class MrHomeActivity : AppCompatActivity() {
             e.printStackTrace()
             imageView.setImageResource(R.drawable.profile_icon)
         }
+    }
+
+    fun navigateToTab(index: Int) {
+        viewPager.currentItem = index
     }
 }

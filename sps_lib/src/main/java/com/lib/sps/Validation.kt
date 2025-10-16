@@ -9,13 +9,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.snackbar.Snackbar
+import com.lib.sps.model.ValidationData
 
 
 class Validation {
     private val regexMobileNumber = "^[6-9]\\d*$"
     private val regexPanNumber = "^[A-Z]{5}[0-9]{4}[A-Z]{1}\$"
 
-    fun validateForm(
+    fun validatePanForm(
         etMobile: EditText,
         etAadhaar: EditText,
         etPan: EditText,
@@ -26,12 +27,11 @@ class Validation {
         tvConsentContent: TextView,
         strAadhaarNumber:String,
         strMobileNumber:String,
-
     ): Boolean {
         val isValidate = if (validateMobileNo(etMobile,strMobileNumber)) {
-            if (validateAadhaar(etAadhaar,strAadhaarNumber)) {
+            if (validateOTP(etOtp)) {
                 if (validatePan(etPan)) {
-                    if (validateOTP(etOtp)) {
+                    if (validateAadhaar(etAadhaar,strAadhaarNumber)) {
                         if (validateConsentLanguage(spnConsent)) {
                             if (validateDevice(spnDevice)) {
                                 validateConsent(
@@ -56,22 +56,136 @@ class Validation {
         } else {
             false
         }
-
         return isValidate
     }
 
+    fun validateForm60(
+        etMobile: EditText,
+        etAadhaar: EditText,
+        etFatherName: EditText,
+        etAgriculturalIncome: EditText,
+        etOtherAgriculturalIncome: EditText,
+        etOtp: EditText,
+        spnConsent: Spinner,
+        cbConsent: CheckBox,
+        spnDevice: Spinner,
+        tvConsentContent: TextView,
+        strAadhaarNumber:String,
+        strMobileNumber:String,
+        validationData: ValidationData,
+        etAcknowledgementNumber: EditText,
+        etAcknowledgementNumberDate: EditText,
+    ): Boolean {
+        val isValidate = if (validateMobileNo(etMobile,strMobileNumber)) {
+            if (validateOTP(etOtp)) {
+                if(acknowledgementNumber(etAcknowledgementNumber,validationData)){
+                    if(acknowledgementDate(etAcknowledgementNumberDate,validationData)){
+                        if (validateFatherName(etFatherName)) {
+                            if(validateAgriculturalIncome(etAgriculturalIncome,validationData)){
+                                if(validateOtherAgriculturalIncome(etOtherAgriculturalIncome,etAgriculturalIncome,validationData)){
+                                    if (validateAadhaar(etAadhaar, strAadhaarNumber)) {
+                                        if (validateConsentLanguage(spnConsent)) {
+                                            if (validateDevice(spnDevice)) {
+                                                validateConsent(
+                                                    cbConsent = cbConsent,
+                                                    tvConsentContent = tvConsentContent
+                                                )
+                                            } else {
+                                                false
+                                            }
+                                        } else {
+                                            false
+                                        }
+                                    } else {
+                                        false
+                                    }
+                                }else{
+                                    false
+                                }
+                            }else{
+                                false
+                            }
+                        } else {
+                            false
+                        }
+                    }else{
+                        false
+                    }
+                }else{
+                    false
+                }
+            } else {
+                false
+            }
+        } else {
+            false
+        }
+        return isValidate
+    }
+
+    private fun validateFatherName(editText: EditText):Boolean{
+        var isValid = true
+        val mobileNumber: String = editText.text.toString().trim()
+        if (mobileNumber.isEmpty()) {
+            isValid = false;
+            editText.error = "Please enter father's name"
+        }else{
+            editText.error = null
+        }
+        if (!isValid) editText.requestFocus()
+
+        return isValid
+
+    }
+    private fun validateAgriculturalIncome(editText: EditText,validationData: ValidationData):Boolean{
+        var isValid = true
+        val inputText: String = editText.text.toString().trim()
+        if (inputText.isEmpty()) {
+            isValid = false;
+            editText.error = "Please enter agricultural income"
+        }else if(validationData.maxIncomeLimit!! < inputText.toLong()){
+            isValid = false;
+            editText.error = validationData.incomeValidation
+        }else{
+            editText.error = null
+        }
+        if (!isValid) editText.requestFocus()
+        return isValid
+
+    }
+    private fun validateOtherAgriculturalIncome(editText: EditText,etAgriculturalIncome:EditText,validationData: ValidationData):Boolean{
+        var isValid = true
+        val inputText: String = editText.text.toString().trim()
+        val etAgriculturalIncome: String = etAgriculturalIncome.text.toString().trim()
+        if (inputText.isEmpty()) {
+            isValid = false;
+            editText.error = "Please enter other agricultural income"
+        }else if(validationData.maxIncomeLimit!!<inputText.toLong()){
+            isValid = false;
+            editText.error = validationData.incomeValidation
+        }else if(validationData.maxIncomeLimit!!<inputText.toLong()+etAgriculturalIncome.toLong()){
+            isValid = false;
+            editText.error = validationData.incomeValidation
+        }else{
+            editText.error = null
+        }
+        if (!isValid) editText.requestFocus()
+
+        return isValid
+
+    }
     private fun validateMobileNo(editText: EditText,strMobileNumber:String): Boolean {
         var isValid = true
         val mobileNumber: String = editText.text.toString().trim()
 
         if (mobileNumber.isEmpty()) {
-            isValid = false
+            isValid = false;
             editText.error = "Enter mobile number"
         } else if (mobileNumber.length != 10) {
-            isValid = false
+            isValid = false;
             editText.error = "Mobile number must be of 10 digits"
         } else if (!strMobileNumber.matches(Regex(regexMobileNumber))) {
-            isValid = false
+            isValid = false;
             editText.error = "Enter valid mobile number"
         } else {
             editText.error = null
@@ -88,14 +202,17 @@ class Validation {
         val aadhaarNo = editText.text.toString().trim()
 
         if (aadhaarNo.isEmpty()) {
-            isValid = false
-            editText.error = "Enter Aadhaar number"
+            isValid = false;
+            editText.error = "Aadhaar Number/VID must be in valid format"
         } else if (aadhaarNo.length < 12) {
-            isValid = false
+            isValid = false;
             editText.error = "Aadhaar number must be of 12 digits"
         } else if (aadhaarNo.length == 12 && !VerhoeffAlgorithm.validateVerhoeff(strAadhaarNumber)) {
-            isValid = false
+            isValid = false;
             editText.error = "Invalid Aadhaar number"
+        }else if(aadhaarNo.length == 16 && !VerhoeffAlgorithm.validateVerhoeff(strAadhaarNumber)){
+            isValid = false;
+            editText.error = "Invalid VID number"
         } else {
             editText.error = null
         }
@@ -114,7 +231,7 @@ class Validation {
             isValid = false
             editText.error = "Enter PAN number"
         } else if (!panNo.matches(Regex(regexPanNumber))) {
-            isValid = false
+            isValid = false;
             editText.error = "Invalid PAN number"
         } else {
             editText.error = null
@@ -132,6 +249,39 @@ class Validation {
         if (otp.isEmpty()) {
             isValid = false
             editText.error = "Enter OTP"
+        } else {
+            editText.error = null
+        }
+
+        if (!isValid) editText.requestFocus()
+
+        return isValid
+    }
+
+    private fun acknowledgementNumber(editText: EditText,validationData: ValidationData):Boolean{
+        var isValid = true
+        val acknowledgementNo = editText.text.toString().trim()
+        if (editText.visibility==View.VISIBLE && acknowledgementNo.isEmpty()) {
+            isValid = false
+            editText.error = "Please enter pan acknowledgement no"
+        }else if(editText.visibility==View.VISIBLE && acknowledgementNo.length<validationData.panAckNoLengthMin!!.toInt() || acknowledgementNo.length>validationData.panAckNoLengthMax!!.toInt() ){
+            isValid = false
+            editText.error = "Please enter valid pan acknowledgement no"
+        } else {
+            editText.error = null
+        }
+
+        if (!isValid) editText.requestFocus()
+
+        return isValid
+    }
+
+    private fun acknowledgementDate(editText: EditText,validationData: ValidationData):Boolean{
+        var isValid = true
+        val acknowledgementDate = editText.text.toString().trim()
+        if (editText.visibility==View.VISIBLE && acknowledgementDate.isEmpty()) {
+            isValid = false
+            editText.error = "Please enter pan acknowledgement date"
         } else {
             editText.error = null
         }

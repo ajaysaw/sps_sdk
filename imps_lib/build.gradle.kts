@@ -66,7 +66,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation (libs.androidx.cardview)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -75,6 +74,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.lottie)
     implementation (libs.converter.scalars)
-    implementation (libs.android.otpview.pinview)
+    implementation (libs.otpview)
+    implementation (libs.androidx.cardview)
 
 }

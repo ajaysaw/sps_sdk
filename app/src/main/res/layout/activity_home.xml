@@ -30,7 +30,42 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etMobileNo"
                 style="@style/edittext_style"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdGVzdC1xbXItYXBpLnBheXdvcmxkaW5kaWEuY29tIiwiaWF0IjoxNzYwNTk0NjIyLCJleHAiOjE3NjA1OTgyMjIsInNlc3Npb25faWQiOiJzZXNzXzY4ZjA4YWJlMTM2ODUiLCJ0eG5fcmVmIjoiVFhOMjExNDIiLCJwYXJ0eV9jb2RlIjoiNDE5NTQzNSIsImFnZW50X2lkIjo0NCwiYmNfYWdlbnRfaWQiOiJTRDEyMzQ1Iiwic3RhdGVfaWQiOjI1LCJtZXJjaGFudF9pZCI6MX0.7-B02t03OFOWZOfylkrntjqMw1yoTxFfpEW2zE5sQu4" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/HintUnFocusTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:hint="Agent Id"
+            android:textSize="@dimen/sp15">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAgentId"
+                style="@style/edittext_style"
+                android:inputType="text"
+                android:text="44" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/HintUnFocusTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20"
+            android:hint="Bc Agent Id"
+            android:textSize="@dimen/sp15">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBcAgentId"
+                style="@style/edittext_style"
+                android:inputType="text"
+                android:text="SD12345" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

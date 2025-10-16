@@ -17,13 +17,17 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
         val etMobileNo = findViewById<EditText>(R.id.etMobileNo)
+        val etAgentId = findViewById<EditText>(R.id.etAgentId)
+        val etBcAgentId = findViewById<EditText>(R.id.etBcAgentId)
         val btnDoKyc = findViewById<Button>(R.id.btnDoKyc)
 
         btnDoKyc.setOnClickListener {
             if(etMobileNo.text.isNotEmpty()){
                 //val intent = Intent(this@HomeActivity, KycActivity::class.java)
                 val intent = Intent(this@HomeActivity, WalletLoginActivity::class.java)
-                intent.putExtra("EkycToken", etMobileNo.text.toString())
+                intent.putExtra("authorizationToken", etMobileNo.text.toString())
+                intent.putExtra("agentId", etAgentId.text.toString())
+                intent.putExtra("bcAgentId", etBcAgentId.text.toString())
                 resultLauncher.launch(intent)
             }
         }

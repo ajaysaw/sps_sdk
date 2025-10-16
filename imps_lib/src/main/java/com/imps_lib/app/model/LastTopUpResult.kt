@@ -1,4 +1,4 @@
-package com.lib.ppi_imps.model
+package com.imps_lib.app.model
 
 import com.google.gson.annotations.SerializedName
 

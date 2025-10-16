@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollViewAddBeneficiary"
@@ -13,12 +14,13 @@
         android:fillViewport="true"
         android:orientation="vertical"
         android:paddingTop="@dimen/dp10">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp15"
-            android:layout_marginRight="@dimen/dp15"
             android:layout_marginTop="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp15"
             android:orientation="vertical"
             android:theme="@style/Theme.ImpsSdk">
 
@@ -27,160 +29,200 @@
                 style="@style/RegularTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp5"
-                android:layout_marginLeft="@dimen/dp5"
                 android:layout_gravity="start"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp5"
                 android:text="@string/enter_case_deposit"
                 android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@drawable/edit_text_border"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/currencySymbol"
                     android:layout_width="@dimen/dp40"
                     android:layout_height="@dimen/dp55"
-                    android:background="@drawable/rupee_symbol_drawable"
-                    android:text="@string/rupee_symbol"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/sp20"
-                    android:textColor="@color/black"
                     android:layout_marginEnd="@dimen/dp3"
-                    android:gravity="center" />
+                    android:background="@drawable/rupee_symbol_drawable"
+                    android:gravity="center"
+                    android:text="@string/rupee_symbol"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp20"
+                    android:textStyle="bold" />
+
                 <EditText
-                    android:id="@+id/amountInput"
+                    android:id="@+id/etAmount"
+                    style="@style/edittext_style"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp55"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/dp5"
-                    style="@style/edittext_style"
+                    android:background="@null"
+                    android:gravity="center_vertical"
                     android:hint="@string/enter_case_deposit"
                     android:inputType="number"
-                    android:background="@null"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical" />
+                    android:paddingLeft="@dimen/dp5"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_button_drawable"
-                android:layout_marginTop="@dimen/dp20"
-                android:padding="@dimen/dp10"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/tvConvenienceFee"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginStart="@dimen/dp5"
-                        android:gravity="start"
-                        android:text="@string/convenience_fee"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:id="@+id/tvAmount"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginLeft="@dimen/dp5"
-                        android:gravity="end"
-                        android:text="₹8.47"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/tvGST"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginStart="@dimen/dp5"
-                        android:gravity="start"
-                        android:text="@string/gst"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:id="@+id/tvGstAmount"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginLeft="@dimen/dp5"
-                        android:gravity="end"
-                        android:text="₹1.53"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp1"
-                    android:background="@color/colorLightBlue" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp5"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/tvTotalText"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginStart="@dimen/dp5"
-                        android:gravity="start"
-                        android:text="@string/total_Amount"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:id="@+id/tvTotalAmount"
-                        style="@style/TextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:layout_marginLeft="@dimen/dp5"
-                        android:gravity="end"
-                        android:text="₹1010"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvProceedToPay"
                 style="@style/TextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp10"
-                android:layout_marginEnd="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp20"
-                android:background="@drawable/button_drawable"
                 android:layout_gravity="start"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginEnd="@dimen/dp10"
+                android:background="@drawable/bg_button_proceed_selector"
                 android:gravity="center"
                 android:paddingLeft="@dimen/dp15"
-                android:paddingRight="@dimen/dp15"
                 android:paddingTop="@dimen/dp10"
+                android:paddingRight="@dimen/dp15"
                 android:paddingBottom="@dimen/dp10"
-                android:text="Proceed to pay Deposit Amount: ₹1010"
+                android:text="Proceed to pay Deposit Amount"
                 android:textColor="@color/white" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardUnusedTopUP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp20"
+                android:backgroundTint="@android:color/white"
+                app:cardCornerRadius="@dimen/dp12"
+                app:cardElevation="@dimen/dp2.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Top Warning Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/orange_warning_color"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp20"
+                            android:layout_height="@dimen/dp20"
+                            android:src="@drawable/ic_warning" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Unused Topup Available"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Body -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:id="@+id/tvMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:text="You have an unused topup. Please use this topup before making a new deposit."
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Amount:"
+                                    android:textColor="@android:color/darker_gray"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvUnusedTopUpAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹0"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Transaction ID:"
+                                    android:textColor="@android:color/darker_gray"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/tvTransactionId"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="-"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvTransferNow"
+                            style="@style/TextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="@dimen/dp10"
+                            android:layout_marginTop="@dimen/dp20"
+                            android:layout_marginEnd="@dimen/dp10"
+                            android:background="@drawable/button_drawable"
+                            android:gravity="center"
+                            android:paddingHorizontal="@dimen/dp20"
+                            android:paddingTop="@dimen/dp10"
+                            android:paddingBottom="@dimen/dp10"
+                            android:text="Transfer Now"
+                            android:textColor="@color/white" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <TableLayout
                 android:id="@+id/table_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp30">
+
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,25 +230,26 @@
 
                     <TextView
                         android:id="@+id/header_amount"
+                        style="@style/TextViewStyleBold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        style="@style/TextViewStyleBold"
                         android:gravity="center"
                         android:paddingTop="@dimen/dp5"
                         android:paddingBottom="@dimen/dp5"
                         android:text="Amount"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/header_charges"
+                        style="@style/TextViewStyleBold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        style="@style/TextViewStyleBold"
+                        android:gravity="center"
                         android:paddingTop="@dimen/dp5"
                         android:paddingBottom="@dimen/dp5"
-                        android:gravity="center"
                         android:text="Customer Charges\n(Incl. GST)"
                         android:textColor="@color/white" />
                 </TableRow>
@@ -214,6 +257,7 @@
             </TableLayout>
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

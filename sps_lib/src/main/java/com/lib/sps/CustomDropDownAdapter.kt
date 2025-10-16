@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.lib.sps.model.EkycDeviceList
 
-class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<EkycDeviceList>) : BaseAdapter() {
+class DeviceDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<EkycDeviceList>) : BaseAdapter() {
 
 
     val mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -56,12 +56,12 @@ class CustomDropDownAdapter(val context: Context, var listItemsTxt: ArrayList<Ek
         val label: TextView
 
         init {
-            this.label = row?.findViewById<TextView>(R.id.txtDropDownLabel)!!
+            this.label = row?.findViewById(R.id.txtDropDownLabel) as TextView
         }
     }
 
     fun updateData(newList: ArrayList<EkycDeviceList>){
-        listItemsTxt = newList
+        listItemsTxt = newList;
         notifyDataSetChanged()
     }
 }

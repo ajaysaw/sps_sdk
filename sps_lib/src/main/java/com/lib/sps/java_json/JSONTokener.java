@@ -45,7 +45,7 @@ public class JSONTokener {
     private int 	index;
     private int 	line;
     private char 	previous;
-    private final Reader 	reader;
+    private Reader 	reader;
     private boolean usePrevious;
 
 
@@ -429,7 +429,7 @@ public class JSONTokener {
      * @return  A JSONException object, suitable for throwing
      */
     public JSONException syntaxError(String message) {
-        return new JSONException(message + this);
+        return new JSONException(message + toString());
     }
 
 

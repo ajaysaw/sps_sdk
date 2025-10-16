@@ -14,5 +14,11 @@ object WebConstants {
     const val getBankMaster: String = "/api/v1/wallet/imps/get-bank-master"
     const val addBeneficiary: String = "/api/v1/wallet/imps/add-beneficiary"
     const val lastTopUp: String = "/api/v1/wallet/last-topup-details"
+    const val initiateKyc: String = "/api/v1/wallet/initiate-ekyc"
+    const val generateOtp: String = "/api/v1/wallet/generate-otp"
+    const val fundTransfer: String = "/api/v1/wallet/debit"
+    const val depositMasterData: String = "/api/v1/wallet/get-deposit-master-data"
+    const val calculateRates: String = "/api/v1/wallet/calculate-rates"
+    const val credit: String = "/api/v1/wallet/credit"
 
 }

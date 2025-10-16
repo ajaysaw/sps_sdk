@@ -22,4 +22,10 @@ interface WebInterface {
     @POST(WebConstants.verifyPan)
     suspend fun verifyPan(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
 
+    @POST(WebConstants.eSignStatus)
+    suspend fun getEsignStatus(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
+
+    @POST(WebConstants.getWalletData)
+    suspend fun getKycWalletData(@Body mapData: HashMap<String, String>): Response<HashMap<String, Any>>
+
 }
