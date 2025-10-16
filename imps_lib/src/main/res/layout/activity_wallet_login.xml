@@ -29,27 +29,19 @@
         android:text="Please enter your mobile number"
         android:textColor="#6B7280"
         android:textSize="14sp" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilMobile"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/CustomTextInputLayoutOutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp">
+        android:hint="@string/mobile_number"
+        android:textSize="@dimen/sp15">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etMobile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/phone_icon"
-            android:hint="Enter 10-digit mobile number"
-            android:inputType="phone"
+            style="@style/edittext_style"
             android:maxLength="10"
-            android:textColor="#111827"
-            android:textSize="16sp" />
+            android:inputType="phone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

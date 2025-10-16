@@ -14,7 +14,6 @@ import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import android.util.Base64
-import android.view.View
 import javax.crypto.spec.SecretKeySpec
 
 
@@ -88,6 +87,16 @@ class CommonMethods {
 
     fun getUserAgent(): String{
         return System.getProperty("http.agent")?:""
+    }
+
+    fun getMaskNumber(number:String):String{
+        if(number.isNotEmpty() && number.length>9){
+            val lastFour = number.takeLast(4)
+            val maskedPart = "*".repeat(number.length - 4)
+            return maskedPart + lastFour
+        }else{
+            return ""
+        }
     }
 
     fun isValidIFSC(ifsc: String): Boolean {

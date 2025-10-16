@@ -3,7 +3,9 @@ package com.lib.sps
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.text.Html
 import android.util.Log
 import com.lib.sps.model.EkycDeviceList
 import com.google.gson.internal.LinkedTreeMap
@@ -35,7 +37,7 @@ class BiometricUtils {
         this.pidBlockNodes = pidBlockNodes
         this.context = context
         try {
-            if (deviceDetails.isBiometric == true) {
+            if (deviceDetails.deviceType?.uppercase() == "BIOMETRIC") {
                 if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("morpho", ignoreCase = true)) {
                     if (searchPackageName("morpho", deviceDetails.isBiometric!!)) {
                         val pidOptXML: String = createPidOptXML(biometricFormat, wadh, pidBlockNodes)!!
@@ -129,6 +131,13 @@ class BiometricUtils {
                         return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
                     }
                 }
+            }else if(deviceDetails.deviceType?.uppercase() == "FACEAUTH"){
+                if(searchPackageName("FaceAuth", deviceDetails.isBiometric!!)){
+                    val pidOptXML: String = createFRDPidOptXML(wadh, pidBlockNodes)
+                    return  BiometricActionData("in.gov.uidai.rdservice.face.CAPTURE",deviceDetails.packageName.toString(),pidOptXML,false, errorMessage = deviceDetails.errorMessage!!)
+                }else{
+                    return  BiometricActionData("","","",true, errorMessage = deviceDetails.errorMessage!!)
+                }
             } else {
                 if (deviceDetails.deviceCode?.trim { it <= ' ' }.equals("mantra", ignoreCase = true)) {
                         val fType = if (pidBlockNodes.containsKey("fType")) {
@@ -154,78 +163,93 @@ class BiometricUtils {
             }
         } catch (e: Exception) {
             Log.e("exception", "e")
+            if (deviceDetails.deviceType?.uppercase() == "FACEAUTH" && e.toString().lowercase()
+                    .contains("No Activity found to handle Intent".lowercase())
+            ) {
+                AlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setTitle("Message")
+                    .setMessage(Html.fromHtml("<font color ='#000000'>${deviceDetails.errorMessage}.toString()</font>"))
+                    .setPositiveButton("OK") { dialog, which ->
+                        val intentPlay = Intent(Intent.ACTION_VIEW)
+                        intentPlay.data =
+                            Uri.parse("market://details?id=$deviceDetails.packageName.toString()")
+                        context.startActivity(intentPlay)
+                        dialog.cancel()
+                    }
+                    .show()
+            }
             return  BiometricActionData("","","",true,"Error")
         }
         return  BiometricActionData("","","",true,"Error")
     }
 
     private fun searchPackageName(deviceName: String, isBiometricSelected: Boolean): Boolean {
-        var string = ""
+        var packageName = ""
         var message = ""
         if (isBiometricSelected) {
             when {
                 deviceName.equals("morpho", ignoreCase = true) -> {
-                    string = "com.scl.rdservice"
+                    packageName = "com.scl.rdservice"
                     message = "Please install `Morpho SCL RDService` App."
                 }
                 deviceName.equals("startek", ignoreCase = true) -> {
-                    string = "com.acpl.registersdk"
+                    packageName = "com.acpl.registersdk"
                     message = "Please install `ACPL FM220 Registered Device` Service."
                 }
                 deviceName.equals("mantra", ignoreCase = true) -> {
-                    string = "com.mantra.rdservice"
+                    packageName = "com.mantra.rdservice"
                     message = "Please install `Mantra RDService` App."
                 }
                 deviceName.equals("secugen", ignoreCase = true) -> {
-                    string = "com.secugen.rdservice"
+                    packageName = "com.secugen.rdservice"
                     message = "Please install `SecuGen RD Service` App."
                 }
                 deviceName.equals("precision", ignoreCase = true) -> {
-                    string = "com.precision.pb510.rdservice"
+                    packageName = "com.precision.pb510.rdservice"
                     message = "Please install `PB510 RDService` App."
                 }
                 deviceName.equals("identi5", ignoreCase = true) -> {
-                    string = "com.evolute.rdservice"
+                    packageName = "com.evolute.rdservice"
                     message = "Please install `Evolute RD Service` App."
                 }
                 deviceName.equals("Mantra L1", ignoreCase = true) -> {
-                    string = "com.mantra.mfs110.rdservice"
+                    packageName = "com.mantra.mfs110.rdservice"
                     message = "Please install Mantra L1 RD Service App."
                 }
                 deviceName.equals("Morpho L1", ignoreCase = true) -> {
-                    string = "com.idemia.l1rdservice"
+                    packageName = "com.idemia.l1rdservice"
                     message = "Please install Morpho L1 RD Service App."
                 }
                 deviceName.equals("Startek L1", ignoreCase = true) -> {
-                    string = "com.acpl.registersdk_l1"
+                    packageName = "com.acpl.registersdk_l1"
                     message = "Please install Startek L1 RD Service App."
                 }
                 deviceName.equals("PB1000 L1", ignoreCase = true) -> {
-                    string = "in.co.precisionit.innaitaadhaar"
+                    packageName = "in.co.precisionit.innaitaadhaar"
                     message = "Please install PB1000 L1 RD Service App."
                 }
                 deviceName.equals("Tatvik", ignoreCase = true) -> {
-                    string = "com.tatvik.bio.tmf20"
+                    packageName = "com.tatvik.bio.tmf20"
                     message = "Please install `Tatvik RD Service` App."
                 }
                 deviceName.equals("Identi5 L1", ignoreCase = true) -> {
-                    string = "com.evolute.A600.rdservice"
+                    packageName = "com.evolute.A600.rdservice"
                     message = "Please install `Evolute L1 RD Service` App."
                 }else->{
-                    string = deviceDetails.packageName.toString()
+                    packageName = deviceDetails.packageName.toString()
                     message = deviceDetails.errorMessage.toString()
                 }
             }
         } else {
             if (deviceName.equals("mantra", ignoreCase = true)) {
-                string = "com.mantra.mis100v2.rdservice"
+                packageName = "com.mantra.mis100v2.rdservice"
                 message = "Please install `Mantra RDService` App."
             }else{
-                string = deviceDetails.packageName.toString()
+                packageName = deviceDetails.packageName.toString()
                 message = deviceDetails.errorMessage.toString()
             }
         }
-        val packageName = string
         return if (!isPackageExisted(packageName)) {
             AlertDialog.Builder(context)
                 .setCancelable(false)
@@ -233,7 +257,6 @@ class BiometricUtils {
                 .setMessage(message)
                 .setPositiveButton("OK") { dialog, _ ->
                     val intentPlay = Intent(Intent.ACTION_VIEW)
-                    //intentPlay.setData(Uri.parse("market://details?id=com.acpl.registersdk"));
                     intentPlay.data = Uri.parse("market://details?id=$packageName") // com.scl.rdservice"));
                     context.startActivity(intentPlay)
                     dialog.cancel()
@@ -242,15 +265,15 @@ class BiometricUtils {
             false
         } else true
     }
-
-    private fun isPackageExisted(targetPackage: String): Boolean {
-        val mainIntent = Intent(Intent.ACTION_MAIN, null)
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-        val pkgAppsList = context.packageManager.queryIntentActivities(mainIntent, 0)
-        for (packageInfo in pkgAppsList) {
-            if (packageInfo.activityInfo.processName == targetPackage) return true
+    private fun isPackageExisted(packageName: String): Boolean {
+        val pm: PackageManager = context.packageManager
+        try {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            return true
+        } catch (e: PackageManager.NameNotFoundException) {
+            Log.d("Tag", "$packageName not installed")
+            return false
         }
-        return false
     }
 
     private fun createPrecisionPidOptXML(biometricFormat: String, pidBlockNodes: LinkedTreeMap<String, Any>): String {
@@ -605,6 +628,162 @@ class BiometricUtils {
         }
     }
 
+  //////////////////////////////////////////// FACE RD ////////////////////////////////////////////////////////////////
+  open fun createFRDPidOptXML(
+      wadh: String,
+      pidBlockNodes: LinkedTreeMap<String, Any>,
+  ): String {
+      var tmpOptXml = ""
+      return try {
+          val docFactory = DocumentBuilderFactory.newInstance()
+          docFactory.isNamespaceAware = true
+          var docBuilder: DocumentBuilder? = null
+          docBuilder = docFactory.newDocumentBuilder()
+          val doc = docBuilder.newDocument()
+          doc.xmlStandalone = true
+          val rootElement = doc.createElement("PidOptions")
+          doc.appendChild(rootElement)
+
+          var attrs = doc.createAttribute("ver")
+          attrs.value = if (pidBlockNodes.containsKey("ver")) {
+              pidBlockNodes["ver"].toString()
+          } else {
+              "1.0"
+          }
+          rootElement.setAttributeNode(attrs)
+
+          attrs = doc.createAttribute("env")
+          attrs.value = if (pidBlockNodes.containsKey("env")) {
+              pidBlockNodes["env"].toString()
+          } else {
+              "P"
+          }
+
+          rootElement.setAttributeNode(attrs)
+
+          val opts = doc.createElement("Opts")
+          rootElement.appendChild(opts)
+          var attr = doc.createAttribute("fCount")
+          attr.value = if (pidBlockNodes.containsKey("fCount")) {
+              pidBlockNodes["fCount"].toString()
+          } else {
+              ""
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("fType")
+          attr.value = if (pidBlockNodes.containsKey("fType")) {
+              pidBlockNodes["fType"].toString()
+          } else {
+              "2"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("iCount")
+          attr.value = if (pidBlockNodes.containsKey("iCount")) {
+              pidBlockNodes["iCount"].toString()
+          } else {
+              "1"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("iType")
+          attr.value = if (pidBlockNodes.containsKey("iType")) {
+              pidBlockNodes["iType"].toString()
+          } else {
+              "1"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("pCount")
+          attr.value = if (pidBlockNodes.containsKey("pCount")) {
+              pidBlockNodes["pCount"].toString()
+          } else {
+              "1"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("pType")
+          attr.value = if (pidBlockNodes.containsKey("pType")) {
+              pidBlockNodes["pType"].toString()
+          } else {
+              "0"
+          }
+
+
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("format")
+          attr.value = if (pidBlockNodes.containsKey("format")) {
+              pidBlockNodes["format"].toString()
+          } else {
+              "0"
+          }
+
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("pidVer")
+          attr.value = if (pidBlockNodes.containsKey("pidVer")) {
+              pidBlockNodes["pidVer"].toString()
+          } else {
+              "2.0"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("timeout")
+          attr.value = if (pidBlockNodes.containsKey("timeout")) {
+              pidBlockNodes["timeout"].toString()
+          } else {
+              "10000"
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("otp")
+          attr.value = if (pidBlockNodes.containsKey("otp")) {
+              pidBlockNodes["otp"].toString()
+          } else {
+              ""
+          }
+
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("wadh")
+          attr.value = wadh.ifEmpty {
+              if (pidBlockNodes.containsKey("wadh")) {
+                  pidBlockNodes["wadh"].toString()
+              } else {
+                  ""
+              }
+          }
+          opts.setAttributeNode(attr)
+          attr = doc.createAttribute("posh")
+          attr.value = if (pidBlockNodes.containsKey("posh")) {
+              pidBlockNodes["posh"].toString()
+          } else {
+              ""
+          }
+          opts.setAttributeNode(attr)
+
+          val custotp = doc.createElement("CustOpts")
+          rootElement.appendChild(custotp)
+          val param = doc.createElement("Param")
+          custotp.appendChild(param)
+          attr = doc.createAttribute("name")
+          attr.value = "txnId"
+          param.setAttributeNode(attr)
+          attr = doc.createAttribute("value")
+          attr.value = if (pidBlockNodes.containsKey("txnId")) {
+              pidBlockNodes["txnId"].toString()
+          } else {
+              System.currentTimeMillis().toString()
+          }
+          param.setAttributeNode(attr)
+          val transformerFactory = TransformerFactory.newInstance()
+          val transformer = transformerFactory.newTransformer()
+//            transformer.setOutputProperty(OutputKeys.STANDALONE, "yes")
+          val source = DOMSource(doc)
+          val writer = StringWriter()
+          val result = StreamResult(writer)
+          transformer.transform(source, result)
+          tmpOptXml = writer.buffer.toString().replace("\n|\r".toRegex(), "")
+          tmpOptXml = tmpOptXml.replace("&lt;".toRegex(), "<").replace("&gt;".toRegex(), ">")
+          Log.e("Pid Options", tmpOptXml)
+          tmpOptXml
+      } catch (ex: Exception) {
+          ex.printStackTrace()
+          ""
+      }
+  }
 }
 
 class BiometricActionData{

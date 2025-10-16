@@ -4,6 +4,7 @@
 
     <corners android:radius="@dimen/dp10"/>
 
-    <solid android:color="@color/colorLightBlue"/>
-    <stroke android:width="@dimen/dp1" android:color="@color/colorLightBlue" />
+    <!-- Use a medium gray tone -->
+    <solid android:color="@color/gray_disabled" />
+    <stroke android:width="@dimen/dp1" android:color="@color/gray_disabled" />
 </shape>

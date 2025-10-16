@@ -2,6 +2,7 @@ package com.imps_lib.app.ui
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,7 +19,7 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
-import com.imps_lib.app.PrefManager
+import com.imps_lib.app.GlobalData
 import com.imps_lib.app.R
 import com.imps_lib.app.model.VerifyOtpResult
 import com.imps_lib.app.network.ApiClient
@@ -107,12 +108,7 @@ class OtpActivity : AppCompatActivity() {
                 )
                 tvResend.text = spannable
                 tvResend.isEnabled = true
-                tvResend.setTextColor(
-                    ContextCompat.getColor(
-                        this@OtpActivity,
-                        R.color.colorPrimary
-                    )
-                )
+                tvResend.setTextColor(Color.parseColor("#1DA1F2"))
             }
         }.start()
     }
@@ -149,8 +145,8 @@ class OtpActivity : AppCompatActivity() {
                                     if (it.data?.otpStatus.toString().trim()
                                             .uppercase(Locale.ROOT) == "VERIFIED"
                                     ) {
-                                        PrefManager.getInstance(this@OtpActivity).putString("MOBILE",mobile)
-
+                                        finish()
+                                        GlobalData.mobileNumber = mobile
                                         val intent = Intent(
                                             this@OtpActivity,
                                             MrHomeActivity::class.java
@@ -285,11 +281,7 @@ class OtpActivity : AppCompatActivity() {
                         } else {
                             runOnUiThread {
                                 try {
-                                    val decryptData =
-                                        JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("data").trim()
-
+                                    val decryptData = JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("message").trim()
                                     val jsonObj = JSONObject(decryptData)
                                     if (jsonObj.has("message") && jsonObj.getString("message")
                                             .uppercase() == "FAILURE"

@@ -28,7 +28,7 @@
                 android:id="@+id/btnBack"
                 android:layout_width="@dimen/dp28"
                 android:layout_height="@dimen/dp28"
-                android:src="@drawable/back_arrow" />
+                android:src="@drawable/black_back_arrow"/>
 
             <!-- Title Text -->
             <TextView
@@ -213,6 +213,15 @@
                     android:paddingLeft="@dimen/dp5"
                     android:textColor="@color/black" />
             </LinearLayout>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp5"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="@string/fund_transfer_note"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp10" />
 
             <!-- Submit -->
             <Button

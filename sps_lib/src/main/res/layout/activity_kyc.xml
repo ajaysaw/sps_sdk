@@ -23,7 +23,7 @@
                 style="@style/TextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Complete E-KYC"
+                android:text="@string/complete_E_KYC"
                 android:textSize="@dimen/dp17"
                 android:textColor="@color/white_color" />
             <TextView
@@ -73,25 +73,36 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlOtp"
-                style="@style/CustomTextInputLayoutOutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/ekyc_edit_text_border"
                 android:layout_marginTop="@dimen/dp15"
-                android:hint="@string/enter_otp"
-                app:endIconDrawable="@drawable/arrow_forward_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/blueColor">
-
-                <com.google.android.material.textfield.TextInputEditText
+                android:gravity="center_vertical">
+                <EditText
                     android:id="@+id/etOtp"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp57"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/dp15"
                     style="@style/edittext_style"
+                    android:maxLength="6"
+                    android:hint="@string/enter_otp"
                     android:inputType="number"
-                    android:maxLength="6" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                    android:background="@null"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+                <TextView
+                    android:id="@+id/otpVerifyText"
+                    android:layout_width="@dimen/dp80"
+                    android:layout_height="@dimen/dp57"
+                    android:background="@drawable/edittext_verify_drawable"
+                    android:text="@string/verify"
+                    android:textSize="@dimen/sp16"
+                    android:textColor="@color/white"
+                    android:gravity="center" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvOtpSendMessage"
-                    style="@style/TextViewStyle"
+                    style="@style/TextViewStyle12"
                     android:layout_marginTop="@dimen/dp5"
                     android:gravity="start"
                     android:layout_marginHorizontal="@dimen/dp5"
@@ -125,27 +136,172 @@
 
 
             </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tlPanNo"
-                style="@style/CustomTextInputLayoutOutlinedBox"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/TextViewStyle"
                 android:layout_marginTop="@dimen/dp15"
-                android:hint="@string/pan_num"
-                android:textSize="@dimen/sp15"
-                app:endIconDrawable="@drawable/arrow_forward_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/blueColor">
-
-                <com.google.android.material.textfield.TextInputEditText
+                android:gravity="start"
+                android:text="@string/do_you_have_pan"
+                android:textColor="@color/colorLightBlue" />
+            <Spinner
+                android:id="@+id/confirmationPanSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp55"
+                style="@style/CustomSpinnerStyle"
+                android:background="@drawable/spinner_background" />
+            <TextView
+                android:id="@+id/tvCharges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextViewStyle12"
+                android:layout_marginTop="@dimen/dp2"
+                android:text=""
+                android:textColor="@color/greenColor"
+                android:visibility="gone"/>
+            <LinearLayout
+                android:id="@+id/panLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/ekyc_edit_text_border"
+                android:layout_marginTop="@dimen/dp15"
+                android:gravity="center_vertical">
+                <EditText
                     android:id="@+id/etPanNo"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp57"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/dp15"
                     style="@style/edittext_style"
+                    android:hint="@string/pan_num"
                     android:maxLength="10"
                     android:textAllCaps="true"
-                    android:inputType="textCapCharacters"/>
+                    android:inputType="textCapCharacters"
+                    android:background="@null"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical" />
+                <TextView
+                    android:id="@+id/panVerifyText"
+                    android:layout_width="@dimen/dp80"
+                    android:layout_height="@dimen/dp57"
+                    android:background="@drawable/button_disbled"
+                    android:text="@string/verify"
+                    android:textSize="@dimen/sp16"
+                    android:textColor="@color/white"
+                    android:gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/noPanLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextViewStyle"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:gravity="start"
+                    android:text="@string/do_you_have_pan_applied"
+                    android:textColor="@color/colorLightBlue" />
+                <Spinner
+                    android:id="@+id/confirmationPanAppliedSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp55"
+                    style="@style/CustomSpinnerStyle"
+                    android:background="@drawable/spinner_background" />
+                <LinearLayout
+                    android:id="@+id/panAcknowledgementLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlPanAcknowledgementNumber"
+                        style="@style/CustomTextInputLayoutOutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp15"
+                        android:hint="@string/pan_acknowledgement_number"
+                        android:textSize="@dimen/sp15">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPanAcknowledgementNumber"
+                            style="@style/edittext_style"
+                            android:inputType="textCapCharacters"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlPanAcknowledgementDate"
+                        style="@style/CustomTextInputLayoutOutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp15"
+                        android:hint="@string/pan_acknowledgement_date"
+                        android:textSize="@dimen/sp15">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPanAcknowledgementDate"
+                            style="@style/edittext_style"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:maxLength="10"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlFatherName"
+                    style="@style/CustomTextInputLayoutOutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:hint="@string/father_name"
+                    android:textSize="@dimen/sp15">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFatherName"
+                        style="@style/edittext_style"
+                        android:inputType="text"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:maxLength="150" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlAgriculturalIncome"
+                    style="@style/CustomTextInputLayoutOutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:hint="@string/agricultural_income"
+                    android:textSize="@dimen/sp15">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAgriculturalIncome"
+                        style="@style/edittext_style"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tlOtherAgriculturalIncome"
+                    style="@style/CustomTextInputLayoutOutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:hint="@string/other_then_agricultural_income"
+                    android:textSize="@dimen/sp15">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOtherAgriculturalIncome"
+                        style="@style/edittext_style"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tlAadhaarNo"
@@ -160,7 +316,7 @@
                     android:id="@+id/etAadhaarNo"
                     style="@style/edittext_style"
                     android:inputType="number"
-                    android:maxLength="12" />
+                    android:maxLength="16" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -211,6 +367,21 @@
                 android:layout_height="@dimen/dp55"
                 style="@style/CustomSpinnerStyle"
                 android:background="@drawable/spinner_background" />
+
+            <TextView
+                android:id="@+id/btnPlayStop"
+                android:layout_width="@dimen/dp110"
+                android:layout_height="@dimen/dp30"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginLeft="@dimen/dp3"
+                style="@style/TextViewStyle12"
+                android:gravity="center_vertical"
+                android:background="@drawable/audio_circle_button"
+                android:drawableStart="@drawable/play_arrow"
+                android:text="@string/play_audio"
+                android:textColor="@color/black"
+                android:padding="@dimen/dp7"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/llConsent"

@@ -21,7 +21,11 @@ data class EkycMasterData(
     @SerializedName("url_list") var urlList: UrlList? = UrlList(),
     @SerializedName("ekyc_otp_msg") var ekycOtpMsg: String? = "",
     @SerializedName("ekyc_token") var ekycToken: String? = "",
-    @SerializedName("mobile_no") var mobileNo: String? = ""
+    @SerializedName("mobile_no") var mobileNo: String? = "",
+    @SerializedName("doc_proof_type") var docProofType: ArrayList<DocProofType> = arrayListOf(),
+    @SerializedName("pan_applied") var panApplied: ArrayList<PanApplied> = arrayListOf(),
+    @SerializedName("validation_list") var validationData: ValidationData? = ValidationData(),
+    @SerializedName("isScreenCaptureRestricted") var isScreenCaptureRestricted: Boolean? = false,
 
 )
 
@@ -33,29 +37,10 @@ data class EkycDeviceList(
     @SerializedName("errorMessage") var errorMessage: String? = null,
     @SerializedName("pidBlockType") var pidBlockType: Int? = 0,
     @SerializedName("isBiometric") var isBiometric: Boolean? = true,
+    @SerializedName("deviceType") var deviceType: String? = "",
     @SerializedName("pidBlockNodes") var pidBlockNodes: LinkedTreeMap<String, Any>
 
 )
-
-data class PidBlockNodes(
-
-    @SerializedName("ver") var ver: String? = null,
-    @SerializedName("fCount") var fCount: String? = null,
-    @SerializedName("iCount") var iCount: String? = null,
-    @SerializedName("iType") var iType: String? = null,
-    @SerializedName("pCount") var pCount: String? = null,
-    @SerializedName("pType") var pType: String? = null,
-    @SerializedName("pidVer") var pidVer: String? = null,
-    @SerializedName("timeout") var timeout: String? = null,
-    @SerializedName("otp") var otp: String? = null,
-    @SerializedName("wadh") var wadh: String? = null,
-    @SerializedName("posh") var posh: String? = null,
-    @SerializedName("env") var env: String? = null,
-    @SerializedName("fType") var fType: String? = null,
-    @SerializedName("format") var format: String? = null
-
-)
-
 data class UrlList(
 
     @SerializedName("BASE_URL") var BASEURL: String? = null,
@@ -69,4 +54,31 @@ data class ConsentLanguage(
     @SerializedName("Language") var language: String? = null,
     @SerializedName("content") var content: String? = null,
     @SerializedName("content1") var less_content: String? = null,
+    @SerializedName("Audio") var audio: String? = null,
+)
+
+data class DocProofType(
+    @SerializedName("key") var key: String? = null,
+    @SerializedName("value") var value: String? = null,
+)
+
+data class PanApplied(
+    @SerializedName("key") var key: String? = null,
+    @SerializedName("value") var value: String? = null,
+    @SerializedName("default_selection") var defaultSelection: String? = null,
+)
+
+data class ValidationData(
+    @SerializedName("max_income_limit") var maxIncomeLimit: Long? = 0,
+    @SerializedName("income_validation") var incomeValidation: String? = "",
+    @SerializedName("pan_ack_date_format") var panAckDateFormat: String? = "dd-MM-yyyy",
+    @SerializedName("pan_ack_date_duration") var panAckDateDuration: String? = "30",
+    @SerializedName("pan_ack_no_length_min") var panAckNoLengthMin: String? = "10",
+    @SerializedName("pan_ack_no_length_max") var panAckNoLengthMax: String? = "20",
+    @SerializedName("ekyc_charges_msg") var eKycChargesMsg: EkycChargesMsg? = EkycChargesMsg(),
+)
+
+data class EkycChargesMsg(
+    @SerializedName("PAN") var panMsg: String? = "",
+    @SerializedName("FORM-60") var form60Msg: String? = "",
 )

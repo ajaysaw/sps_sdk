@@ -1,8 +1,12 @@
 package com.lib.sps.network
 
+import android.content.Context
+import android.content.res.Resources
+import android.os.Build
 import com.google.gson.Gson
 import com.lib.sps.BuildConfig
 import com.lib.sps.CommonMethods
+import com.lib.sps.R
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,7 +26,7 @@ class ApiClient {
         .addConverterFactory(GsonConverterFactory.create(Gson()))
 //        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 
-    fun <S> createService(serviceClass: Class<S>): S {
+    fun <S> createService(serviceClass: Class<S>,context: Context): S {
         try {
             httpClient.addInterceptor(Interceptor { chain ->
                 val original = chain.request()
@@ -30,10 +34,12 @@ class ApiClient {
                 val requestBuilder = original.newBuilder()
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
-                    .header("agentId", "44")
-                    .header("bcAgentId", "SD12345")
-//                    .header("User-Agent", commonMethods.getUserAgent())
-//                    .header("source", "MOBILE_SDK")
+                    .header("User-Agent", commonMethods.getUserAgent())
+                    .header("App-Version", context.getString(R.string.sdk_version).replace("v",""))
+                    .header("Android-Version", Build.VERSION.SDK_INT.toString())
+                    .header("source", "MOBILE_SDK")
+                    .header("latitude",CommonMethods.latitude.toString())
+                    .header("longitude",CommonMethods.longitude.toString())
                     .method(original.method, original.body)
 
                 val request = requestBuilder.build()

@@ -15,7 +15,10 @@ data class BankData(
 data class MetaData(
     @SerializedName("chargesAmount") val chargesAmount: Int?,
     @SerializedName("confirmationText") val confirmationText: String?,
+    @SerializedName("accountType") val accountType: ArrayList<String>,
 )
+
+
 
 data class BankMaster(
     @SerializedName("id") val id: Int?,

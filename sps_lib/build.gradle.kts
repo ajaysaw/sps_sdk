@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.media3.common)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,5 +78,5 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.lottie)
     implementation (libs.converter.scalars)
-
+    implementation (libs.android.pdf.viewer)
 }

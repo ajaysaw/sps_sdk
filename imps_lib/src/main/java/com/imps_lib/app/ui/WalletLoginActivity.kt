@@ -14,16 +14,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.imps_lib.app.ApiErrorHandler
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
-import com.imps_lib.app.PrefManager
+import com.imps_lib.app.GlobalData
 import com.imps_lib.app.R
-import com.imps_lib.app.network.ApiClient
-import com.imps_lib.app.network.WebInterface
+import com.imps_lib.app.model.InitiateKycResult
 import com.imps_lib.app.model.WalletStatusData
 import com.imps_lib.app.model.WalletStatusResult
+import com.imps_lib.app.network.ApiClient
+import com.imps_lib.app.network.WebInterface
 import com.lib.sps.KycActivity
-
+import com.lib.sps.java_json.JSONObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
@@ -47,19 +49,17 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
         tilMobile = findViewById(R.id.tilMobile)
         btnSubmit.setOnClickListener(this)
 
-        if(PrefManager.getInstance(this@WalletLoginActivity).getString("MOBILE").isNotEmpty()){
-            val intent = Intent(
-                this@WalletLoginActivity,
-                MrHomeActivity::class.java
-            )
-            startActivity(intent)
+
+        try {
+            val authorizationToken = intent.getStringExtra("authorizationToken")!!
+            val agentId = intent.getStringExtra("agentId")!!
+            val bcAgentId = intent.getStringExtra("bcAgentId")!!
+            GlobalData.agentId = agentId
+            GlobalData.bcAgentId = bcAgentId
+            GlobalData.authorizationToken = authorizationToken
+        } catch (e: Exception) {
+            print(e.message)
         }
-//        try{
-//            EkycToken = intent.getStringExtra("EkycToken")!!
-//        }catch (e:Exception){
-//            print(e.message)
-//        }
-//        getMasterData() //call master API
     }
 
     override fun onClick(v: View?) {
@@ -129,42 +129,17 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
                                 }
                             }
                         } else {
-                            /* runOnUiThread {
-                                 try {
-                                     val decryptData = commonMethods.aesDecrypt(
-                                         JSONObject(
-                                             response.errorBody()!!.charStream().readText().trim()
-                                         ).getString("data").trim()
-                                     )
-                                     val jsonObj = JSONObject(decryptData)
-                                     if (jsonObj.has("message") && jsonObj.getString("message")
-                                             .uppercase() == "FAILURE"
-                                     ) {
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                     } else
-                                         commonMethods.showMessageDialog(
-                                             this,
-                                             jsonObj.getString("error_message"),
-                                             "Error",
-                                             "",
-                                             false
-                                         )
-                                 } catch (e: Exception) {
-                                     commonMethods.showMessageDialog(
-                                         this,
-                                         e.message.toString(),
-                                         "Error",
-                                         "",
-                                         false
-                                     )
-                                 }
-                             }*/
+                            runOnUiThread {
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    JSONObject(
+                                        response.errorBody()!!.charStream().readText().trim()
+                                    ).getString("message").trim(),
+                                    "Error",
+                                    "",
+                                    false
+                                )
+                            }
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
@@ -196,6 +171,89 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
+    private fun initiateKyc(token: String?) {
+        job = Coroutines.io {
+            withContext(Dispatchers.Main) {
+                progressDialog.show()
+            }
+            if (commonMethods.isNetworkConnected(this)) {
+                val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+                val requestData = HashMap<String, String>()
+
+                requestData["mobileNo"] = etMobile.text.toString().trim()
+
+                service.initiateKyc(requestData).let { response ->
+
+                    try {
+                        progressDialog.dismiss()
+                        if (response.isSuccessful) {
+                            Log.d("resend OTP response API : ", response.toString())
+                            Log.d("resend OTP API response :", response.body().toString())
+                            val jsonString: String = Gson().toJson(response.body())
+
+                            val it = Gson().fromJson(jsonString, InitiateKycResult::class.java)
+                            if (it.status == true) {
+                                withContext(Dispatchers.Main) {
+                                    val intent =
+                                        Intent(this@WalletLoginActivity, KycActivity::class.java)
+                                    intent.putExtra("EkycToken", token)
+                                    startActivity(intent)
+                                }
+                            } else {
+                                print(it.message)
+                                runOnUiThread {
+                                    commonMethods.showMessageDialog(
+                                        this,
+                                        it.message,
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
+                            }
+                        } else {
+                            runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
+                            }
+                        }
+                    } catch (e: Exception) {
+                        //onError("$response", true)
+                        print(e)
+                        progressDialog.dismiss()
+                        runOnUiThread {
+                            commonMethods.showMessageDialog(
+                                this,
+                                e.localizedMessage ?: "Something went wrong.",
+                                "Error",
+                                "",
+                                false
+                            )
+                        }
+                    }
+                }
+            } else {
+                progressDialog.dismiss()
+                runOnUiThread {
+                    commonMethods.showMessageDialog(
+                        this,
+                        "No Internet....Please be connected to a working internet",
+                        "Alert!",
+                        "",
+                        false
+                    )
+                }
+            }
+        }
+    }
 
     private fun kycPendingDialog(ctx: Context?, data: WalletStatusData?) {
         val dialog = Dialog(ctx!!, R.style.CustomDialogStyle)
@@ -207,10 +265,11 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
         val tvCancel: TextView = dialog.findViewById(R.id.tvCancel)
         val tvProceed: TextView = dialog.findViewById(R.id.tvProceed)
 
-        tvTitle.text = data?.ekycPopUpData?.heading ?: ""
-        tvDes.text = data?.ekycPopUpData?.subheading ?: ""
-        tvProceed.text = data?.ekycPopUpData?.proceedBtnText
-        tvCancel.text = data?.ekycPopUpData?.cancelBtnText
+        tvTitle.text = data?.ekycPopUpData?.heading
+            ?: "To proceed with PPI wallet KYC, please arrange customer's Aadhaar & Pan"
+        tvDes.text = data?.ekycPopUpData?.subheading ?: "(Charges Rs.10.00)"
+        tvProceed.text = data?.ekycPopUpData?.proceedBtnText ?: "${R.string.proceed}"
+        tvCancel.text = data?.ekycPopUpData?.cancelBtnText ?: "${R.string.cancel}"
 
         tvCancel.setOnClickListener {
             dialog.dismiss()
@@ -218,12 +277,13 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
         tvProceed.setOnClickListener {
             dialog.dismiss()
 
+
             val uri = Uri.parse(data?.ekycUrl)
             val token = uri.getQueryParameter("token")
 
-            val intent = Intent(this@WalletLoginActivity, KycActivity::class.java)
-            intent.putExtra("EkycToken", token)
-            startActivity(intent)
+            initiateKyc(token)
+
+
         }
         dialog.show()
     }

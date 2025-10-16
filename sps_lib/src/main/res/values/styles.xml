@@ -25,24 +25,13 @@
         <item name="android:textSize">@dimen/sp14</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
     </style>
+    <style name="TextViewStyle12" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
 
-    <style name="TextViewStyleBold" parent="android:Widget.TextView">
+    <style name="TextViewStyleRegular" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/sp15</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
-
-    <style name="TextViewStyleBold12" parent="android:Widget.TextView">
-        <item name="android:textSize">@dimen/sp12</item>
-        <item name="android:fontFamily">@font/poppins_bold</item>
-    </style>
-
-    <style name="RegularTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textSize">@dimen/sp14</item>
-        <item name="android:fontFamily">@font/poppins_regular</item>
-    </style>
-
-    <style name="RegularTextViewStyle12" parent="android:Widget.TextView">
-        <item name="android:textSize">@dimen/sp12</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
@@ -79,13 +68,6 @@
 
     <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
         <item name="android:popupBackground">@color/white</item>
-    </style>
-
-
-    <style name="CustomTabTextStyle" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/sp15</item>
     </style>
 
 </resources>

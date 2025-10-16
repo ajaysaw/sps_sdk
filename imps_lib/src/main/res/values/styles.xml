@@ -97,4 +97,9 @@
         <item name="android:textSize">@dimen/sp15</item>
     </style>
 
+    <style name="CircleImageShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
