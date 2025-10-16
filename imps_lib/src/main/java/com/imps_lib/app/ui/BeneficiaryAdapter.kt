@@ -41,7 +41,7 @@ class BeneficiaryAdapter(
         holder.tvAccountNumber.text = beneficiary.accountNumber
         holder.tvIfsc.text = beneficiary.ifsc
 
-        if(beneficiary.isVerified?.uppercase(Locale.ROOT) != "Y"){
+        if(beneficiary.isVerified?.uppercase(Locale.ROOT) == "Y"){
             holder.btnVerify.visibility= View.GONE
         }else{
             holder.btnVerify.visibility= View.VISIBLE

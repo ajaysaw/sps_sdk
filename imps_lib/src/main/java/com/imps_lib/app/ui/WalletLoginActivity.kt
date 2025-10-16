@@ -212,7 +212,8 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
                                     )
                                 }
                             }
-                        } else {
+                        }
+                        else {
                             runOnUiThread {
                                 // ❌ Centralized error handling
                                 val errorMessage = ApiErrorHandler.getErrorMessage(response)
