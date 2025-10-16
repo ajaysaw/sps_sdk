@@ -164,6 +164,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                 if (!isEditable) {
                     linerLayoutBtnVerify.visibility = VISIBLE
                     isEditable = true
+                    etBeneficiaryName.isEnabled=true
                 }
             }
 
@@ -571,6 +572,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                                 withContext(Dispatchers.Main) {
                                     isEditable = false
                                     etBeneficiaryName.setText(it.data?.accountHolderName)
+                                    etBeneficiaryName.isEnabled=false
                                     linerLayoutBtnVerify.visibility = GONE
                                     tvSubmit.background = ContextCompat.getDrawable(
                                         requireContext(),
@@ -689,6 +691,8 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                                         selectedBank = null
                                         autoCompleteBank.setText("")
                                         isEditable = true
+                                        etBeneficiaryName.isEnabled=true
+                                        linerLayoutBtnVerify.visibility = VISIBLE
                                         commonMethods.showMessageDialog(
                                             requireContext(),
                                             it.message,
