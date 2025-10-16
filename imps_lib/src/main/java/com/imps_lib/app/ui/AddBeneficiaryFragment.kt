@@ -100,6 +100,9 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
         autoCompleteBank.setAdapter(adapter)
         autoCompleteBank.setOnItemClickListener { parent, _, position, _ ->
             selectedBank = parent.getItemAtPosition(position) as BankMaster
+            if(selectedBank?.bankIfscCode!=null){
+                etIfscCode.setText(selectedBank?.bankIfscCode.toString())
+            }
             if (!isEditable) {
                 linerLayoutBtnVerify.visibility = VISIBLE
                 isEditable = true
