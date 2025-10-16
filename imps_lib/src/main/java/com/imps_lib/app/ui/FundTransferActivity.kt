@@ -429,37 +429,16 @@ class FundTransferActivity : AppCompatActivity() {
                             }
                         } else {
                             runOnUiThread {
-                                try {
-                                    // Read the raw error body once
-                                    val errorBodyStr = response.errorBody()?.string()
-                                    Log.e("API_ERROR_BODY", errorBodyStr ?: "null")
-                                    var errorMessage = "Unknown error"
-                                    if (!errorBodyStr.isNullOrEmpty()) {
-                                        val jsonObj = JSONObject(errorBodyStr)
-                                        if (jsonObj.has("message") && !jsonObj.isNull("message")) {
-                                            errorMessage = jsonObj.getString("message")
-                                        } else if (jsonObj.has("error_message") && !jsonObj.isNull("error_message")) {
-                                            errorMessage = jsonObj.getString("error_message")
-                                        }
-                                    }
-
-                                    commonMethods.showMessageDialog(
-                                        this@FundTransferActivity,          // use activity context explicitly
-                                        errorMessage,
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                } catch (e: Exception) {
-                                    // In case parsing fails, show exception text
-                                    commonMethods.showMessageDialog(
-                                        this@FundTransferActivity,
-                                        e.message ?: "Something went wrong",
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {

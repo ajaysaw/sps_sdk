@@ -130,11 +130,12 @@ class WalletLoginActivity : AppCompatActivity(), OnClickListener {
                             }
                         } else {
                             runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
                                 commonMethods.showMessageDialog(
                                     this,
-                                    JSONObject(
-                                        response.errorBody()!!.charStream().readText().trim()
-                                    ).getString("message").trim(),
+                                    errorMessage,
                                     "Error",
                                     "",
                                     false

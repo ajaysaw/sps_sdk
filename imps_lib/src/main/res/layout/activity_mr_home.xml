@@ -26,13 +26,16 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/tvImage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/dp50"
+                    android:layout_height="@dimen/dp50"
                     android:scaleType="centerCrop"
-                    android:paddingStart="@dimen/dp7"
-                    android:paddingEnd="@dimen/dp7"
+                    android:paddingStart="@dimen/dp5"
+                    android:paddingEnd="@dimen/dp5"
                     android:paddingTop="@dimen/dp5"
                     android:paddingBottom="@dimen/dp5"
+                    android:src="@drawable/profile_icon"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="@dimen/dp1"
                     app:shapeAppearanceOverlay="@style/CircleImageShape" />
                <!-- <ImageView
                     android:id="@+id/tvImage"

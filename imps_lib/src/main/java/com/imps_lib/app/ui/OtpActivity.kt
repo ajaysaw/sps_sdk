@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
+import com.imps_lib.app.ApiErrorHandler
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
 import com.imps_lib.app.GlobalData
@@ -178,41 +179,16 @@ class OtpActivity : AppCompatActivity() {
                             }
                         } else {
                             runOnUiThread {
-                                try {
-                                    // Read the raw error body once
-                                    val errorBodyStr = response.errorBody()?.string()
-                                    Log.e("API_ERROR_BODY", errorBodyStr ?: "null")
-
-                                    // Parse JSON and extract "message" (server uses "message")
-                                    var errorMessage = "Unknown error"
-                                    if (!errorBodyStr.isNullOrEmpty()) {
-                                        val jsonObj = JSONObject(errorBodyStr)
-                                        // server returns: {"status":false,"message":"The OTP you entered is incorrect.","errors":null}
-                                        if (jsonObj.has("message") && !jsonObj.isNull("message")) {
-                                            errorMessage = jsonObj.getString("message")
-                                        } else if (jsonObj.has("error_message") && !jsonObj.isNull("error_message")) {
-                                            // fallback if some responses use "error_message"
-                                            errorMessage = jsonObj.getString("error_message")
-                                        }
-                                    }
-
-                                    commonMethods.showMessageDialog(
-                                        this@OtpActivity,          // use activity context explicitly
-                                        errorMessage,
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                } catch (e: Exception) {
-                                    // In case parsing fails, show exception text
-                                    commonMethods.showMessageDialog(
-                                        this@OtpActivity,
-                                        e.message ?: "Something went wrong",
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -265,7 +241,9 @@ class OtpActivity : AppCompatActivity() {
                             val jsonString: String = Gson().toJson(response.body())
                             val it = Gson().fromJson(jsonString, VerifyOtpResult::class.java)
                             if (it.status == true) {
-                                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(this@OtpActivity, it.message, Toast.LENGTH_SHORT).show()
+                                }
                             } else {
                                 print(it.message)
                                 runOnUiThread {
@@ -280,36 +258,16 @@ class OtpActivity : AppCompatActivity() {
                             }
                         } else {
                             runOnUiThread {
-                                try {
-                                    val decryptData = JSONObject(response.errorBody()!!.charStream().readText().trim()).getString("message").trim()
-                                    val jsonObj = JSONObject(decryptData)
-                                    if (jsonObj.has("message") && jsonObj.getString("message")
-                                            .uppercase() == "FAILURE"
-                                    ) {
-                                        commonMethods.showMessageDialog(
-                                            this,
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                    } else
-                                        commonMethods.showMessageDialog(
-                                            this,
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {

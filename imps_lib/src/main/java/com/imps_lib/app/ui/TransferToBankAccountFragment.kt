@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.imps_lib.app.ApiErrorHandler
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
 import com.imps_lib.app.GlobalData
@@ -241,21 +242,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(), org.json.JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("message").trim(), "Error", "", false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -329,21 +325,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(), org.json.JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("message").trim(), "Error", "", false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -418,37 +409,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    // Read the raw error body once
-                                    val errorBodyStr = response.errorBody()?.string()
-                                    Log.e("API_ERROR_BODY", errorBodyStr ?: "null")
-                                    var errorMessage = "Unknown error"
-                                    if (!errorBodyStr.isNullOrEmpty()) {
-                                        val jsonObj = JSONObject(errorBodyStr)
-                                        if (jsonObj.has("message") && !jsonObj.isNull("message")) {
-                                            errorMessage = jsonObj.getString("message")
-                                        } else if (jsonObj.has("error_message") && !jsonObj.isNull("error_message")) {
-                                            errorMessage = jsonObj.getString("error_message")
-                                        }
-                                    }
-
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),          // use activity context explicitly
-                                        errorMessage,
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                } catch (e: Exception) {
-                                    // In case parsing fails, show exception text
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message ?: "Something went wrong",
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -521,40 +491,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    val decryptData =
-                                        JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("data").trim()
-
-                                    val jsonObj = JSONObject(decryptData)
-                                    if (jsonObj.has("message") && jsonObj.getString("message")
-                                            .uppercase() == "FAILURE"
-                                    ) {
-                                        commonMethods.showMessageDialog(
-                                            requireContext(),
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                    } else
-                                        commonMethods.showMessageDialog(
-                                            requireContext(),
-                                            jsonObj.getString("error_message"),
-                                            "Error",
-                                            "",
-                                            false
-                                        )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -640,21 +586,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(), org.json.JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("data").trim(), "Error", "", false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -755,21 +696,16 @@ class TransferToBankAccountFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(), org.json.JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("message").trim(), "Error", "", false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        requireContext(),
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {

@@ -248,9 +248,12 @@ class DepositMoneyFragment : Fragment() {
                             }
                         } else {
                             requireActivity().runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
                                 commonMethods.showMessageDialog(
-                                    requireActivity(),
-                                   "Something went wrong.",
+                                    requireContext(),
+                                    errorMessage,
                                     "Error",
                                     "",
                                     false
@@ -351,6 +354,18 @@ class DepositMoneyFragment : Fragment() {
                                 }
                             }
                         } else {
+                            requireActivity().runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
+                            }
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
@@ -440,13 +455,18 @@ class DepositMoneyFragment : Fragment() {
                                 )
                             }
                         } else {
-                            commonMethods.showMessageDialog(
-                                requireActivity(),
-                                "Something went wrong. Please try again.",
-                                "Error",
-                                "",
-                                false
-                            )
+                            requireActivity().runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
+                            }
                         }
                     } catch (e: Exception) {
                         //onError("$response", true)
@@ -537,7 +557,7 @@ class DepositMoneyFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun depositSuccessDialog(amount: String, txnId: String, balance: String) {
-        WalletManager.fetchBalance(requireContext(), CommonMethods())
+        WalletManager.fetchBalance(requireActivity(), CommonMethods())
         val dialog = Dialog(requireActivity(), R.style.CustomDialogStyle)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)

@@ -1,5 +1,6 @@
 package com.imps_lib.app
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.util.Log
@@ -20,7 +21,7 @@ object WalletManager {
     private val _walletBalance = MutableLiveData<WalletBalance?>()
     val walletBalance: LiveData<WalletBalance?> get() = _walletBalance
 
-    fun fetchBalance(context: Context, commonMethods: CommonMethods, progressDialog: Dialog? = null) {
+    fun fetchBalance(context: Activity, commonMethods: CommonMethods, progressDialog: Dialog? = null) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 withContext(Dispatchers.Main) {
@@ -58,13 +59,18 @@ object WalletManager {
                             commonMethods.showMessageDialog(context, wallet.message, "Error", "", false)
                         }
                     } else {
-                        val message = try {
-                            JSONObject(response.errorBody()?.charStream()?.readText() ?: "{}")
-                                .optString("message", "Unknown error")
-                        } catch (e: Exception) {
-                            e.message ?: "Error parsing message"
+                        context.runOnUiThread {
+                            // ❌ Centralized error handling
+                            val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                            Log.e("API_ERROR", errorMessage)
+                            commonMethods.showMessageDialog(
+                                context,
+                                errorMessage,
+                                "Error",
+                                "",
+                                false
+                            )
                         }
-                        commonMethods.showMessageDialog(context, message, "Error", "", false)
                     }
                 }
             } catch (e: Exception) {

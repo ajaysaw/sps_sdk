@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
+import com.imps_lib.app.ApiErrorHandler
 import com.imps_lib.app.CommonMethods
 import com.imps_lib.app.Coroutines
 import com.imps_lib.app.GlobalData
@@ -118,25 +119,16 @@ class MrHomeActivity : AppCompatActivity() {
                             }
                         } else {
                             runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("message").trim(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
@@ -207,25 +199,16 @@ class MrHomeActivity : AppCompatActivity() {
                             }
                         } else {
                             runOnUiThread {
-                                try {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        JSONObject(
-                                            response.errorBody()!!.charStream().readText().trim()
-                                        ).getString("message").trim(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                } catch (e: Exception) {
-                                    commonMethods.showMessageDialog(
-                                        this,
-                                        e.message.toString(),
-                                        "Error",
-                                        "",
-                                        false
-                                    )
-                                }
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    this,
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
                             }
                         }
                     } catch (e: Exception) {
