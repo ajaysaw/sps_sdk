@@ -73,7 +73,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
     private var accountType: String? = null
     private var accountNumber: String? = ""
     private var metadata: MetaData? = null
-    private var isEditable: Boolean = true
+    private var isBeneficiaryVerified: Boolean = false
 
 
     override fun onCreateView(
@@ -103,9 +103,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
             if(selectedBank?.bankIfscCode!=null){
                 etIfscCode.setText(selectedBank?.bankIfscCode.toString())
             }
-            if (!isEditable) {
+            if (isBeneficiaryVerified) {
+                etBeneficiaryName.isEnabled=true
                 linerLayoutBtnVerify.visibility = VISIBLE
-                isEditable = true
+                isBeneficiaryVerified = false
             }
             Log.d("SelectedBank", "ID: ${selectedBank!!.id}, Name: ${selectedBank!!.bankName}")
         }
@@ -120,9 +121,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
         }
         spnAccountType.setOnItemClickListener { parent, _, position, _ ->
             accountType = parent.getItemAtPosition(position).toString()
-            if (!isEditable) {
+            if (isBeneficiaryVerified) {
+                etBeneficiaryName.isEnabled=true
                 linerLayoutBtnVerify.visibility = VISIBLE
-                isEditable = true
+                isBeneficiaryVerified = false
             }
             Log.d("Account", "Type: ${selectedBank}")
         }
@@ -135,9 +137,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!isEditable) {
+                if (isBeneficiaryVerified) {
+                    etBeneficiaryName.isEnabled=true
                     linerLayoutBtnVerify.visibility = VISIBLE
-                    isEditable = true
+                    isBeneficiaryVerified = false
                 }
             }
 
@@ -164,10 +167,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!isEditable) {
-                    linerLayoutBtnVerify.visibility = VISIBLE
-                    isEditable = true
+                if (!isBeneficiaryVerified) {
                     etBeneficiaryName.isEnabled=true
+                    linerLayoutBtnVerify.visibility = VISIBLE
+                    isBeneficiaryVerified = false
                 }
             }
 
@@ -179,9 +182,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!isEditable) {
+                if (isBeneficiaryVerified) {
+                    etBeneficiaryName.isEnabled=true
                     linerLayoutBtnVerify.visibility = VISIBLE
-                    isEditable = true
+                    isBeneficiaryVerified = false
                 }
             }
 
@@ -193,9 +197,10 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!isEditable) {
+                if (isBeneficiaryVerified) {
+                    etBeneficiaryName.isEnabled=true
                     linerLayoutBtnVerify.visibility = VISIBLE
-                    isEditable = true
+                    isBeneficiaryVerified = false
                 }
             }
 
@@ -208,7 +213,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
     override fun onResume() {
         super.onResume()
         getBankList()
-        isEditable = true
+        isBeneficiaryVerified = false
         linerLayoutBtnVerify.visibility = VISIBLE
         etBeneficiaryName.setText("")
         accountNumber = ""
@@ -478,6 +483,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                 requestData["accountNo"] = accountNumber!!
                 requestData["accountType"] = accountType.toString()
                 requestData["ifsc"] = etIfscCode.text.toString()
+                requestData["isVerified"] = if (isBeneficiaryVerified) "Y" else "N"
                 service.addBeneficiary(requestData).let { response ->
                     try {
                         progressDialog.dismiss()
@@ -573,7 +579,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                             )
                             if (it.status) {
                                 withContext(Dispatchers.Main) {
-                                    isEditable = false
+                                    isBeneficiaryVerified = true
                                     etBeneficiaryName.setText(it.data?.accountHolderName)
                                     etBeneficiaryName.isEnabled=false
                                     linerLayoutBtnVerify.visibility = GONE
@@ -683,9 +689,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                             val it = Gson().fromJson(jsonString, VerifyOtpResult::class.java)
                             if (it.status == true) {
                                 withContext(Dispatchers.Main) {
-                                    if (it.data?.Response.toString().trim()
-                                            .uppercase(Locale.ROOT) == "SUCCESS"
-                                    ) {
+                                    if (it.data?.Response.toString().trim().uppercase(Locale.ROOT) == "SUCCESS") {
                                         etBeneficiaryName.setText("")
                                         accountNumber = ""
                                         etBeneficiaryAccountNumber.setText("")
@@ -693,7 +697,7 @@ class AddBeneficiaryFragment : Fragment(), OnClickListener {
                                         etIfscCode.setText("")
                                         selectedBank = null
                                         autoCompleteBank.setText("")
-                                        isEditable = true
+                                        isBeneficiaryVerified = false
                                         etBeneficiaryName.isEnabled=true
                                         linerLayoutBtnVerify.visibility = VISIBLE
                                         commonMethods.showMessageDialog(
