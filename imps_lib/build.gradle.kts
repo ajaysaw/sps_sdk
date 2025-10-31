@@ -25,6 +25,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            //Live
+//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
+
+
             buildConfigField(
                 "String",
                 "BASE_URL",
@@ -37,6 +42,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
             buildConfigField(
                 "String",
                 "BASE_URL",

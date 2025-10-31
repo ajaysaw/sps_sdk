@@ -8,23 +8,23 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    <Toolbar
-        android:id="@+id/tbMain"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorDarkBlue">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="?android:attr/actionBarSize"
+            android:orientation="horizontal"
+            android:id="@+id/tbMain"
+            android:paddingHorizontal="@dimen/sp10"
+            android:paddingVertical="@dimen/sp5"
+            android:background="@color/colorDarkBlue">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.google.android.material.imageview.ShapeableImageView
+               <!-- <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/tvImage"
                     android:layout_width="@dimen/dp50"
                     android:layout_height="@dimen/dp50"
@@ -36,19 +36,14 @@
                     android:src="@drawable/profile_icon"
                     app:strokeColor="@color/white"
                     app:strokeWidth="@dimen/dp1"
-                    app:shapeAppearanceOverlay="@style/CircleImageShape" />
-               <!-- <ImageView
-                    android:id="@+id/tvImage"
-                    style="@style/TextViewStyleBold12"
+                    app:shapeAppearanceOverlay="@style/CircleImageShape" />-->
+                <ImageView
+                    android:id="@+id/iv_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/profile_circle"
+                    android:background="@drawable/back_arrow"
                     android:scaleType="centerCrop"
-                    android:paddingStart="@dimen/dp7"
-                    android:paddingEnd="@dimen/dp7"
-                    android:paddingTop="@dimen/dp5"
-                    android:paddingBottom="@dimen/dp5"
-                    android:textColor="@color/blueColor" />-->
+                    android:padding="@dimen/sp10" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,7 +102,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-    </Toolbar>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -143,9 +138,20 @@
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyleBold12"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/dp10"
+        android:layout_marginTop="@dimen/sp5"
+        android:textColor="@color/black"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
 </LinearLayout>

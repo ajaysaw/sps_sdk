@@ -39,11 +39,13 @@ class MrHomeActivity : AppCompatActivity() {
     private lateinit var userDetails: UserDetails
     private lateinit var walletBalance: WalletBalance
     private val commonMethods = CommonMethods()
-    private lateinit var tvImage: ImageView
+//    private lateinit var tvImage: ImageView
+    private lateinit var ivBack: ImageView
     private lateinit var tvName: TextView
     private lateinit var tvLimit: TextView
     private lateinit var tvBalance: TextView
     private lateinit var tvManageLimit: TextView
+    private lateinit var tvHeading: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +53,13 @@ class MrHomeActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
-        tvImage = findViewById(R.id.tvImage)
+//        tvImage = findViewById(R.id.tvImage)
+        ivBack = findViewById(R.id.iv_back)
         tvName = findViewById(R.id.tvName)
         tvLimit = findViewById(R.id.tvLimit)
         tvBalance = findViewById(R.id.tvBalance)
         tvManageLimit = findViewById(R.id.tvManageLimits)
+        tvHeading = findViewById(R.id.tv_heading)
         progressDialog = commonMethods.progressDialog(this)
         viewPager.adapter = TabAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -67,10 +71,14 @@ class MrHomeActivity : AppCompatActivity() {
             intent.putExtra("manageLimitUrl", userDetails.data?.manageLimitsUrl)
             startActivity(intent)
         }
+        ivBack.setOnClickListener {
+           finish()
+        }
         WalletManager.walletBalance.observe(this) { balance ->
             if (balance != null) {
                 tvLimit.text = "Limit: ₹${balance.data?.remainingCashDepositLimit ?: 0.0}"
                 tvBalance.text = "Balance: ₹${balance.data?.balance ?: 0.0}"
+                tvHeading.text = balance.data?.marqueeMessage
             }
         }
 
@@ -104,7 +112,7 @@ class MrHomeActivity : AppCompatActivity() {
                                 withContext(Dispatchers.Main) {
                                     userDetails = it
                                     tvName.text = it.data?.name
-                                    profileImage(it.data?.userImage.toString(), tvImage)
+//                                    profileImage(it.data?.userImage.toString(), tvImage)
                                 }
                             } else {
                                 runOnUiThread {

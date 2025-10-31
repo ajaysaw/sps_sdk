@@ -30,7 +30,7 @@
         <activity
             android:name=".ui.WalletLoginActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            />
         <activity
             android:name=".ui.MrHomeActivity"
             android:exported="false"

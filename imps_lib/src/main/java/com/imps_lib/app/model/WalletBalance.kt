@@ -12,5 +12,6 @@ data class WalletData(
     @SerializedName("MobileNo") val mobileNo: String?,
     @SerializedName("Balance") val balance: String?,
     @SerializedName("RemainingCashDepositLimit") val remainingCashDepositLimit: Int?,
-    @SerializedName("RemainingRechargeLimit") val remainingRechargeLimit: Int?
+    @SerializedName("RemainingRechargeLimit") val remainingRechargeLimit: Int?,
+    @SerializedName("MarqueeMessage") val marqueeMessage: String?
 )

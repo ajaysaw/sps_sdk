@@ -42,4 +42,5 @@
     <dimen name="dp70">70dp</dimen>
     <dimen name="dp90">90dp</dimen>
     <dimen name="dp120">120dp</dimen>
+    <dimen name="dp150">150dp</dimen>
 </resources>

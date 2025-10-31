@@ -1,61 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
     android:gravity="center"
-    android:padding="24dp">
+    >
 
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Login into your Wallet"
-        android:textColor="#111827"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Please enter your mobile number"
-        android:textColor="#6B7280"
-        android:textSize="14sp" />
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilMobile"
-        style="@style/CustomTextInputLayoutOutlinedBox"
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mobile_number"
-        android:textSize="@dimen/sp15">
+        android:layout_above="@+id/ll_bottom"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/dp24"
+        android:paddingLeft="@dimen/dp24"
+        android:layout_marginBottom="@dimen/dp30">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etMobile"
-            style="@style/edittext_style"
-            android:maxLength="10"
-            android:inputType="phone"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp150"
+            android:layout_marginBottom="@dimen/dp30"
+            android:src="@drawable/header_bg_image" />
 
-    <Button
-        android:id="@+id/btnSubmit"
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Login into your Wallet"
+            android:textColor="#111827"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Please enter your mobile number"
+            android:textColor="#6B7280"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMobile"
+            style="@style/CustomTextInputLayoutOutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/mobile_number"
+            android:textSize="@dimen/sp15">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMobile"
+                style="@style/edittext_style"
+                android:inputType="phone"
+                android:maxLength="10" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#1DA1F2"
+            android:fontFamily="sans-serif-medium"
+            android:padding="12dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#1DA1F2"
-        android:padding="12dp"
-        android:fontFamily="sans-serif-medium" />
+        android:layout_alignParentBottom="true"
+        android:gravity="center|center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp5"
+        android:layout_marginBottom="@dimen/dp5"
+        >
 
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp10"
+            android:text="Powered by"
+            android:textSize="@dimen/sp10" />
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp30"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/payworldmoney_logo" />
+
+    </LinearLayout>
+
+</RelativeLayout>
