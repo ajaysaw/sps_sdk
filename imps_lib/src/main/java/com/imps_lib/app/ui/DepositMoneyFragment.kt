@@ -327,7 +327,8 @@ class DepositMoneyFragment : Fragment() {
                                             charges = chargesResult.charges.toString(),
                                             gstAmount = chargesResult.gstAmount.toString(),
                                             amount = chargesResult.amount.toString(),
-                                            finalAmount = chargesResult.finalAmount.toString()
+                                            finalAmount = chargesResult.finalAmount.toString(),
+                                            totalCharges = chargesResult.finalCharge.toString()
                                         )
 
                                     } else {
@@ -397,7 +398,7 @@ class DepositMoneyFragment : Fragment() {
         }
     }
 
-    private fun creditAmount(finalAmount: String, charges: String, amount: String) {
+    private fun creditAmount(finalAmount: String, charges: String, amount: String,totalCharges: String) {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
@@ -411,7 +412,7 @@ class DepositMoneyFragment : Fragment() {
                 requestData["rateChannel"] = "CASH"
                 requestData["amount"] = amount
                 requestData["finalAmount"] = finalAmount
-                requestData["charges"] = charges
+                requestData["charges"] = totalCharges
 
                 service.creditAmount(requestData).let { response ->
 
@@ -503,7 +504,8 @@ class DepositMoneyFragment : Fragment() {
         amount: String,
         charges: String,
         gstAmount: String,
-        finalAmount: String
+        finalAmount: String,
+        totalCharges: String
     ) {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.bottomsheet_deposit_summary, null)
@@ -537,7 +539,7 @@ class DepositMoneyFragment : Fragment() {
 
         tvProceed.setOnClickListener {
             bottomSheetDialog.dismiss()
-            creditAmount(finalAmount = finalAmount, charges = charges, amount = amount)
+            creditAmount(finalAmount = finalAmount, charges = charges, amount = amount, totalCharges = totalCharges)
         }
 
         bottomSheetDialog.show()

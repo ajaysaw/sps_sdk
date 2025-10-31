@@ -25,11 +25,12 @@ android {
                 "proguard-rules.pro"
             )
 
-            //buildConfigField("String", "BASE_URL", "\"https://sps-kyc.payworldmoney.com\"") //Live
-            //buildConfigField("String", "secretKey", "\"p94kAoC4Q4pZv13FpocCMztwpTNzF6Ai\"")
-            //buildConfigField("String", "IvParameterSpec", "\"*%*D^##key@%#@^&\"")
-
-            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://ppi-imps-transact-route.payworldmoney.com\""
+            ) //Live
+//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
 
         }
         debug {
@@ -38,19 +39,20 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            //buildConfigField("String", "BASE_URL", "\"https://sps-kyc.payworldmoney.com\"") //Live
-            //buildConfigField("String", "secretKey", "\"p94kAoC4Q4pZv13FpocCMztwpTNzF6Ai\"")
-            //buildConfigField("String", "IvParameterSpec", "\"*%*D^##key@%#@^&\"")
-
-            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://ppi-imps-transact-route.payworldmoney.com\""
+            ) //Live
+//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -62,7 +64,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.media3.common)
-    implementation(project(":sps_lib"))
+    api(project(":sps_lib"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,8 +76,9 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.lottie)
-    implementation (libs.converter.scalars)
-    implementation (libs.otpview)
-    implementation (libs.androidx.cardview)
+    implementation(libs.converter.scalars)
+    implementation(libs.otpview)
+    implementation(libs.androidx.cardview)
 
 }
+

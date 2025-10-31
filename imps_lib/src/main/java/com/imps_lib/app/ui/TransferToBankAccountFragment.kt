@@ -70,7 +70,6 @@ class TransferToBankAccountFragment : Fragment() {
 
                 "transfer" -> {
                     getBalance(beneficiary)
-
                 }
             }
         }
@@ -102,66 +101,75 @@ class TransferToBankAccountFragment : Fragment() {
         }
     }
 
+
     private fun getBeneData() {
         job = Coroutines.io {
             withContext(Dispatchers.Main) {
                 progressDialog.show()
             }
+            if (commonMethods.isNetworkConnected(requireContext())) {
+                val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+                val requestData = HashMap<String, String>()
+                requestData["mobileNo"] = GlobalData.mobileNumber
 
-            if (!commonMethods.isNetworkConnected(requireContext())) {
-                withContext(Dispatchers.Main) {
-                    progressDialog.dismiss()
-                    commonMethods.showMessageDialog(
-                        requireContext(),
-                        "No Internet... Please connect to a working network",
-                        "Alert!",
-                        "",
-                        false
-                    )
-                }
-                return@io
-            }
-
-            val service: WebInterface = ApiClient().createService(WebInterface::class.java)
-            val requestData = HashMap<String, String>().apply {
-                put("mobileNo", GlobalData.mobileNumber)
-            }
-
-            try {
-                val response = service.getAllBeneList(requestData)
-                withContext(Dispatchers.Main) {
-                    progressDialog.dismiss()
-                    if (response.isSuccessful && response.body() != null) {
-                        Log.d("Beneficiary API:", response.body().toString())
-
-                        val jsonString = Gson().toJson(response.body())
-                        val parsed = Gson().fromJson(jsonString, BeneficiaryListResult::class.java)
-
-                        if (parsed.status == true && parsed.data.isNotEmpty()) {
-                            adapter.updateData(parsed.data)
+                service.getAllBeneList(requestData).let { response ->
+                    try {
+                        progressDialog.dismiss()
+                        if (response.isSuccessful) {
+                            val jsonString: String = Gson().toJson(response.body())
+                            val it = Gson().fromJson(
+                                org.json.JSONObject(jsonString).toString(),
+                                BeneficiaryListResult::class.java
+                            )
+                            if (it.status == true && it.data.isNotEmpty()) {
+                                requireActivity().runOnUiThread {
+                                    adapter.updateData(it.data)
+                                }
+                            } else {
+                                requireActivity().runOnUiThread {
+                                    commonMethods.showMessageDialog(
+                                        requireContext(),
+                                        it.message,
+                                        "Error",
+                                        "",
+                                        false
+                                    )
+                                }
+                            }
                         } else {
+                            requireActivity().runOnUiThread {
+                                // ❌ Centralized error handling
+                                val errorMessage = ApiErrorHandler.getErrorMessage(response)
+                                Log.e("API_ERROR", errorMessage)
+                                commonMethods.showMessageDialog(
+                                    requireContext(),
+                                    errorMessage,
+                                    "Error",
+                                    "",
+                                    false
+                                )
+                            }
+                        }
+                    } catch (e: Exception) {
+                        progressDialog.dismiss()
+                        requireActivity().runOnUiThread {
                             commonMethods.showMessageDialog(
                                 requireContext(),
-                                parsed.message ?: "No beneficiaries found",
-                                "Info",
+                                e.toString(),
+                                "Error",
                                 "",
                                 false
                             )
                         }
-
-                    } else {
-                        handleApiError(response.errorBody()?.charStream()?.readText()?.trim())
                     }
                 }
-
-            } catch (e: Exception) {
-                Log.e("Beneficiary API Error", e.toString())
-                withContext(Dispatchers.Main) {
-                    progressDialog.dismiss()
+            } else {
+                progressDialog.dismiss()
+                requireActivity().runOnUiThread {
                     commonMethods.showMessageDialog(
                         requireContext(),
-                        e.localizedMessage ?: "Something went wrong",
-                        "Error",
+                        "No Internet....Please be connected to a working internet",
+                        "Alert!",
                         "",
                         false
                     )
@@ -169,6 +177,74 @@ class TransferToBankAccountFragment : Fragment() {
             }
         }
     }
+
+    /*  private fun getBeneData() {
+          job = Coroutines.io {
+              withContext(Dispatchers.Main) {
+                  progressDialog.show()
+              }
+
+              if (!commonMethods.isNetworkConnected(requireContext())) {
+                  withContext(Dispatchers.Main) {
+                      progressDialog.dismiss()
+                      commonMethods.showMessageDialog(
+                          requireContext(),
+                          "No Internet... Please connect to a working network",
+                          "Alert!",
+                          "",
+                          false
+                      )
+                  }
+                  return@io
+              }
+
+              val service: WebInterface = ApiClient().createService(WebInterface::class.java)
+              val requestData = HashMap<String, String>().apply {
+                  put("mobileNo", GlobalData.mobileNumber)
+              }
+
+              try {
+                  val response = service.getAllBeneList(requestData)
+                  withContext(Dispatchers.Main) {
+                      progressDialog.dismiss()
+                      if (response.isSuccessful && response.body() != null) {
+                          Log.d("Beneficiary API:", response.body().toString())
+
+                          val jsonString = Gson().toJson(response.body())
+                          val parsed = Gson().fromJson(jsonString, BeneficiaryListResult::class.java)
+
+                          if (parsed.status == true && parsed.data.isNotEmpty()) {
+                              adapter.updateData(parsed.data)
+                          } else {
+                              commonMethods.showMessageDialog(
+                                  requireContext(),
+                                  parsed.message ?: "No beneficiaries found",
+                                  "Info",
+                                  "",
+                                  false
+                              )
+                          }
+
+                      } else {
+                          handleApiError(response.errorBody()?.charStream()?.readText()?.trim())
+                      }
+                  }
+
+              } catch (e: Exception) {
+                  Log.e("Beneficiary API Error", e.toString())
+                  withContext(Dispatchers.Main) {
+                      progressDialog.dismiss()
+                      commonMethods.showMessageDialog(
+                          requireContext(),
+                          e.localizedMessage ?: "Something went wrong",
+                          "Error",
+                          "",
+                          false
+                      )
+                  }
+              }
+          }
+      }*/
 
     private suspend fun handleApiError(errorResponse: String?) {
         withContext(Dispatchers.Main) {

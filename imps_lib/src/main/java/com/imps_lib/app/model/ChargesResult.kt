@@ -16,5 +16,5 @@ data class ChargesResultData(
     @SerializedName("charges") var charges: Double? = 0.0,
     @SerializedName("gstAmount") var gstAmount: Double? = 0.0,
     @SerializedName("finalAmount") var finalAmount: Double? = 0.0,
-
+    @SerializedName("finalCharge") var finalCharge: Double? = 0.0,
     )

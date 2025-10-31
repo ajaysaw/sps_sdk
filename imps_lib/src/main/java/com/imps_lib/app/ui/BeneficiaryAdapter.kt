@@ -73,7 +73,7 @@ class BeneficiaryAdapter(
             holder.btnTransfer.setOnClickListener {
                 Toast.makeText(
                     holder.itemView.context,
-                    "Cooling period not yet over for this beneficiary.",
+                    "Transfer will be available 10 minutes after adding this beneficiary.",
                     Toast.LENGTH_SHORT
                 ).show()
             }

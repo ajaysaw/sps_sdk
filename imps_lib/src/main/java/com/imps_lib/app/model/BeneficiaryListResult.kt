@@ -48,7 +48,7 @@ data class BeneficiaryData(
     @SerializedName("status") var status: String? = "",
     @SerializedName("created") var created: String? = "",
     @SerializedName("isVerified") var isVerified: String? = "",
-    @SerializedName("isCoolingPeriodPassed") var isCoolingPeriodPassed: Boolean? = false,
+    @SerializedName("isCoolingPeriodPassed") var isCoolingPeriodPassed: Boolean? = true,
     @SerializedName("remainingCoolingPeriodInSeconds") var remainingCoolingPeriodInSeconds: Int? = 0
 ) : Parcelable {  // Implement Parcelable
 

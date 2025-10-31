@@ -35,6 +35,10 @@
             android:name=".ui.MrHomeActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.lib.sps.KycActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
