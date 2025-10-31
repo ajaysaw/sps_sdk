@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -24,14 +25,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
             buildConfigField(
                 "String",
                 "BASE_URL",
                 "\"https://ppi-imps-transact-route.payworldmoney.com\""
-            ) //Live
-//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
-
+            )
         }
         debug {
             isMinifyEnabled = false
@@ -43,27 +41,28 @@ android {
                 "String",
                 "BASE_URL",
                 "\"https://ppi-imps-transact-route.payworldmoney.com\""
-            ) //Live
-//            buildConfigField("String", "BASE_URL", "\"https://test-ppi-imps-transact-route.payworldmoney.com\"") //Test
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.media3.common)
+
     api(project(":sps_lib"))
 
     testImplementation(libs.junit)
@@ -79,6 +78,20 @@ dependencies {
     implementation(libs.converter.scalars)
     implementation(libs.otpview)
     implementation(libs.androidx.cardview)
-
 }
 
+// -----------------------------
+// 📦 Publishing to JitPack
+// -----------------------------
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.ankit.singh"
+                artifactId = "imps-lib"
+                version = "1.0.0"
+            }
+        }
+    }
+}
