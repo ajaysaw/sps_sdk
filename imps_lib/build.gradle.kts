@@ -94,8 +94,8 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = "com.github.ankit.singh"
-                artifactId = "imps-lib"
+                groupId = "com.github.ajaysaw"
+                artifactId = "imps_lib"
                 version = "1.0.0"
             }
         }
