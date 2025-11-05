@@ -96,7 +96,31 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.ajaysaw"
                 artifactId = "imps_lib"
-                version = "1.0.1"
+                version = "1.0.2"
+
+                pom {
+                    name.set("SPS SDK")
+                    description.set("A custom SDK for integrating SPS payment or IMPS modules.")
+                    url.set("https://github.com/ajaysaw/sps_sdk")
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("ajaysaw")
+                            name.set("Ajay Saw")
+                            email.set("ajaysoft93@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:github.com/ajaysaw/sps_sdk.git")
+                        developerConnection.set("scm:git:ssh://github.com/ajaysaw/sps_sdk.git")
+                        url.set("https://github.com/ajaysaw/sps_sdk")
+                    }
+                }
             }
         }
     }
