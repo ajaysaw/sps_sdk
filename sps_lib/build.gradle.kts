@@ -92,7 +92,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.ajaysaw"
                 artifactId = "sps_lib"
-                version = "1.0.2"
+                version = "1.0.3"
             }
         }
     }
