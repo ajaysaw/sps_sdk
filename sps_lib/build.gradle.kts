@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 android {
     namespace = "com.lib.sps"
@@ -79,4 +80,20 @@ dependencies {
     implementation(libs.lottie)
     implementation (libs.converter.scalars)
     implementation (libs.android.pdf.viewer)
+}
+
+// -----------------------------
+// 📦 Publishing to JitPack
+// -----------------------------
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.ajaysaw"
+                artifactId = "sps_lib"
+                version = "1.0.2"
+            }
+        }
+    }
 }
